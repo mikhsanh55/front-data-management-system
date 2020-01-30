@@ -27,17 +27,13 @@
 		                        placeholder="Masukan qty Barang"
 		                        v-model="stockinout.qty"
 		                      />
-							<CInput
-		                        type="text"
-		                        :description="validator.type_msg"
-		                        :is-valid="validator.type"
-		                        @input="stockinout.type.length < 1 ? validator.type = false : validator.type = true"
-		                        autocomplete="type"
-		                        label="Type Barang"
-		                        horizontal
-		                        placeholder="Masukan Type Barang"
-		                        v-model="stockinout.type"
-		                      />
+		                    <CSelect
+		                    	label="Type"
+				                horizontal
+				                :options="type"
+				                @update:value="assignType"
+				                v-model="stockinout.type"
+				              />    
 		                    <CInput
 		                        type="date"
 		                        :description="validator.tanggal_msg"
@@ -80,8 +76,6 @@
 				barang: [
 				],
 				validator: {
-					type:null,
-					type_msg:null,
 					qty:null,
 					qty_msg:null,
 					tanggal:null,
@@ -90,16 +84,29 @@
 				stockinout: {
 					id_barang:1,
 					nama_barang:null,
-					type:null,
+					type:1,
 					qty:0,
 					tanggal:null,
 					alasan:null
 				},
+				type: [
+					{
+						value:1,
+						label:'In'
+					},
+					{
+						value:2,
+						label:'Out'	
+					}
+				],
 				errors: [],
 				label: 'Tambah Stock In Out'
 			}
 		},
 		methods: {
+			assignType(val) {
+				this.stockinout.type = val
+			},
 			getBarang() {
 				this.$http.get('https://young-temple-67589.herokuapp.com/api/barang', {
 					headers: {
@@ -150,11 +157,6 @@
 	         },
 	         addStockInOut() {
 	         	this.errors = []
-	         	if(!this.stockinout.type) {
-	         		this.validator.type = false
-		            this.validator.type_msg = 'Harap type barang'
-		            this.errors.push('type karyawan kosong')
-	         	}
 
 				if(!this.stockinout.qty) {
 	         		this.validator.qty = false

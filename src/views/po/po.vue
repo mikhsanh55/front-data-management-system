@@ -20,19 +20,6 @@
 									<!-- <td slot="other" slot-scope="props">
 										<div>{{props.row.other == null ? '-' : props.row.other}}</div>
 									</td> -->
-
-									<td slot="order_barang" slot-scope="props" class="d-flex justify-content-center">
-									
-										<div v-if="data.level != 2">
-											<button v-if="props.row.order_barang == true" class="btn btn-secondary btn-sm">Batalkan</button>
-											<router-link v-else class="btn btn-secondary btn-sm" :to="'/po/order-barang/' + props.row.id">Order</router-link>
-										</div>
-										<div v-else>
-											<p disabled v-if="props.row.order_barang == true" class="btn btn-secondary btn-sm">Batalkan</p>
-											<p v-else  disabled class="btn btn-primary btn-sm align-middle">Order</p>
-										</div>
-										
-									</td>
 									<td slot="status" slot-scope="props" class="d-flex justify-content-center">
 										
 											<span  v-if="props.row.status == 1" class="badge badge-primary">Request</span>
@@ -47,7 +34,12 @@
 											<router-link title="detail po" :to="'/po/detail/' + props.row.id" class="text-dark btn btn-secondary mr-2 btn-sm">
 												<i class="fa fa-eye"></i>
 											</router-link>
-											<router-link v-if="data.level != 2" title="edit po" :to="'/po/edit/' + props.row.id" class="text-primary btn btn-secondary btn-sm mr-2"><i class="fa fa-edit"></i></router-link>
+
+											<router-link title="order po" class="btn btn-secondary btn-sm mr-2" :to="'/po/order-barang/' + props.row.id">
+												<i class="fa fa-shopping-cart "></i>
+											</router-link>
+											<router-link v-if="data.level != 2" title="edit po" :to="'/po/edit/' + props.row.id" class="text-primary btn btn-secondary btn-sm mr-2"><i class="fa fa-edit"></i>
+											</router-link>
 											<button  v-if="data.level != 2" title="export pdf" class="text-danger btn btn-secondary btn-sm mr-2" @click="storePDF(props.row.id, $event)"><i class="fa fa-file-pdf-o" ref="id" :id="props.row.id"></i></button>
 											<button  v-if="data.level != 2 && data.level != 6 && data.level != 3" title="hapus po" class="text-danger btn btn-secondary btn-sm" @click="deletePO(props.row.id)"><i class="fa fa-trash" ref="id" :id="props.row.id"></i></button>
 										
@@ -103,7 +95,7 @@
 				data:'',
 				po:[],
 				tableFields : [ 
-					'nod', 'sales', 'konsumen', 'no', 'status','order_barang', 'aksi'
+					'nod', 'sales', 'konsumen', 'no', 'status','aksi'
 			    ],
 			    tableOptions : {
 			    	perPage:10,
@@ -113,18 +105,16 @@
 			    		sales: 'Nama Sales',
 			    		konsumen: 'Nama Konsumen',
 			    		no: 'No PO',
-			    		order_barang: 'Order Barang',
 			    		status: 'Status',
 			    		aksi: 'Aksi'
 			    	},
 			    	sortable:['nod', 'sales', 'konsumen'],
-			    	filterable:['nod', 'sales', 'konsumen', 'no', 'order_barang', 'status'],
+			    	filterable:['nod', 'sales', 'konsumen', 'no', 'status'],
 			    	columnsClasses: {
 			    		nod:'text-center align-middle',
 			    		sales:'align-middle',
 			    		konsumen:'align-middle',
 			    		no:'align-middle',
-			    		order_barang:'text-center align-middle',
 			    		status:'text-center align-middle',
 			    		aksi:'text-center align-middle'
 			    	}

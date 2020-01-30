@@ -26,6 +26,7 @@
 			                            horizontal
 			                            rows="3"
 			                            v-model="rpo.spesifikasi_barang"
+			                            readonly
 			                          />  
 
 			                        <CInput
@@ -47,6 +48,7 @@
 			                        	horizontal
 			                        	placeholder="Masukan Harga Jual Satuan"
 			                        	v-model="rpo.harga_jual"
+			                        	readonly
 			                          />
 			                        <CInput
 				                        type="number"
@@ -104,6 +106,7 @@
 	</div>
 </template>
 <script type="text/javascript">
+	import {getDatas, getOrderBarang} from '@/containers/global-function.js'
 	export default {
 		name:'OrderPO',
 		data() {
@@ -168,7 +171,8 @@
 					kode_barang: null,
 					tax:null,
 					disc:null,
-					total:null
+					total:null,
+					sub_total:0
 				},
 				order_barang:[]
 			}
@@ -245,9 +249,23 @@
 			    		}
 			    	})
 			    	.then((res) => {
+			    		this.rpo = {
+							id_po:null,
+							id_barang:1,
+							nama_barang:null,
+							spesifikasi_barang:null,
+							qty:0,
+							tanggal:null,
+							harga_jual:null,
+							status:1,
+							kode_barang: null,
+							tax:null,
+							disc:null,
+							total:null,
+							sub_total:0
+						}		
 			    		this.label = 'Tambah'
 			    		this.getDataTable()
-			    		console.log(res)
 			    	})
 			    	.catch(e => {
 			    		this.label = 'Tambah'
@@ -296,12 +314,52 @@
 		    	}) 
 		    	.catch(e => console.error(e))
 		    },
+		    getDataTable() {
+		    	return new Promise((resolve, reject) => {
+				    this.$http.post('https://young-temple-67589.herokuapp.com/api/order/barang/po/detail/' + this.$route.params.id, {
+						headers:{
+							'Authorization':'bearer ' + localStorage.token
+						}
+					})
+					.then(res => {
+						let arr = []
+						arr = res.data
+						arr.forEach((item, i) => {
+							getDatas(this, 'https://young-temple-67589.herokuapp.com/api/barang/' + item.id_barang, { method:'POST', headers:{'Authorization': 'bearer ' + localStorage.token}}, 'POST')
+							.then(res => {
+								delete item.id
+								delete item.id_po
+								delete item.id_barang
+								delete item.id_pesanan
+								delete item.created_at
+								delete item.deleted_at
+								item.no = ++i
+								item.kode_barang = res.kode_barang
+								item.nama_barang = res.nama_barang
+								item.spesifikasi_barang = res.spesifikasi
+								item.harga_jual = Number(res.harga_jual)
+								item.total = ((item.harga_jual * item.qty) + item.tax) - (item.disc * (item.harga_jual * item.qty))
+								this.order_barang.push(item)
+							})
+							.catch(e => console.error(e))
+						})
+
+						return arr
+					})
+					.then(res => {
+						resolve(res)
+						console.log(res)
+					})
+					.catch(e => {
+						reject(e)
+					})	
+		    	})
+		    }
 		},
 		created() {
 			this.fetchAll()
 			this.getDataTable()
-			.then(res => {
-				console.log(res)
+			.then((res) => {
 			})
 			.catch(e => console.error(e))
 		}

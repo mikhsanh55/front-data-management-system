@@ -88,7 +88,7 @@
 		      type="date"
 		      label="Tanggal"
 		      horizontal
-		      v-model="date"
+		      v-model="date.from"
 	       />	
 	      <template #header>
 	        <h6 class="modal-title">Export Data ke Excel</h6>
@@ -108,7 +108,7 @@
 		data() {
 			return {
 				modal: false,
-				date:null,
+				date:{from:null, to:null},
 				exportLabel: 'Mulai Export',
 				id:0,
 				smallModal:false,
@@ -241,7 +241,7 @@
 				image.src = src
 			},
 			storeExcel() {
-				if(this.date == null)  {
+				if(this.date.from == null)  {
 					this.$swal('Tanggal tidak boleh kosong', '', 'warning')
 					setTimeout(() => {
 						this.$swal.close()
@@ -251,7 +251,7 @@
 					return false
 				}
 				this.exportLabel = 'Loading...'
-				exportExcel(this, 'https://young-temple-67589.herokuapp.com/api/excel/barang', {date:this.date}, {
+				exportExcel(this, 'https://young-temple-67589.herokuapp.com/api/excel/barang', {from:this.date.from, to:this.date.to}, {
 					responseType: 'blob',
 					headers: {
 						'Authorization' : 'bearer ' + localStorage.token

@@ -354,7 +354,7 @@
         if(!this.errors.length) {
           this.label = 'Loading...'
           this.validMsg = true
-          this.$http.post('https://young-temple-67589.herokuapp.com/api/po/' + this.$route.params.id, this.po, {
+          this.$http.post('https://young-temple-67589.herokuapp.com/api/po/edit/' + this.$route.params.id, this.po, {
             headers: {
               'Authorization': 'bearer ' + localStorage.token
             },

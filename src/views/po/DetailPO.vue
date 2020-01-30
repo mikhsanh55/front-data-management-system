@@ -70,11 +70,14 @@
 							</tr>
 							<tr>
 								<th class="w-50">Status</th>
-								<td v-if="po.status == 1">Request</td>
-								<td v-else-if="po.status == 2">Proses</td>
-								<td v-else-if="po.status == 3">Pengiriman</td>
-								<td v-else-if="po.status == 4">Sukses</td>
-								<td v-else-if="po.status == 5">Batal</td>
+								<td>
+									<CSelect
+			                            horizontal
+			                            v-model="detailpo.status"
+			                            :options="status"
+			                            @update:value="assignStatus"
+			                          />  
+								</td>
 							</tr>
 							<tr>
 								<th class="w-50">Sub Total</th>
@@ -102,6 +105,12 @@
 							</tr>
 						</table>
 					</CCol>
+				</CRow>
+				<CRow>
+					<CCol sm="10" class="d-flex justify-content-end mt-4 mb-4">
+						<button class="btn btn-light" @click="updateStatus"><i class="fa fa-edit mr-2"></i> {{label}} </button>
+					</CCol>
+					
 				</CRow>
 				<hr class="text-center w-75">
 				<br>
@@ -135,6 +144,9 @@
 		name: 'DetailPO',
 		data() {
 			return {
+				status: [],
+				label: 'Update Status PO',
+				data:this.$store.getters.userData,
 				tableFields:['no', 'foto', 'kode_barang', 'nama_barang', 'spesifikasi', 'stock'],
 				tableOptions: {
 					perPage:10,
@@ -161,6 +173,10 @@
 				po_barang:[],
 				info_po:'',
 				info_barang_po:[],
+				detailpo: {
+					status:2,
+					level:0
+				},
 				po:{
 					nama_sales:null,
 					nama_konsumen:null,
@@ -185,6 +201,32 @@
 			}
 		},
 		methods: {
+			assignStatus(val) {
+				this.detailpo.status = value
+			},
+			updateStatus() {
+				this.label = 'Loading...'
+				
+				this.$http.post('https://young-temple-67589.herokuapp.com/api/po/edit/' + this.$route.params.id, this.detailpo, {
+		            headers: {
+		              'Authorization': 'bearer ' + localStorage.token
+		            },
+		            redirect:'follow'
+		        })
+		        .then(() => {
+		        	this.label = 'Update Status PO'
+		        	this.$swal('Status berhasil diupdate', 'Mohon tunggu sebentar...', 'success')
+		        	setTimeout(() => this.$swal.close(), 1500)
+		        	this.getData()
+		        })	
+		        .catch(e => {
+		        	this.label = 'Update Status PO'
+		        	console.error(e)
+		        	this.$swal('Status gagal diupdate', 'Hubungi pengembangnya...', 'error')
+		        	setTimeout(() => this.$swal.close, 1500)
+		        	return false
+		        })
+			},
 			getData() {
 				let headers = new Headers()
 				headers.append('Authorization', 'bearer ' + localStorage.token)
@@ -199,6 +241,7 @@
 				.then(res => {
 					console.log(res)
 					this.po = res
+					this.detailpo.status = res.status
 					this.po.sub_total = 0
 					this.po.sales_tax_rate = 0
 				})
@@ -258,7 +301,7 @@
 						reject(e)
 					})	
 		    	})
-		    }
+		    },
 		},
 		filters: {
 			formatMoney: function(amount, decimalCount = 2, decimal = ".", thousands = ",") {
@@ -283,8 +326,35 @@
 			.then(res => {
 				this.po_barang = res
 			})
+
 			// getOrderBarang()
 			// contoh aja
+			this.data = this.$store.getters.userData
+			if(this.data.level == 6) {
+				this.status = [
+					{label: 'Request', value: 1},
+					{label: 'Proses', value: 2},
+				]
+				this.detailpo.level = 6
+			}
+			else if(this.data.level == 3) {
+				this.status = [
+					{label: 'Request', value: 1},
+					{label: 'Pengiriman', value: 3},
+					{label: 'Selesai', value: 4}
+				]
+				this.detailpo.level = 3
+			}
+			else {
+				this.status = [
+					{label: 'Request', value: 1},
+					{label: 'Proses', value: 2},
+					{label: 'Pengiriman', value: 3},
+					{label: 'Selesai', value: 4},
+					{label: 'Batal', value: 5},
+				]
+				this.detailpo.level = this.data.level	
+			}
 		}
 	}	
 

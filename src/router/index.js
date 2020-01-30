@@ -29,6 +29,9 @@ const StockInOut = () => import('@/views/produk/StockInOut')
 const EditStockInOut = () => import('@/views/produk/EditStockInOut')
 const AddStockInOut = () => import('@/views/produk/AddStockInOut')
 const BarangPesanan = () => import('@/views/produk/BarangPesanan')
+const AddBarangPesanan = () => import('@/views/produk/AddBarangPesanan')
+const EditBarangPesanan = () => import('@/views/produk/EditBarangPesanan')
+const OrderBarangPesanan = () => import('@/views/produk/OrderBarangPesanan')
 
 // PO
 const PO = () => import('@/views/po/po')
@@ -200,6 +203,30 @@ function configRoutes () {
           path: 'barang-pesanan',
           name: 'Barang Pesanan',
           component: BarangPesanan
+        },
+        {
+          path: 'barang-pesanan',
+          name: 'Barang Pesanan',
+          component:{
+            render(c) { return c('router-view') }
+          },
+          children: [
+            {
+              path:'add',
+              name: 'Tambah Barang Pesanan',
+              component:AddBarangPesanan
+            },
+            {
+              path: 'edit/:id',
+              name: 'Edit Barang Pesanan',
+              component: EditBarangPesanan
+            },
+            {
+              path:'order/:id',
+              name: 'Order Barang Pesanan',
+              component: OrderBarangPesanan
+            }
+          ]
         },
         {
           path: 'stock-in-out',

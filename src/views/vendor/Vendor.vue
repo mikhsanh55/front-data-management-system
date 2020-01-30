@@ -43,7 +43,7 @@
 		      type="date"
 		      label="Tanggal"
 		      horizontal
-		      v-model="date"
+		      v-model="date.from"
 	       />	
 	      <template #header>
 	        <h6 class="modal-title">Export Data ke Excel</h6>
@@ -63,7 +63,7 @@
 			return {
 				exportLabel: 'Mulai Export',
 				modal:false,
-				date:null,
+				date:{from:null},
 				id:0,
 				data:'',
 				smallModal:false,
@@ -111,7 +111,7 @@
 					return false
 				}
 				this.exportLabel = 'Loading...'
-				exportExcel(this, 'https://young-temple-67589.herokuapp.com/api/excel/vendor', {date:this.date}, {
+				exportExcel(this, 'https://young-temple-67589.herokuapp.com/api/excel/vendor', {from:this.date.from, to:this.date.from}, {
 					responseType: 'blob',
 					headers: {
 						'Authorization' : 'bearer ' + localStorage.token

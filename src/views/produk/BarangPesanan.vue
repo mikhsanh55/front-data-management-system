@@ -8,6 +8,7 @@
 				<CRow>
 					<CCol sm="12">
 						<button @click="modal = true" class="float-right mb-4 ml-2 btn btn-light"><small> <i class="fa fa fa-file-excel-o mr-1"></i> Export .xlsx</small></button>		
+						<router-link v-if="data.level != 2" to="/barang-pesanan/add" class="float-right mb-4 btn btn-light"><small> <i class="fa fa-plus mr-1"></i> Tambah Barang Pesanan</small></router-link>	
 						<v-client-table
 							:data="barangPesanan"
 							:columns="tableFields"
@@ -15,14 +16,17 @@
 							id="barang-pesanan-table"
 						>
 							<div slot="aksi" slot-scope="props">
-								<button class="btn btn-danger btn-sm" @click="storePDF(props.row.id)">
+								<router-link title="Order Barang Pesanan" :to="'/barang-pesanan/order/' + props.row.id" class="btn btn-secondary text-dark btn-sm mr-2">
+									<i class="fa fa-shopping-cart"></i>
+								</router-link>
+								<button title="Export PDF" class="btn btn-secondary text-danger btn-sm mr-2" @click="storePDF(props.row.id)">
 									<i class="fa fa-file-pdf-o"></i>
 								</button>
-								<router-link :to="'/barang-pesanan/edit/' + props.row.id" class="btn btn-edit btn-sm">
+								<router-link title="Edit Barang Pesanan" :to="'/barang-pesanan/edit/' + props.row.id" class="btn btn-secondary text-primary btn-sm mr-2">
 									<i class="fa fa-edit"></i>
 								</router-link>
 
-								<button class="btn btn-danger btn-sm" @click="confirmBarangPesanan(props.row.id)">
+								<button title="Hapus Barang Pesanan" class="btn btn-secondary text-danger btn-sm mr-2" @click="deleteBarangPesanan(props.row.id)">
 									<i class="fa fa-trash"></i>
 								</button>
 							</div>
@@ -31,18 +35,6 @@
 				</CRow>
 			</CCardBody>
 		</CCard>
-		<CModal
-		  title="Hapus Barang Pesanan"
-		  size="sm"
-		  color="danger"
-		  :show.sync="smallModal"
-		>
-				Kwitansi ini akan dihapus secara permanen?
-				<template #footer>
-			       <CButton @click="deleteBarangPesanan()" color="danger">Hapus</CButton>
-			       <CButton @click="smallModal = false" color="secondary">Batal</CButton>
-			    </template>
-		</CModal>
 		<CModal
 	      :show.sync="modal"
 	      :no-close-on-backdrop="true"
@@ -54,7 +46,7 @@
 		      type="date"
 		      label="Tanggal"
 		      horizontal
-		      v-model="date"
+		      v-model="date.from"
 	       />	
 	      <template #header>
 	        <h6 class="modal-title">Export Data ke Excel</h6>
@@ -67,42 +59,37 @@
 	</div>
 </template>
 <script>
-	import {exportExcel, importPDF} from '@/containers/global-function.js'
+	import {exportExcel, exportPDF} from '@/containers/global-function.js'
 	export default {
 		name: 'BarangPesanan',
 		data() {
 			return {
 				exportLabel: 'Mulai Export',
 				modal:false,
-				date:null,
+				date:{from:null, to:null},
+				data:'',
 				smallModal:false,
 				barangPesanan:[],
 				id:0,
 				tableFields: [
-					'no', 'kode_barang', 'nama_barang', 'aksi', 'jumlah', 'tanggal', 'alasan', 'tipe'
+					'nod', 'no', 'tanggal_pesanan', 'keterangan', 'aksi'
 				],
 				tableOptions: {
 					perPage:10,
 					pagination:{chunk:10, dropdown:false, edge:true, nav:'fixed'},
 					headings: {
-						no: 'No',
-						kode_barang: 'Kode Barang',
-						nama_barang: 'Nama Barang',
-						jumlah: 'Jumlah',
-						tanggal: 'Tanggal',
-						alasan: 'Alasan',
-						tipe: 'Tipe',
+						nod: 'No',
+						no:'No Pesanan',
+						tanggal_pesanan: 'Tanggal_pesanan',
+						keterangan: 'Keterangan',
 						aksi: 'Aksi'
 					},
-					sortable: ['no', 'nama_barang'],
+					sortable: ['nod', 'no', 'tanggal_pesanan', 'keterangan'],
 					columnsClasses: {
+						nod:'text-center align-middle',
 						no:'text-center align-middle',
-						kode_barang:'align-middle',
-						nama_barang:'align-middle',
-						alasan:'text-center align-middle',
-						jumlah:'text-center align-middle',
-						tanggal:'text-center align-middle',
-						tipe:'text-center align-middle',
+						tanggal_pesanan:'text-center align-middle',
+						keterangan:'align-middle',
 						aksi:'text-center align-middle'
 					}
 				}
@@ -116,7 +103,7 @@
 					showCancelButton:false,
 				})
 				
-				exportPDF(this, 'https://young-temple-67589.herokuapp.com/api/pdf/barang/pesanan', {
+				exportPDF(this, 'https://young-temple-67589.herokuapp.com/api/pdf/barang/pesanan/' + id, {
 					responseType: 'blob',
 					headers: {
 						'Authorization' : 'bearer ' + localStorage.token
@@ -177,28 +164,42 @@
 					return false
 				})
 			},
-			confirmBarangPesanan(id){
-				this.id = id
-			},
-			deleteBarangPesanan() {
-				this.$http.delete('https://young-temple-67589.herokuapp.com/api/barang/pesanan/' + this.id, {
-					headers: {
-						'Authorization':'bearer ' + localStorage.getItem('token')
-					},
-					redirect:'follow'
-				})
-				.then(res => {
+			deleteBarangPesanan(id) {
+			      this.$swal({
+			        title: 'Kamu yakin? :(',
+			        text: 'Data akan dihapus secara permanen',
+			        icon: 'warning',
+			        buttons: true,
+			        dangerMode: true
+			      })
+			      .then((del) => {
+			      	if(del)	{
+			      		this.$http.delete('https://young-temple-67589.herokuapp.com/api/barang/pesanan/' + id, {
+							headers: {
+								'Authorization':'bearer ' + localStorage.getItem('token')
+							},
+							redirect:'follow'
+						})
+						.then(res => {
 
-					alert(res.data.message)
-					this.smallModal = false
-					this.getData()
-				})
-				.catch(e => {
-					this.smallModal = false
-					alert('Ada sedikit error, harap hubungi pengembang softwarenya yah :)')
-					console.error(e.response)
-					return false
-				})
+							this.$swal('Barang Pesanan berhasil dihapus', 'Mohon tunggu sebentar...', 'success')
+							setTimeout(() => this.$swal.close(), 1500)
+							this.getData()
+						})
+						.catch(e => {
+							this.smallModal = false
+							this.$swal('Barang Pesanan gagal dihapus', 'Hubungi pengembangnya...', 'error')
+							setTimeout(() => this.$swal.close(), 1500)
+							console.error(e.response)
+							return false
+						})
+			      	}
+			      	else {
+			      		this.$swal.close()
+			      	}
+			      })
+
+					
 			},
 			storeExcel() {
 				if(this.date == null)  {
@@ -211,7 +212,7 @@
 					this.exportLabel = 'Mulai Export'
 				}
 				this.exportLabel = 'Loading...'
-				exportExcel(this, 'https://young-temple-67589.herokuapp.com/api/excel/barang/pesanan', {date:this.date}, {
+				exportExcel(this, 'https://young-temple-67589.herokuapp.com/api/excel/barang/pesanan', {from:this.date.from, to:this.date.from}, {
 					responseType: 'blob',
 					headers: {
 						'Authorization' : 'bearer ' + localStorage.token
@@ -235,6 +236,7 @@
 		},
 		created() {
 			this.getData()
+			this.data = this.$store.getters.userData
 		}
 	}
 </script>

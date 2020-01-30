@@ -9,7 +9,6 @@
 					<CRow>
 						<CCol sm="12">
 							<button @click="modal = true" class="float-right mb-4 ml-2 btn btn-light"><small> <i class="fa fa fa-file-excel-o mr-1"></i> Export .xlsx</small></button>		
-							<router-link style="visibility: hidden;" to="/po/add" class="float-left mb-4 btn btn-primary">Tambah PO</router-link>		
 
 							<v-client-table
 							:data="dataOrder"
@@ -42,7 +41,7 @@
 		      type="date"
 		      label="Tanggal"
 		      horizontal
-		      v-model="date"
+		      v-model="date.from"
 	       />	
 	      <template #header>
 	        <h6 class="modal-title">Export Data ke Excel</h6>
@@ -55,14 +54,14 @@
 	</div>
 </template>
 <script type="text/javascript">
-	import {exportExcel} from '@/containers/global-function.js'
+	import {exportExcel, getOrderBarang} from '@/containers/global-function.js'
 	export default {
 		name: 'DataOrderPO',
 		data() {
 			return {
 				exportLabel: 'Mulai Export',
 				data:'',
-				date:null,
+				date:{from:null},
 				modal:false,
 				dataOrder:[],
 				tableFields: ['no', 'kode_barang', 'nama_barang', 'spesifikasi_barang', 'qty', 'tanggal', 'keterangan', 'status', 'aksi'],
@@ -134,7 +133,7 @@
 					this.exportLabel = 'Mulai Export'
 				}
 				this.exportLabel = 'Loading...'
-				exportExcel(this, 'https://young-temple-67589.herokuapp.com/api/excel/order/barang', {date:this.date}, {
+				exportExcel(this, 'https://young-temple-67589.herokuapp.com/api/excel/order/barang', {from:this.date.from, to:this.date.from}, {
 					responseType: 'blob',
 					headers: {
 						'Authorization' : 'bearer ' + localStorage.token
@@ -154,11 +153,63 @@
 					}, 2000)
 					return false
 				})
-			}
+			},
+			getDataTable() {
+		    	return new Promise((resolve, reject) => {
+				    this.$http.post('https://young-temple-67589.herokuapp.com/api/order/barang/po/detail/' + this.$route.params.id, {
+						headers:{
+							'Authorization':'bearer ' + localStorage.token
+						}
+					})
+					.then(res => {
+						let arr = []
+						this.info_po = res.data
+						this.info_po.forEach((item, i) => {
+							getDatas(this, 'https://young-temple-67589.herokuapp.com/api/barang/' + item.id_barang, { method:'POST', headers:{'Authorization': 'bearer ' + localStorage.token}}, 'POST')
+							.then(res => {
+								
+								item.nama_barang = res.nama_barang
+								item.kode_barang = 
+								item.spesifikasi = res.spesifikasi
+								item.foto = 
+								arr.push({
+									no:++i,
+									foto:'https://young-temple-67589.herokuapp.com/' + res.foto,
+									kode_barang:res.kode_barang,
+									nama_barang: res.nama_barang,
+									spesifikasi: res.spesifikasi,
+									stock:res.stock
+								})
+								this.po.sub_total += res.harga_jual
+								this.po.sales_tax_rate += 0
+							
+							})
+							
+						})
+						resolve(arr)
+						// this.$http.post('https://young-temple-67589.herokuapp.com/api/barang/' + res.data.id_barang, {
+						// 	headers: {
+						// 		'Authorization': localStorage.token
+						// 	}
+						// })
+						// .then(res => {
+						// 	this.hasil.push(res.data)
+						// 	resolve(this.hasil)
+						// })
+						// .catch(e => {
+						// 	reject(e)
+						// })
+					})
+					.catch(e => {
+						reject(e)
+					})	
+		    	})
+		    }
 			
 		},
 		created() {
 			this.getData()
+			getOrderBarang()
 		},
 		mounted() {
 			this.data = this.$store.getters.userData

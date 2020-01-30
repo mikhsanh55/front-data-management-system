@@ -138,7 +138,10 @@
 							redirect:'follow'
 						})
 						.then(res => {
-							this.$swal.close()
+							this.$swal('Stock in out berhasil dihapus', 'Mohon tunggu sebentar...', 'success')
+							setTimeout(() => {
+								this.$swal.close()	
+							}, 1500)
 							this.getData()
 						})
 						.catch(e => {
