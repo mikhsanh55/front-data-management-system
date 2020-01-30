@@ -1,0 +1,179 @@
+{
+  "konsumen": [
+    {
+      "id": 1,
+      "foto": "https://i.pravatar.cc/48?img=2",
+      "nama": "Ikhsan Hamidans",
+      "no_rekening": 423572392,
+      "email": "ikhsan@dev.id",
+      "whatsapp": "087463352212",
+      "nama_instansi": "Icommits",
+      "k_perusahaan": "IT Consultant",
+      "alamat_instansi": "Bandung"
+    }
+  ],
+  "products": [
+    {
+      "id": 1,
+      "foto": "https://i.pravatar.cc/48?img=56",
+      "kode_barang": "001",
+      "nama_barang": "Stetoscop",
+      "spec_barang": "Digunakan untuk mengukur detak jantung",
+      "harga": 800000
+    },
+    {
+      "id": 2,
+      "foto": "https://i.pravatar.cc/28?img=45",
+      "kode_barang": "002",
+      "nama_barang": "Microscop",
+      "spec_barang": "Digunakan melihat benda seukur jidat lho",
+      "harga": 2000000
+    },
+    {
+      "id": 3,
+      "foto": "https://i.pravatar.cc/48?img=12",
+      "kode_barang": "003",
+      "nama_barang": "Pentungan",
+      "spec_barang": "Digunakan oleh militer setempat sebagai alat baku hantam",
+      "harga": 200000
+    }
+  ],
+  "po": [
+    {
+      "id": 1,
+      "quantity": 10,
+      "pajak": 10,
+      "diskon": 10,
+      "total": 70000,
+      "nama_sales": "sucipto",
+      "nama_konsumen": "rahim",
+      "nama_kurir": "boy",
+      "no_po": "08223",
+      "tgl_po": "22/02/2000",
+      "tgl_pengiriman": "22/02/2000",
+      "top": "2019-05-15",
+      "ket": "kontan",
+      "tax_rate": 10,
+      "sales_fee": 50000,
+      "other": "-",
+      "status": 0,
+      "catatan": "Pas di kantor, titipkan saja ke satpam yah",
+      "order_barang": true
+    },
+    {
+      "nama_sales": "scorpion",
+      "nama_kurir": "ermac",
+      "nama_konsumen": "sub zero",
+      "no_po": "987",
+      "tgl_po": "22/02/2000",
+      "tgl_pengiriman": "22/02/2000",
+      "top": "piwa0",
+      "ket": null,
+      "tax_rate": "10",
+      "sales_fee": "10",
+      "other": null,
+      "status": 2,
+      "order_barang": null,
+      "id": 2,
+      "quantity": 10,
+      "pajak": 10,
+      "diskon": 10,
+      "total": 70000
+    },
+    {
+      "nama_sales": "yui",
+      "nama_kurir": "bothing",
+      "nama_konsumen": "yosae",
+      "no_po": "209",
+      "tgl_po": "22/02/2000",
+      "tgl_pengiriman": "22/02/2000",
+      "top": "oprui",
+      "ket": null,
+      "tax_rate": "10",
+      "sales_fee": "10",
+      "other": null,
+      "status": 1,
+      "order_barang": null,
+      "id": 3,
+      "quantity": 10,
+      "pajak": 10,
+      "diskon": 10,
+      "total": 70000
+    },
+    {
+      "nama_sales": "liu kang",
+      "nama_kurir": "shao kahn",
+      "nama_konsumen": "kung lao",
+      "no_po": "983",
+      "tgl_po": "22/02/2000",
+      "tgl_pengiriman": "22/02/2000",
+      "top": "TOP90",
+      "ket": null,
+      "tax_rate": "10",
+      "sales_fee": "10",
+      "other": null,
+      "status": "3",
+      "order_barang": "true",
+      "id": 4,
+      "quantity": 10,
+      "pajak": 10,
+      "diskon": 10,
+      "total": 70000
+    }
+  ],
+  "asset": [
+    {
+      "id": 1,
+      "kode_asset": "K09348",
+      "desc_asset": "Barang berusia 2 tahun",
+      "kode_karyawan": "LK-209",
+      "nama_karyawan": "Sub Zero",
+      "jabatan": "Triborg",
+      "tgl_beli": "2003-03-03",
+      "tgl_expired": "2019-12-20"
+    },
+    {
+      "id": 2,
+      "kode_asset": "K02348",
+      "desc_asset": "Barang berusia 5 tahun",
+      "kode_karyawan": "LK-450",
+      "nama_karyawan": "Sektor",
+      "jabatan": "Triborg",
+      "tgl_beli": "2003-03-03",
+      "tgl_expired": "2003-05-03"
+    }
+  ],
+  "karyawan": [
+    {
+      "id": 1,
+      "kode_karyawan": "007",
+      "nama_karyawan": "Scorpion",
+      "foto": "https://i.pravatar.cc/28?img=45",
+      "jk": 1,
+      "ktp": "000002139240",
+      "email": "saya@example.com",
+      "whatsapp": "0895647384493",
+      "alamat": "Jalan Bunga Pasir No 2, Bandung",
+      "tgl_masuk_kerja": "2019-09-09",
+      "npwp": "23019824091284",
+      "no_rekening": "142-902324",
+      "jabatan": "Triborg"
+    }
+  ],
+  "vendor": [
+    {
+      "nama_vendor": "Apple",
+      "foto": null,
+      "email": "diawdojawo",
+      "whatsapp": "doaiwjdoi",
+      "alamat": "daowjidioajd",
+      "no_rekening": "20391",
+      "perusahaan": "daowijdoia",
+      "k_perusahaan": "daoiwjo",
+      "id": 1
+    }
+  ],
+  "kwitansi": [],
+  "kurir": [],
+  "user":[]
+}
