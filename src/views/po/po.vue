@@ -40,7 +40,7 @@
 											</router-link>
 											<router-link v-if="data.level != 2" title="edit po" :to="'/po/edit/' + props.row.id" class="text-primary btn btn-secondary btn-sm mr-2"><i class="fa fa-edit"></i>
 											</router-link>
-											<button  v-if="data.level != 2" title="export pdf" class="text-danger btn btn-secondary btn-sm mr-2" @click="storePDF(props.row.id, $event)"><i class="fa fa-file-pdf-o" ref="id" :id="props.row.id"></i></button>
+											<button  v-if="data.level != 2" title="export pdf" class="text-danger btn btn-secondary btn-sm mr-2" @click="confirmPDF(props.row.id)"><i class="fa fa-file-pdf-o" ref="id" :id="props.row.id"></i></button>
 											<button  v-if="data.level != 2 && data.level != 6 && data.level != 3" title="hapus po" class="text-danger btn btn-secondary btn-sm" @click="deletePO(props.row.id)"><i class="fa fa-trash" ref="id" :id="props.row.id"></i></button>
 										
 									</td>
@@ -50,6 +50,29 @@
 				</CCardBody>
 			</CCard>
 		</CRow>
+		<CModal
+	      :show.sync="modal_pdf"
+	      :no-close-on-backdrop="true"
+	      title="Export Data ke Excel"
+	      size="sm"
+	      color="dark"
+	    >	
+	      <CSelect
+		      type="date"
+		      label="Jenis Dokumen"
+		      horizontal
+		      :options="pdf"
+		      v-model="pdf.type"
+		      @update:value="assignPDF"
+	       />	
+	      <template #header>
+	        <h6 class="modal-title">Export Data ke PDF</h6>
+	        <CButtonClose @click="modal_pdf = false" class="text-white"/>
+	      </template>
+	      <template #footer>
+	        <CButton @click="storePDF" color="success">{{exportLabel}}</CButton>
+	      </template>
+	    </CModal>
 		<CModal
 	      :show.sync="modal"
 	      :no-close-on-backdrop="true"
@@ -86,10 +109,26 @@
 		data() {
 			return {
 				exportLabel: 'Mulai Export',
+				pdf: {type:'po'},
+				pdf: [
+					{
+						label:'Purchase Order',
+						value:'po'
+					},
+					{
+						label: 'Surat Jalan',
+						value:'surat-jalan'
+					},
+					{
+						label: 'Invoice',
+						value:'invoice'
+					}
+				],
 				date: {
 					from:null,
 					to:null
 				},
+				modal_pdf:false,
 				modal:false,
 				id:0,
 				data:'',
@@ -118,23 +157,46 @@
 			    		status:'text-center align-middle',
 			    		aksi:'text-center align-middle'
 			    	}
-			    }
+			    },
+			    id:0
 			}
 		},
 		methods: {
-			storePDF(id, e) {
+			confirmPDF(id) {
+				this.id = id
+				this.modal_pdf = true
+			},
+			assignPDF(val) {
+				this.pdf.type = val
+			},
+			storePDF() {
+				let url = '', filename = 'po.pdf'
+				switch(this.pdf.type) {
+					case 'po':
+						url = 'https://young-temple-67589.herokuapp.com/api/pdf/po/' + this.id
+						break
+					case 'surat-jalan':
+						url = 'https://young-temple-67589.herokuapp.com/api/pdf/po/jalan/' + this.id	
+						filename = 'Surat Jalan.pdf'
+						break
+					case 'invoice':
+						url = 'https://young-temple-67589.herokuapp.com/api/pdf/po/invoice/' + this.id	 
+						filename = 'Invoice.pdf'
+						break
+				}
+
 				this.$swal({
 					title: 'Mohon tunggu...',
 					showCloseButton:false,
 					showCancelButton:false,
 				})
 				
-				exportPDF(this, 'https://young-temple-67589.herokuapp.com/api/pdf/po', {
+				exportPDF(this, url, {
 					responseType: 'blob',
 					headers: {
 						'Authorization' : 'bearer ' + localStorage.token
 					}
-				}, 'po.pdf')
+				}, filename, 'post')
 				.then(() => {
 					this.$swal.close()
 				})

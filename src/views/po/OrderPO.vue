@@ -219,10 +219,10 @@
 		    },
 		    deleteFromTable(e) {
 		    	// console.log(e.index - 1)
-		    	this.order_barang.splice(e.index-1, 1)
+		    	// this.order_barang.splice(e.index-1, 1)
 		    	// let order_barang = JSON.parse(localStorage.getItem('order_barang'))
 		    	// order_barang.splice(e.index)
-		    	localStorage.setItem('order_barang', JSON.stringify(this.order_barang))
+		    	// localStorage.setItem('order_barang', JSON.stringify(this.order_barang))
 		    },
 		    addToTable() {
 		    	this.errors = []
@@ -249,6 +249,9 @@
 			    		}
 			    	})
 			    	.then((res) => {
+			    		if(res.data.message)
+			    			this.$swal(res.data.message, '', 'warning')
+			    			setTimeout(() => this.$swal.close(), 2500)
 			    		this.rpo = {
 							id_po:null,
 							id_barang:1,
@@ -269,13 +272,8 @@
 			    	})
 			    	.catch(e => {
 			    		this.label = 'Tambah'
-			    		if(e.response) {
-			    			for(let er in e.response.data.errmsg) {
-			    				alert(e.response.data.errmsg[er][0])
-			    			}
-			    		}
 			    		
-			    		console.error(e.response)
+			    		console.error(e)
 			    		return false
 			    	})	
 		    	}

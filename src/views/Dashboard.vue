@@ -1,7 +1,7 @@
 <template>
   <div>
     <WidgetsDropdown/>
-    <CCard>
+    <!-- <CCard>
       <CCardBody>
         <CRow>
           <CCol sm="5">
@@ -12,7 +12,7 @@
           </CCol>
         </CRow>
         <MainChartExample style="height:300px;margin-top:40px;"/>
-      </CCardBody>
+      </CCardBody> -->
       <!-- <CCardFooter>
         <CRow class="text-center">
           <CCol md sm="12" class="mb-sm-2 mb-0">
@@ -66,7 +66,7 @@
           </CCol>
         </CRow>
       </CCardFooter> -->
-    </CCard>
+    <!-- </CCard> -->
     <!-- <CCard>
       <CCardBody>
         <CRow>
@@ -451,7 +451,7 @@
 import MainChartExample from './charts/MainChartExample'
 import WidgetsDropdown from './widgets/WidgetsDropdown'
 import WidgetsBrand from './widgets/WidgetsBrand'
-import {checkPO} from '@/containers/global-function.js'
+import {checkPO, getDatas, fetchAll} from '@/containers/global-function.js'
 export default {
   name: 'Dashboard',
   components: {
@@ -538,8 +538,8 @@ export default {
     }
   },
   created() {
-    // this.$swal('Hello word!', 'Yses', 'success')
     checkPO(this)
+    
   }
 }
 </script>

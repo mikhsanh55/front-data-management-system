@@ -1,5 +1,5 @@
 export function fetchAll(urls, options) {
-	return new Promise((resolve) => {
+	return new Promise((resolve, reject) => {
 		let i = -1
 		Promise.all( urls.map(url => {
 			i++
@@ -11,5 +11,6 @@ export function fetchAll(urls, options) {
 		.then(results => {
 			resolve(results)
 		})
+		.catch(e => reject(e))
 	})
 }

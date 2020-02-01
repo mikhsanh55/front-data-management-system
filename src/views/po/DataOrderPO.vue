@@ -19,7 +19,7 @@
 							>
 								<div slot="aksi" slot-scope="props">
 									<div v-if="data.level != 2">
-										<router-link :to="'/po/data-order-barang/'+props.row.id" class="text-dark btn btn-secondary btn-sm">
+										<router-link :to="'/po/data-order-barang/detail/'+props.row.id" class="text-dark btn btn-secondary btn-sm">
 											<i class="fa fa-eye"></i>
 										</router-link>
 									</div>
@@ -54,7 +54,7 @@
 	</div>
 </template>
 <script type="text/javascript">
-	import {exportExcel, getOrderBarang} from '@/containers/global-function.js'
+	import {exportExcel, getOrderBarang, getDatas} from '@/containers/global-function.js'
 	export default {
 		name: 'DataOrderPO',
 		data() {
@@ -64,7 +64,7 @@
 				date:{from:null},
 				modal:false,
 				dataOrder:[],
-				tableFields: ['no', 'kode_barang', 'nama_barang', 'spesifikasi_barang', 'qty', 'tanggal', 'keterangan', 'status', 'aksi'],
+				tableFields: ['no', 'kode_barang', 'nama_barang', 'spesifikasi_barang', 'qty', 'keterangan', 'aksi'],
 				tableOptions: {
 					perPage:10,
 					pagination:{chunk:10, dropdown:false, edge:true, nav:'fixed'},
@@ -74,12 +74,10 @@
 						nama_barang: 'Nama Barang',
 						spesifikasi_barang: 'Spesifikasi Barang',
 						qty:'Quantity',
-						tanggal: 'Tanggal',
 						keterangan: 'Keterangan',
-						status: 'Status',
 						aksi: 'Aksi'
 					},
-					sortable: ['no', 'nama_barang', 'status', 'qty'],
+					sortable: ['no', 'nama_barang', 'qty'],
 					filterable: ['no'],
 					columnsClasses: {
 						no: 'text-center align-middle',
@@ -87,41 +85,13 @@
 						nama_barang: 'align-middle',
 						spesifikasi_barang: 'align-middle',
 						qty: 'text-center align-middle',
-						tanggal: 'text-center align-middle',
 						keterangan: 'align-middle',
-						status: 'text-center align-middle',
 						aksi: 'text-center align-middle',
 					}
 				}
 			}
 		},
 		methods: {
-			getData() {
-				let headers = new Headers()
-				headers.append('Authorization', localStorage.token)
-				let options = {
-					method: 'GET',
-					headers,
-					redirect:'follow'
-				}
-				fetch('https://young-temple-67589.herokuapp.com/api/order/barang/po', {
-					headers: {
-						'Authorization': 'bearer ' + localStorage.token
-					}
-				})
-				.then(res => res.json())
-				.then(res => {
-					console.log(res)
-					this.dataOrder = res
-				})
-				.catch(e => {
-					this.$swal(e.response.message, 'hubungi pengembangnya...', 'danger')
-                    setTimeout(() => {
-                    	this.$swal.close()
-                    }, 1500)
-                    return false
-				})
-			},
 			storeExcel() {
 				if(this.date == null)  {
 					this.$swal('Tanggal tidak boleh kosong', '', 'warning')
@@ -153,63 +123,39 @@
 					}, 2000)
 					return false
 				})
-			},
-			getDataTable() {
-		    	return new Promise((resolve, reject) => {
-				    this.$http.post('https://young-temple-67589.herokuapp.com/api/order/barang/po/detail/' + this.$route.params.id, {
-						headers:{
-							'Authorization':'bearer ' + localStorage.token
-						}
-					})
-					.then(res => {
-						let arr = []
-						this.info_po = res.data
-						this.info_po.forEach((item, i) => {
-							getDatas(this, 'https://young-temple-67589.herokuapp.com/api/barang/' + item.id_barang, { method:'POST', headers:{'Authorization': 'bearer ' + localStorage.token}}, 'POST')
-							.then(res => {
-								
-								item.nama_barang = res.nama_barang
-								item.kode_barang = 
-								item.spesifikasi = res.spesifikasi
-								item.foto = 
-								arr.push({
-									no:++i,
-									foto:'https://young-temple-67589.herokuapp.com/' + res.foto,
-									kode_barang:res.kode_barang,
-									nama_barang: res.nama_barang,
-									spesifikasi: res.spesifikasi,
-									stock:res.stock
-								})
-								this.po.sub_total += res.harga_jual
-								this.po.sales_tax_rate += 0
-							
-							})
-							
-						})
-						resolve(arr)
-						// this.$http.post('https://young-temple-67589.herokuapp.com/api/barang/' + res.data.id_barang, {
-						// 	headers: {
-						// 		'Authorization': localStorage.token
-						// 	}
-						// })
-						// .then(res => {
-						// 	this.hasil.push(res.data)
-						// 	resolve(this.hasil)
-						// })
-						// .catch(e => {
-						// 	reject(e)
-						// })
-					})
-					.catch(e => {
-						reject(e)
-					})	
-		    	})
-		    }
-			
+			}	
 		},
 		created() {
-			this.getData()
-			getOrderBarang()
+			// this.getData()
+			// getOrderBarang()
+			getDatas(this, 'https://young-temple-67589.herokuapp.com/api/order/barang/po', {headers:{'Authorization' : 'bearer ' + localStorage.token}}, 'get')
+			.then(res => {
+				let data = res, arr = []
+				data.forEach((item, i) => {
+					i += 1
+					getDatas(this, 'https://young-temple-67589.herokuapp.com/api/barang/' + item.id_barang, {method:'post', headers:{'Authorization':'bearer ' + localStorage.token}}, 'post')
+					.then(res => {
+						
+						let obj = {}
+						obj.id = item.id
+						obj.qty = item.qty
+						obj.no = i++
+						obj.kode_barang = res.kode_barang
+						obj.nama_barang = res.nama_barang
+						obj.spesifikasi_barang = res.spesifikasi
+						obj.keterangan = res.keterangan
+						arr.push(obj)
+					})
+
+				})
+				
+				return arr
+			})
+			.then(res => {
+				this.dataOrder = res
+				console.log(this.dataOrder)
+			})
+			.catch(e => console.error(e))
 		},
 		mounted() {
 			this.data = this.$store.getters.userData

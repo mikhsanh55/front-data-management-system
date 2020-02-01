@@ -21,25 +21,44 @@ export function exportExcel(self, url, data, options, filename) {
 		
 }
 
-export function exportPDF(self, url, options, filename) {
+export function exportPDF(self, url, options, filename, method = 'get') {
 	return new Promise((resolve, reject) => {
-		self.$http.get(url, options)
-		.then(res => {
-			const url = URL.createObjectURL(new Blob([res.data], {
-			    type: 'application/pdf'
-			}))
-			const link = document.createElement('a')
-			link.href = url
-			link.setAttribute('download', filename)
-			document.body.appendChild(link)
-			link.click()
-		})
-		.then(() => {
-			resolve()
-		})
-		.catch(e => {
-			reject(e)
-		})
+		if(method == 'get')
+			self.$http.get(url, options)
+			.then(res => {
+				const url = URL.createObjectURL(new Blob([res.data], {
+				    type: 'application/pdf'
+				}))
+				const link = document.createElement('a')
+				link.href = url
+				link.setAttribute('download', filename)
+				document.body.appendChild(link)
+				link.click()
+			})
+			.then(() => {
+				resolve()
+			})
+			.catch(e => {
+				reject(e)
+			})
+		else
+			self.$http.post(url, options)
+			.then(res => {
+				const url = URL.createObjectURL(new Blob([res.data], {
+				    type: 'application/pdf'
+				}))
+				const link = document.createElement('a')
+				link.href = url
+				link.setAttribute('download', filename)
+				document.body.appendChild(link)
+				link.click()
+			})
+			.then(() => {
+				resolve()
+			})
+			.catch(e => {
+				reject(e)
+			})
 	})
 }
 
@@ -120,5 +139,22 @@ export function getOrderBarang() {
 			})
 				
 		})
+	})
+}
+
+export function fetchAll(urls, options) {
+	return new Promise((resolve, reject) => {
+		let i = -1
+		Promise.all( urls.map(url => {
+			i++
+			return fetch(url, options[i]) 
+		}) )
+		.then(res => 
+			Promise.all(res.map(r => r.json()))
+		)
+		.then(results => {
+			resolve(results)
+		})
+		.catch(e => reject(e))
 	})
 }

@@ -33,6 +33,7 @@ const AddBarangPesanan = () => import('@/views/produk/AddBarangPesanan')
 const EditBarangPesanan = () => import('@/views/produk/EditBarangPesanan')
 const OrderBarangPesanan = () => import('@/views/produk/OrderBarangPesanan')
 
+
 // PO
 const PO = () => import('@/views/po/po')
 const AddPO = () => import('@/views/po/AddPO')
@@ -40,6 +41,7 @@ const EditPO = () => import('@/views/po/EditPO')
 const DetailPO = () => import('@/views/po/DetailPO')
 const OrderPO = () => import('@/views/po/OrderPO')
 const DataOrderPO = () => import('@/views/po/DataOrderPO')
+const DetailOrderPO = () => import('@/views/po/DetailOrderPO')
 const RequestPO = () => import('@/views/po/RequestPO')
 const DetailRequestPO = () => import('@/views/po/DetailRequestPO')
 const EditRequestPO = () => import('@/views/po/EditRequestPO')
@@ -326,6 +328,20 @@ function configRoutes () {
               path: 'data-order-barang',
               name: 'Data Order Barang',
               component: DataOrderPO
+            },
+            {
+              path: 'data-order-barang',
+              name: 'Data Order Barang',
+              component: {
+                render (c) { return c('router-view') }
+              },
+              children: [
+                {
+                  path: 'detail/:id',
+                  name: 'Detail Order Barang',
+                  component: DetailOrderPO
+                }
+              ]
             },
             {
               path: 'data-request-barang',
