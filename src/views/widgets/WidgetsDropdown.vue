@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="user.level == 1 || user.level == 2">
+    <div v-if="level == 1 || level == 2">
       <CRow>
         <CCol sm="6" lg="3">
           <CWidgetDropdown color="primary" :header="data.direktur == 0 ? '0' : data.direktur" text="Direktur">
@@ -161,7 +161,7 @@
       </CRow>
     </div>
 
-    <div v-if="user.level == 7 || user.level == 6">
+    <div v-if="level == 7 || level == 6">
       <CRow>
         <CCol sm="6" lg="3">
           <CWidgetDropdown color="secondary" :header="data.request == 0 ? '0' : data.request" text="Request">
@@ -238,19 +238,19 @@
 
 <script>
 import { CChartLineSimple, CChartBarSimple } from '../charts/index.js'
-import {fetchAll} from '@/containers/global-function.js'
+import {checkPO, getDatas, fetchAll} from '@/containers/global-function.js'
 export default {
   name: 'WidgetsDropdown',
   data() {
     return {
       data:'',
-      user:''
+      level:localStorage.level
     }
   },
   components: { CChartLineSimple, CChartBarSimple },
   created() {
-    this.user = this.$store.getters.userData
-    if(this.$store.getters.userData.level == 1) {
+    
+    if(this.level == 1 || this.level == 2) {
       fetchAll([
         'https://young-temple-67589.herokuapp.com/api/dashboard/grafik',
         'https://young-temple-67589.herokuapp.com/api/dashboard/kj',
@@ -267,7 +267,7 @@ export default {
         console.log(this.data)
       })
     }
-    else if(this.$store.getters.userData.level == 7) {
+    else if(this.level == 7) {
       fetchAll([
         'https://young-temple-67589.herokuapp.com/api/dashboard/psb',
         'https://young-temple-67589.herokuapp.com/api/dashboard/k'
@@ -281,7 +281,7 @@ export default {
         console.log(this.data)
       }) 
     }
-    else if(this.$store.getters.userData.level == 6) {
+    else if(this.level == 6) {
       fetchAll([
         'https://young-temple-67589.herokuapp.com/api/dashboard/rbs'
       ], [
@@ -291,7 +291,8 @@ export default {
         console.warn('HI')
         this.data = {...res[0]}
       })  
-    }
+    }  
+    console.log(this.user)
   }
 }
 </script>

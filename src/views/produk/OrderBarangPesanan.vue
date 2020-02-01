@@ -173,8 +173,9 @@
 				}
 			},
 		    deleteFromTable(id) {
+
 		    	this.$swal('Mohon tunggu', '', 'info')
-	    		this.$http.delete('https://young-temple-67589.herokuapp.com/api/order/barang/pesanan/'+id, this.order_barang_pesanan, {
+	    		this.$http.delete('https://young-temple-67589.herokuapp.com/api/order/barang/pesanan/'+id, {
 		    		headers: {
 		    			'Authorization': 'bearer ' + localStorage.token
 		    		}
@@ -182,6 +183,11 @@
 		    	.then(res => {
 		    		this.$swal.close()
 		    		this.getDataTable()
+		    	})
+		    	.catch(e => {
+		    		this.$swal.close()
+		    		this.$swal('Tidak bisa menghapus barang', '', 'error')
+		    		setTimeout(() => this.$swal.close())
 		    	})
 		    },
 		    addToTable() {
@@ -250,6 +256,7 @@
 						getDatas(this, 'https://young-temple-67589.herokuapp.com/api/barang/' + item.id_barang, {method:'post', headers:{'Authorization': 'bearer ' + localStorage.token}}, 'post')
 						.then(res => {
 							let obj = {
+								id:res.id,
 								no:++i,
 								kode_barang:res.kode_barang,
 								nama_barang:res.nama_barang,

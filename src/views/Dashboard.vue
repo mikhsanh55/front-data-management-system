@@ -544,10 +544,6 @@ export default {
   },
   created() {
     checkPO(this)
-    
-  },
-  mounted() {
-    console.log(this.userData)
   }
 }
 </script>

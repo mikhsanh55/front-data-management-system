@@ -335,6 +335,8 @@ let store = new Vuex.Store({
 					const t = res.access_token
 
 					localStorage.setItem('token', t)
+					
+
 					localStorage.setItem('expires_in', exp)
 					if(localStorage.getItem('expires_in') != '')
 						Date.prototype.addHours = function(h) {
@@ -348,10 +350,10 @@ let store = new Vuex.Store({
 			                'Access-Control-Allow-Origin': '*'
 			              }
 			            }).then(res => {
+			            	localStorage.setItem('level', res.data.level)
 			            	dispatch('filterMenu', res.data)
 			            	.then(() => {
 			            		localStorage.setItem('user', JSON.stringify(res.data))
-			            		
 			            	})
 			            	.then(() => {
 			            		resolve(res.data)
@@ -374,6 +376,11 @@ let store = new Vuex.Store({
 			return new Promise((resolve, reject) => {
 				commit('logout')
 				resolve()
+			})
+		},
+		fetchUser({commit}) {
+			return new Promise((res) => {
+				res()
 			})
 		}
 	},

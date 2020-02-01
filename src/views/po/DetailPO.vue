@@ -124,11 +124,8 @@
 						 class="m-4"
 						>
 							<div slot="foto" slot-scope="props">
-								<div v-if="'https://young-temple-67589.herokuapp.com/' +props.row.foto == true" class="mx-auto d-flex justify-content-center">
+								<div class="mx-auto d-flex justify-content-center">
 									<img :src="'https://young-temple-67589.herokuapp.com/' + props.row.foto" style="border-radius:50%;" />
-								</div>
-								<div v-else class="mx-auto d-flex justify-content-center">
-									<img class="img-thumbnail" src="./../../assets/img/avatar/default.svg" style="border-radius:50%;width:35px;height: 35px;" />
 								</div>
 							</div>
 						</v-client-table>
@@ -253,12 +250,7 @@
 
 		    getDataTable() {
 		    	return new Promise((resolve, reject) => {
-				 //    this.$http.post('https://young-temple-67589.herokuapp.com/api/order/barang/po/detail/' + this.$route.params.id, {
-					// 	headers:{
-					// 		'Authorization':'bearer ' + localStorage.token
-					// 	}
-					// })
-					getDatas(this, 'https://young-temple-67589.herokuapp.com/api/order/barang/po/' + this.$route.params.id, {
+					getDatas(this, 'https://young-temple-67589.herokuapp.com/api/order/barang/po/detail/' + this.$route.params.id, {
 						method:'post',
 						headers: {
 							'Authorization':'bearer ' + localStorage.token

@@ -173,7 +173,7 @@ export default {
           this.notloading = true
           this.displayloading = false
           this.form.password = ''
-          this.$swal('Email / Password salah', 'Coba lagi yah', 'danger')
+          this.$swal('Email / Password salah', 'Coba lagi yah', 'error')
           setTimeout(() => {
             this.$swal.close()
           }, 1500)

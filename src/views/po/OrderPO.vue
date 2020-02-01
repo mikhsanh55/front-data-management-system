@@ -91,14 +91,14 @@
 								 class="m-4"
 								>
 									<div slot="aksi" slot-scope="props">
-										<button class="btn btn-secondary text-danger m-1"  @click="deleteFromTable(props)"><i class="fa fa-trash"></i></button>				
+										<button class="btn btn-secondary text-danger m-1"  @click="deleteFromTable(props.row.id)"><i class="fa fa-trash"></i></button>				
 									</div>
 								</v-client-table>
 							</CCol>
 						</CRow>
 					</CCardBody>
 					<CCardFooter class="m-4 d-flex justify-content-end">
-						<button class="btn btn-light text-primary" :disabled="isEmpty" ><i class="fa fa-cart-plus mr-2"></i> Selesai </button>
+						<router-link to="/po" class="btn btn-light text-primary" :disabled="isEmpty" ><i class="fa fa-cart-plus mr-2"></i> Selesai </router-link>
 					</CCardFooter>
 				</CCard>
 			</CCol>
@@ -217,12 +217,29 @@
 				})
 		        
 		    },
-		    deleteFromTable(e) {
+		    deleteFromTable(i) {
 		    	// console.log(e.index - 1)
 		    	// this.order_barang.splice(e.index-1, 1)
 		    	// let order_barang = JSON.parse(localStorage.getItem('order_barang'))
 		    	// order_barang.splice(e.index)
 		    	// localStorage.setItem('order_barang', JSON.stringify(this.order_barang))
+		    	this.$swal('Mohon tunggu', '', 'info')
+		    	this.$http.delete('https://young-temple-67589.herokuapp.com/api/order/barang/po/' + i, {
+		    		headers: {
+		    			'Authorization' : 'bearer ' + localStorage.token
+		    		}
+		    	}).then(() => {
+		    		this.fetchAll()
+					this.getDataTable()
+					.then((res) => {
+					})
+					.catch(e => console.error(e))
+					this.$swal.close()
+		    	})
+		    	.catch(e => {
+		    		this.$swal('Tidak bisa menghapus data', 'mohon hubungi pengembangnya', 'error')
+		    		console.error(e)
+		    	})
 		    },
 		    addToTable() {
 		    	this.errors = []
@@ -325,12 +342,6 @@
 						arr.forEach((item, i) => {
 							getDatas(this, 'https://young-temple-67589.herokuapp.com/api/barang/' + item.id_barang, { method:'POST', headers:{'Authorization': 'bearer ' + localStorage.token}}, 'POST')
 							.then(res => {
-								delete item.id
-								delete item.id_po
-								delete item.id_barang
-								delete item.id_pesanan
-								delete item.created_at
-								delete item.deleted_at
 								item.no = ++i
 								item.kode_barang = res.kode_barang
 								item.nama_barang = res.nama_barang
