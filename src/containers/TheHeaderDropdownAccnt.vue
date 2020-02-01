@@ -9,8 +9,10 @@
       <CHeaderNavLink>
         <div class="c-avatar">
           <img
-            src="img/avatars/6.jpg"
+            :src="'https://young-temple-67589.herokuapp.com/' + user.foto"
             class="c-avatar-img "
+            width="70"
+            height="70"
           />
         </div>
       </CHeaderNavLink>
@@ -78,13 +80,14 @@
 </template>
 
 <script>
-import {checkPO} from '@/containers/global-function.js'  
+import {checkPO, getDatas} from '@/containers/global-function.js'  
 export default {
   name: 'TheHeaderDropdownAccnt',
   data () {
     return { 
       jumlahNotif: 0,
-      data:''
+      data:'',
+      user:''
     }
   },
   methods: {
@@ -114,11 +117,23 @@ export default {
       this.jumlahNotif = res.length
     })
     .catch(e => console.error('Notif error ' + e))
-  },
-  mounted() {
-      this.data = this.$store.getters.userData
-      console.log(this.data)
-    }
+
+    let user = JSON.parse(localStorage.user)
+    getDatas(this, 'https://young-temple-67589.herokuapp.com/api/karyawan/' + user.id, {
+        method:'post',
+        headers: {
+          'Authorization' : 'bearer ' + localStorage.token
+        }
+      })  
+      .then(res => {
+        this.user = res
+        // console.log(res)
+      })
+      .catch(e => {
+        console.error(e)
+        return false
+      })
+  }
 }
 </script>
 
