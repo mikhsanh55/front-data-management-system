@@ -44,9 +44,15 @@
 	    >	
 	      <CInput
 		      type="date"
-		      label="Tanggal"
+		      label="Dari"
 		      horizontal
 		      v-model="date.from"
+	       />
+	       <CInput
+		      type="date"
+		      label="Sampai"
+		      horizontal
+		      v-model="date.to"
 	       />	
 	      <template #header>
 	        <h6 class="modal-title">Export Data ke Excel</h6>
@@ -108,7 +114,7 @@
 					headers: {
 						'Authorization' : 'bearer ' + localStorage.token
 					}
-				}, 'barang pesanan.pdf')
+				}, 'barang pesanan.pdf', 'post')
 				.then(() => {
 					this.$swal.close()
 				})
@@ -202,7 +208,7 @@
 					
 			},
 			storeExcel() {
-				if(this.date == null)  {
+				if(this.date.from == null || this.date.to == null)  {
 					this.$swal('Tanggal tidak boleh kosong', '', 'warning')
 					setTimeout(() => {
 						this.$swal.close()
@@ -210,9 +216,10 @@
 					}, 2000)
 					
 					this.exportLabel = 'Mulai Export'
+					return false
 				}
 				this.exportLabel = 'Loading...'
-				exportExcel(this, 'https://young-temple-67589.herokuapp.com/api/excel/barang/pesanan', {from:this.date.from, to:this.date.from}, {
+				exportExcel(this, 'https://young-temple-67589.herokuapp.com/api/excel/barang/pesanan', {from:this.date.from, to:this.date.to}, {
 					responseType: 'blob',
 					headers: {
 						'Authorization' : 'bearer ' + localStorage.token

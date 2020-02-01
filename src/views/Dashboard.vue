@@ -522,6 +522,11 @@ export default {
       ]
     }
   },
+  computed: {
+    userData:function(){
+      return this.$store.getters.userData
+    }
+  },
   methods: {
     color (value) {
       let $color
@@ -540,6 +545,9 @@ export default {
   created() {
     checkPO(this)
     
+  },
+  mounted() {
+    console.log(this.userData)
   }
 }
 </script>

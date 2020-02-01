@@ -171,7 +171,7 @@
 					for(let i = 0;i < res.data.length;i++) {
 						let obj = {}
 						obj.value = res.data[i].id
-						obj.label = res.data[i].nama
+						obj.label = res.data[i].nama + ' - ' + res.data[i].nama_instansi
 						this.vendor.push(obj)
 					}
 					console.log(this.vendor)

@@ -27,7 +27,8 @@
 		                        placeholder="Masukan qty Barang"
 		                        v-model="stockinout.qty"
 		                      />
-							<CInput
+
+							<!-- <CInput
 		                        type="text"
 		                        :description="validator.type_msg"
 		                        :is-valid="validator.type"
@@ -37,7 +38,14 @@
 		                        horizontal
 		                        placeholder="Masukan Type Barang"
 		                        v-model="stockinout.type"
-		                      />
+		                      /> -->
+		                      <CSelect
+		                    	label="Type"
+				                horizontal
+				                :options="type"
+				                @update:value="assignType"
+				                v-model="stockinout.type"
+				              />    
 		                    <CInput
 		                        type="date"
 		                        :description="validator.tanggal_msg"
@@ -99,7 +107,17 @@
 					alasan:null
 				},
 				errors: [],
-				label: 'Simpan Perubahaan'
+				label: 'Simpan Perubahaan',
+				type: [
+					{
+						value:1,
+						label:'In'
+					},
+					{
+						value:2,
+						label:'Out'	
+					}
+				],
 			}
 		},
 		methods: {

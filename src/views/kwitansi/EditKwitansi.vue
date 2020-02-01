@@ -17,7 +17,13 @@
 		                        </p>
 		                      </div>  
 		                    <input type="hidden" name="id" ref="id" v-model="kwitansi.id">
-
+		                    <CSelect
+				                label="Guna Pembayaran"
+				                horizontal
+				                :options="guna_pembayaran"
+				                v-model="kwitansi.guna_pembayaran"
+				                @update:value="assignGunaPembayaran"
+				              />
 		                    <CInput
 		                        type="text"
 		                        description="Masukan Nomer Kwitansi"
@@ -26,6 +32,7 @@
 		                        horizontal
 		                        placeholder="Masukan Nomer Kwitansi"
 		                        v-model="kwitansi.no"
+		                        readonly
 		                      />
 				            <CInput
 		                        type="text"
@@ -35,6 +42,7 @@
 		                        horizontal
 		                        placeholder="Masukan Nama Penerima"
 		                        v-model="kwitansi.terima_dari"
+		                        readonly
 		                      />  
 		                      <CInput
 		                        type="number"
@@ -44,25 +52,6 @@
 		                        horizontal
 		                        placeholder="Masukan Uang Terbilang"
 		                        v-model="kwitansi.uang"
-		                      />
-		                      <CInput
-		                        type="number"
-		                        description="Masukan Uang Terbuka"
-		                        autocomplete="uang_terbuka"
-		                        label="Uang Terbuka"
-		                        horizontal
-		                        placeholder="Masukan Uang Terbuka"
-		                        v-model="kwitansi.uang_terbuka"
-		                      />
-
-		                      <CInput
-		                        type="text"
-		                        description="Masukan Guna Pembayaran"
-		                        autocomplete="guna_pembayaran"
-		                        label="Guna Pembayaran"
-		                        horizontal
-		                        placeholder="Masukan Guna Pembayaran"
-		                        v-model="kwitansi.guna_pembayaran"
 		                      />
 	                        
 						</CCol>
@@ -78,6 +67,7 @@
 	</div>
 </template>
 <script type="text/javascript">
+	import {getDatas} from '@/containers/global-function.js'
 	export default {
 		name:"EditKwitansi",
 		data() {
@@ -86,15 +76,26 @@
 				kwitansi: {
 					no:null,
 					terima_dari:null,
-					uang_terbuka:null,
 					uang:null,
 					guna_pembayaran:null
 				},
 				validMsg:false,
-				errors:[]
+				errors:[],
+				guna_pembayaran:[],
+				po:[]
 			}
 		},
 		methods: {
+			assignGunaPembayaran(val) {
+				this.po.forEach((item) => {
+					if(item.id == val) {
+						this.kwitansi.guna_pembayaran = item.no
+						this.kwitansi.no = item.no_invoice
+						this.kwitansi.terima_dari = item.konsumen
+						return
+					}
+				})
+			},
 			getData() {
 				let headers = new Headers()
 				headers.append('Authorization', 'bearer ' + localStorage.getItem('token'))
@@ -129,9 +130,6 @@
 				if(!this.kwitansi.uang) {
 					this.errors.push('Uang Terbilang Wajib diisi')
 				}
-				if(!this.kwitansi.uang_terbuka) {
-					this.errors.push('Uang Terbuka Wajib diisi')
-				} 	
 				if(!this.kwitansi.guna_pembayaran) {
 					this.errors.push('Guan Pembayaran Wajib diisi')
 				}
@@ -166,7 +164,43 @@
 			}
 		},
 		created() {
-			this.getData()
+			
+			getDatas(this, 'https://young-temple-67589.herokuapp.com/api/po', {headers:{'Authorization': 'bearer ' + localStorage.token}}, 'get')
+			.then(res => {
+				console.log(res)
+				this.po = res
+				res.forEach((item, i) => {
+					let obj = {}
+					obj.value = item.id
+					obj.label = item.no
+					this.guna_pembayaran.push(obj)
+				})
+				this.getData()
+			})
+			.catch(e => {
+				if(e.response.status == 401) {
+                  this.$store.dispatch('logout')
+                  .then(() => {
+                    let path = window.location.href
+                    path = path.split('/')
+                    localStorage.setItem('prevPath', path[path.length - 1])
+                    alert('Session Login kamu sudah habis! silahkan login kembali')
+                    
+                  })
+                  .then(() => {
+                    this.$router.replace({path: '/login'})
+                  })
+                  .catch(e => {
+                    alert('An error occured when get data :(')
+                    return false
+                  })
+                }
+                else {
+					alert('There an error occured')
+					console.log(e.response)
+					return false
+				}
+			})
 		}
 	}
 </script>

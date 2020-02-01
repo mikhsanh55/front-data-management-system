@@ -253,14 +253,20 @@
 
 		    getDataTable() {
 		    	return new Promise((resolve, reject) => {
-				    this.$http.post('https://young-temple-67589.herokuapp.com/api/order/barang/po/detail/' + this.$route.params.id, {
-						headers:{
+				 //    this.$http.post('https://young-temple-67589.herokuapp.com/api/order/barang/po/detail/' + this.$route.params.id, {
+					// 	headers:{
+					// 		'Authorization':'bearer ' + localStorage.token
+					// 	}
+					// })
+					getDatas(this, 'https://young-temple-67589.herokuapp.com/api/order/barang/po/' + this.$route.params.id, {
+						method:'post',
+						headers: {
 							'Authorization':'bearer ' + localStorage.token
 						}
-					})
+					}, 'post')
 					.then(res => {
 						let arr = []
-						this.info_po = res.data
+						this.info_po = res
 						this.info_po.forEach((item, i) => {
 							getDatas(this, 'https://young-temple-67589.herokuapp.com/api/barang/' + item.id_barang, { method:'POST', headers:{'Authorization': 'bearer ' + localStorage.token}}, 'POST')
 							.then(res => {
