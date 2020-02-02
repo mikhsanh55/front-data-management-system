@@ -25,7 +25,6 @@
 								<router-link title="Edit Barang Pesanan" :to="'/barang-pesanan/edit/' + props.row.id" class="btn btn-secondary text-primary btn-sm mr-2">
 									<i class="fa fa-edit"></i>
 								</router-link>
-
 								<button title="Hapus Barang Pesanan" class="btn btn-secondary text-danger btn-sm mr-2" @click="deleteBarangPesanan(props.row.id)">
 									<i class="fa fa-trash"></i>
 								</button>

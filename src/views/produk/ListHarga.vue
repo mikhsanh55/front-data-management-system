@@ -20,12 +20,8 @@
 							id="barang_table"
 							>
 							<div slot="foto" slot-scope="props">
-								<div v-if="'https://young-temple-67589.herokuapp.com/' +props.row.foto == true" class="mx-auto d-flex justify-content-center">
 									<img :src="'https://young-temple-67589.herokuapp.com/' + props.row.foto" style="border-radius:50%;" />
-								</div>
-								<div v-else class="mx-auto d-flex justify-content-center">
-									<img class="img-thumbnail" src="./../../assets/img/avatar/default.svg" style="border-radius:50%;width:35px;height: 35px;" />
-								</div>
+								
 							</div>
 							<div slot="aksi" slot-scope="props" class="d-flex justify-content-center">
 								<router-link :to="'/barang/detail/' + props.row.id" class="text-dark btn btn-secondary btn-sm mr-2">

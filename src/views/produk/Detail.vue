@@ -7,12 +7,8 @@
 			<CCardBody>
 				<CRow class="mx-auto d-flex justify-content-center">
 					<CCol sm="12" class="mt-4">
-						<div v-if="product.foto" class="mx-auto d-flex justify-content-center">
 							<img :src="product.foto" style="border-radius:50%;width:70px;height: 70px;" />
-						</div>
-						<div v-else class="mx-auto d-flex justify-content-center">
-							<img class="img-thumbnail" src="./../../assets/img/avatar/default.svg" style="border-radius:50%;width:70px;height: 70px;" />
-						</div>
+						
 					</CCol>
 				</CRow>
 				<br>
