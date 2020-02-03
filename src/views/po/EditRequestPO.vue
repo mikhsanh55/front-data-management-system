@@ -206,7 +206,7 @@
 						this.$swal('Update data berhasil', 'Mohon tunggu sebentar...', 'success')
 	                    setTimeout(() => {
 	                    	this.$swal.close()
-	                    	this.$router.push('/po/data-request-barang')
+	                    	this.$router.push('/data-request-barang')
 	                    })
 						
 					})

@@ -365,7 +365,7 @@ function configRoutes () {
               component: AddRequestPO
             },
             {
-              path: '/edit/:id',
+              path: 'edit/:id',
               name: 'Edit Request Barang',
               component: EditRequestPO
             }

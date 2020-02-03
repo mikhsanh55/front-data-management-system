@@ -7,7 +7,7 @@
 			<CCardBody>
 				<CRow>
 					<CCol sm="12">
-						<button @click="modal = true" class="float-right mb-4 ml-2 btn btn-light"><small> <i class="fa fa fa-file-excel-o mr-1"></i> Export .xlsx</small></button>		
+						<button v-if="data.level == 3" @click="modal = true" class="float-right mb-4 ml-2 btn btn-light"><small> <i class="fa fa fa-file-excel-o mr-1"></i> Export .xlsx</small></button>		
 						<router-link v-if="data.level != 2 && data.level != 7" to="/karyawan/add" class="float-right mb-4 btn btn-light"><small> <i class="fa fa-plus mr-1"></i> Tambah Karyawan</small></router-link>		
 						<v-client-table
 						:data="karyawan"
@@ -273,6 +273,7 @@
 	}	
 	#karyawan_table .form-inline input[type=text] {
 		width: 130%;
+		margin-bottom: 20px;
 	}
 	#karyawan_table .form-inline {
 		margin:0;

@@ -281,7 +281,7 @@ export default {
         console.log(this.data)
       }) 
     }
-    else if(this.level == 6) {
+    else  {
       fetchAll([
         'https://young-temple-67589.herokuapp.com/api/dashboard/rbs'
       ], [

@@ -115,7 +115,7 @@
 		},
 		created() {
 			let user = JSON.parse(localStorage.user)
-			getDatas(this, 'https://young-temple-67589.herokuapp.com/api/karyawan/' + user.id, {
+			getDatas(this, 'https://young-temple-67589.herokuapp.com/api/karyawan/' + user.id_karyawan, {
 				method:'post',
 				headers: {
 					'Authorization' : 'bearer ' + localStorage.token

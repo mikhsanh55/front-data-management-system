@@ -9,7 +9,7 @@
 				<CRow>
 					<CCol sm="12">
 
-						<button @click="modal = true" class="float-right mb-4 ml-2 btn btn-light"><small> <i class="fa fa fa-file-excel-o mr-1"></i> Export .xlsx</small></button>		
+						<button @click="storeExcel" class="float-right mb-4 ml-2 btn btn-light"><small> <i class="fa fa fa-file-excel-o mr-1"></i> Export .xlsx</small></button>		
 						<router-link v-if="data.level != 2 && data.level != 7 && data.level != 6" to="/barang/add" class="float-right mb-4 btn btn-light"><small> <i class="fa fa-plus mr-1"></i> Tambah Barang</small></router-link>			
 						
 							<v-client-table
@@ -73,7 +73,7 @@
 				</CRow>
 			</CCardBody>
 		</CCard>
-		<CModal
+		<!-- <CModal
 	      :show.sync="modal"
 	      :no-close-on-backdrop="true"
 	      title="Export Data ke Excel"
@@ -93,7 +93,7 @@
 	      <template #footer>
 	        <CButton @click="storeExcel" color="success">{{exportLabel}}</CButton>
 	      </template>
-	    </CModal>
+	    </CModal> -->
 	</div>
 </template>
 <script type="text/javascript">
@@ -238,15 +238,6 @@
 				image.src = src
 			},
 			storeExcel() {
-				if(this.date.from == null)  {
-					this.$swal('Tanggal tidak boleh kosong', '', 'warning')
-					setTimeout(() => {
-						this.$swal.close()
-						return false
-					}, 2000)
-					this.exportLabel = 'Mulai Export'
-					return false
-				}
 				this.exportLabel = 'Loading...'
 				exportExcel(this, 'https://young-temple-67589.herokuapp.com/api/excel/barang', {from:this.date.from, to:this.date.to}, {
 					responseType: 'blob',

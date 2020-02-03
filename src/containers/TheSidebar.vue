@@ -7,7 +7,7 @@
     <CSidebarBrand 
       :imgFull="{ width: 118, height: 36, alt: 'Logo', src: 'img/brand/ALKES.png'}"
       :imgMinimized="{ width: 118, height: 36, alt: 'Logo', src: 'img/brand/ALKES.png'}"
-      :wrappedInLink="{ href: 'https://localhost:8080', target: '_self'}"
+      :wrappedInLink="{ href: '/', target: '_self'}"
       class="pt-3 pb-3"
     />
     <CRenderFunction flat :content-to-render="nav"/>

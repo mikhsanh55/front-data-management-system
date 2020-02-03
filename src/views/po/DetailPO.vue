@@ -45,7 +45,7 @@
 								<td>{{po.keterangan}}</td>
 							</tr>
 							<tr>
-								<th class="w-50">Tax Rate</th>
+								<th class="w-50">Tax Rate (%)</th>
 								<td>{{po.tax_rate}}</td>
 							</tr>
 							<tr>
@@ -53,7 +53,7 @@
 								<td>{{po.sales_fee}}</td>
 							</tr>
 							<tr>
-								<th class="w-50">Other</th>
+								<th class="w-50">Other Cost</th>
 								<td>{{po.other}}</td>
 							</tr>
 							<tr>
@@ -90,14 +90,6 @@
 							<tr>
 								<th class="w-50">Sales Tax Rate</th>
 								<td> {{po.sales_tax_rate}} </td>
-							</tr>
-							<tr>
-								<th class="w-50">Sales Tax</th>
-								<td></td>
-							</tr>
-							<tr>
-								<th class="w-50">Other Cost</th>
-								<td></td>
 							</tr>
 							<tr>
 								<th class="w-50">Grand Total</th>

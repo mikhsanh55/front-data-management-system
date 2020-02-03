@@ -7,8 +7,7 @@
 			<CCardBody>
 				<CRow>
 					<CCol sm="12">
-						<button @click="storeExcel" class="float-right mb-4 ml-2 btn btn-light"><small> <i class="fa fa fa-file-excel-o mr-1"></i> Export .xlsx</small></button>	
-						<!-- <router-link to="/data-request-barang/add" class="float-right mb-4 btn btn-light"><small> <i class="fa fa-plus mr-1"></i> Tambah Request Barang</small></router-link>	 -->			
+						<button @click="modal = true" class="float-right mb-4 ml-2 btn btn-light"><small> <i class="fa fa fa-file-excel-o mr-1"></i> Export .xlsx</small></button>	
 						<v-client-table
 						:data="request_po"
 						:columns="tableFields"
@@ -29,7 +28,7 @@
 								<router-link :to="'/data-request-barang/edit/' + props.row.id" class="text-primary btn btn-secondary btn-sm m-1">
 									<i class="fa fa-edit"></i>
 								</router-link>
-								<button class="text-danger btn btn-secondary btn-sm m-1" @click="confirmRequestPO(props.row.id)">
+								<button class="text-danger btn btn-secondary btn-sm m-1" @click="deleteRequestPO(props.row.id)">
 									<i class="fa fa-trash"></i>
 								</button>
 							</div>
@@ -38,6 +37,33 @@
 				</CRow>
 			</CCardBody>
 		</CCard>
+		<CModal
+	      :show.sync="modal"
+	      :no-close-on-backdrop="true"
+	      title="Export Data ke Excel"
+	      size="sm"
+	      color="dark"
+	    >	
+	      <CInput
+		      type="date"
+		      label="Dari"
+		      horizontal
+		      v-model="date.from"
+	       />
+	       <CInput
+		      type="date"
+		      label="Sampai"
+		      horizontal
+		      v-model="date.to"
+	       />	
+	      <template #header>
+	        <h6 class="modal-title">Export Data ke Excel</h6>
+	        <CButtonClose @click="modal = false" class="text-white"/>
+	      </template>
+	      <template #footer>
+	        <CButton @click="storeExcel" color="success">{{exportLabel}}</CButton>
+	      </template>
+	    </CModal>
 	</div>	
 </template>
 <script type="text/javascript">
@@ -72,11 +98,7 @@
 						keterangan: 'align-middle',
 						status: 'text-center align-middle',
 						aksi: 'text-center align-middle'
-					},
-					orderBy: {
-			            column: 'date',
-			            ascending: true
-		            }
+					}
 
 				},
 				request_po:[]
@@ -123,9 +145,9 @@
 
 					if(res.length > 0)
 						this.request_po = res
-						for(let i=0;i <= res.length;i++) {
-							this.request_po[i].no = i+1
-						}
+						res.forEach((item, i) => {
+							item.no = ++i
+						})
 				})
 				.catch(e => {
 					// if(e.response.status == 401 || e.errcode == 40001) {
@@ -156,25 +178,39 @@
 					return false
 				})
 			},
-			confirmRequestPO(id) {
-				this.id = id
-				this.smallModal = true
-			},
-			deleteRequestPO() {
-				this.$http.delete('https://young-temple-67589.herokuapp.com/api/request/barang/' + this.id, {
-					headers: {
-						'Authorization': 'bearer ' + localStorage.token
+			deleteRequestPO(id) {
+				this.$swal({
+			        title: 'Kamu yakin? :(',
+			        text: 'Kamu akan akan menghapus data ini permanen',
+			        icon: 'warning',
+			        buttons: true,
+			        dangerMode: true
+			      })
+				.then((del) => {
+					if(del) {
+						this.$http.delete('https://young-temple-67589.herokuapp.com/api/request/barang/' + id, {
+							headers: {
+								'Authorization': 'bearer ' + localStorage.token
+							}
+						})
+						.then(res => {
+							this.$swal(res.data.message, '', 'success')
+							this.$swal.close()
+							this.getData()
+						})
+						.catch(e => {
+							this.$swal('Tidak bisa menghapus data', 'Hubungi pengembangnya...', 'error')
+							setTimeout(() => {
+								this.$swal.close()	
+							}, 1500)
+							return false
+						})
+					}
+					else {
+						this.$swal.close()	
 					}
 				})
-				.then(res => {
-					alert(res.data.message)
-					this.smallModal = false
-					this.getData()
-				})
-				.catch(e => {
-					alert('Maaf tidak bisa menghapus datanya :(')
-					return false
-				})
+						
 			},
 			storeExcel() {
 				this.exportLabel = 'Loading...'
