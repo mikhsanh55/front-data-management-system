@@ -54,7 +54,7 @@ let store = new Vuex.Store({
 			        {
 			        	  _name: 'CSidebarNavItem',
 				          name: 'Request Barang',
-				          to: '/po/data-request-barang',
+				          to: '/data-request-barang',
 				          icon: 'cil-pencil'
 			        },	
 			        {
@@ -178,7 +178,7 @@ let store = new Vuex.Store({
 			        {
 			        	  _name: 'CSidebarNavItem',
 				          name: 'Request Barang',
-				          to: '/po/data-request-barang',
+				          to: '/data-request-barang',
 				          icon: 'cil-pencil'
 			        },
 			        {
@@ -196,7 +196,7 @@ let store = new Vuex.Store({
 			        {
 			        	  _name: 'CSidebarNavItem',
 				          name: 'Request Barang',
-				          to: '/po/data-request-barang',
+				          to: '/data-request-barang',
 				          icon: 'cil-pencil'
 			        },
 			        {

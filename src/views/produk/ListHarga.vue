@@ -20,7 +20,7 @@
 							id="barang_table"
 							>
 							<div slot="foto" slot-scope="props">
-									<img :src="'https://young-temple-67589.herokuapp.com/' + props.row.foto" style="border-radius:50%;" />
+									<img :src="'https://young-temple-67589.herokuapp.com/' + props.row.foto"  height="50" width="70" />
 								
 							</div>
 							<div slot="aksi" slot-scope="props" class="d-flex justify-content-center">
@@ -132,6 +132,7 @@
 			    	filterable:['nama_barang', 'kode_barang', 'spesifikasi', 'no'],
 			    	columnsClasses: {
 			    		no:'text-center align-middle',
+			    		foto:'text-center align-middle m-auto',
 			    		kode_barang:'align-middle',
 			    		nama_barang:'align-middle',
 			    		spesifikasi:'align-middle',

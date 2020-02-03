@@ -7,8 +7,8 @@
 			<CCardBody>
 				<CRow>
 					<CCol sm="12">
-						<button @click="modal = true" class="float-right mb-4 ml-2 btn btn-light"><small> <i class="fa fa fa-file-excel-o mr-1"></i> Export .xlsx</small></button>	
-						<router-link to="/po/data-request-barang/add" class="float-right mb-4 btn btn-light"><small> <i class="fa fa-plus mr-1"></i> Tambah Request Barang</small></router-link>				
+						<button @click="storeExcel" class="float-right mb-4 ml-2 btn btn-light"><small> <i class="fa fa fa-file-excel-o mr-1"></i> Export .xlsx</small></button>	
+						<!-- <router-link to="/data-request-barang/add" class="float-right mb-4 btn btn-light"><small> <i class="fa fa-plus mr-1"></i> Tambah Request Barang</small></router-link>	 -->			
 						<v-client-table
 						:data="request_po"
 						:columns="tableFields"
@@ -23,10 +23,10 @@
 								<small class="btn btn-sm btn-danger" v-else-if="props.row.status == 5">Batal</small>
 							</div>
 							<div slot="aksi" slot-scope="props">
-								<router-link :to="'/po/data-request-barang/' + props.row.id" class="text-dark btn btn-secondary btn-sm m-1">
+								<router-link :to="'/data-request-barang/' + props.row.id" class="text-dark btn btn-secondary btn-sm m-1">
 									<i class="fa fa-eye"></i>
 								</router-link>
-								<router-link :to="'/po/data-request-barang/edit/' + props.row.id" class="text-primary btn btn-secondary btn-sm m-1">
+								<router-link :to="'/data-request-barang/edit/' + props.row.id" class="text-primary btn btn-secondary btn-sm m-1">
 									<i class="fa fa-edit"></i>
 								</router-link>
 								<button class="text-danger btn btn-secondary btn-sm m-1" @click="confirmRequestPO(props.row.id)">
@@ -38,34 +38,6 @@
 				</CRow>
 			</CCardBody>
 		</CCard>
-		<CModal
-
-	      :show.sync="modal"
-	      :no-close-on-backdrop="true"
-	      title="Export Data ke Excel"
-	      size="sm"
-	      color="dark"
-	    >	
-	      <CInput
-		      type="date"
-		      label="Dari"
-		      horizontal
-		      v-model="date.from"
-	       />	
-	       <CInput
-		      type="date"
-		      label="Sampai"
-		      horizontal
-		      v-model="date.to"
-	       />	
-	      <template #header>
-	        <h6 class="modal-title">Export Data ke Excel</h6>
-	        <CButtonClose @click="modal = false" class="text-white"/>
-	      </template>
-	      <template #footer>
-	        <CButton @click="storeExcel" color="success">{{exportLabel}}</CButton>
-	      </template>
-	    </CModal>
 	</div>	
 </template>
 <script type="text/javascript">
@@ -101,6 +73,10 @@
 						status: 'text-center align-middle',
 						aksi: 'text-center align-middle'
 					},
+					orderBy: {
+			            column: 'date',
+			            ascending: true
+		            }
 
 				},
 				request_po:[]
@@ -201,16 +177,6 @@
 				})
 			},
 			storeExcel() {
-				if(this.date.from == null || this.date.to == null)  {
-					this.$swal('Tanggal tidak boleh kosong', '', 'warning')
-					setTimeout(() => {
-						this.$swal.close()
-						return false
-					}, 2000)
-					
-					this.exportLabel = 'Mulai Export'
-					return false
-				}
 				this.exportLabel = 'Loading...'
 				exportExcel(this, 'https://young-temple-67589.herokuapp.com/api/excel/request/barang', {from:this.date.from, to:this.date.to}, {
 					responseType: 'blob',

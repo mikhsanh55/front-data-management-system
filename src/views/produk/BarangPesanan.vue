@@ -113,7 +113,7 @@
 					headers: {
 						'Authorization' : 'bearer ' + localStorage.token
 					}
-				}, 'barang pesanan.pdf', 'post')
+				}, 'barang pesanan.pdf')
 				.then(() => {
 					this.$swal.close()
 				})

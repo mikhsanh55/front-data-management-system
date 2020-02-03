@@ -342,29 +342,43 @@ function configRoutes () {
                   component: DetailOrderPO
                 }
               ]
-            },
+            }
+          ]
+        },
+        {
+          path: 'data-request-barang',
+          name: 'Request Barang',
+          component: RequestPO
+        },
+        
+        {
+          path: 'data-request-barang',
+          name: 'Request Barang',
+          redirect:'/data-request-barang',
+          component: {
+            render (c) { return c('router-view') }
+          },
+          children: [
             {
-              path: 'data-request-barang',
-              name: 'Request Barang',
-              component: RequestPO
-            },
-            {
-              path: 'data-request-barang/add',
+              path: 'add',
               name: 'Tambah Request Barang',
               component: AddRequestPO
             },
             {
-              path: 'data-request-barang/edit/:id',
+              path: '/edit/:id',
               name: 'Edit Request Barang',
               component: EditRequestPO
-            },
-            {
-              path: 'data-request-barang/:id',
-              name: 'Detail Request Barang',
-              component: DetailRequestPO
             }
+            
           ]
         },
+        
+        {
+          path: 'data-request-barang/:id',
+          name: 'Detail Request Barang',
+          component: DetailRequestPO
+        }
+        ,
         {
           path: 'sales',
           name: 'Sales',
