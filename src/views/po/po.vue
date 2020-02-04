@@ -170,7 +170,7 @@
 				this.pdf.type = val
 			},
 			storePDF() {
-				let url = '', filename = 'po.pdf'
+				let url = 'https://young-temple-67589.herokuapp.com/api/pdf/po/' + this.id, filename = 'po.pdf'
 				switch(this.pdf.type) {
 					case 'po':
 						url = 'https://young-temple-67589.herokuapp.com/api/pdf/po/' + this.id
@@ -196,7 +196,7 @@
 					headers: {
 						'Authorization' : 'bearer ' + localStorage.token
 					}
-				}, filename, 'post')
+				}, filename, 'get')
 				.then(() => {
 					this.$swal.close()
 				})
@@ -231,26 +231,24 @@
 				.catch(e => {
 					console.error('ADa error')
 					if(e.response.status == 401) {
-						this.$store.dispatch('logout')
-						.then(() => {
-							let path = window.location.href
-							path = path.split('/')
-							localStorage.setItem('prevPath', path[path.length - 1])
-							alert('Session Login kamu sudah habis! silahkan login kembali')
-							
-						})
-						.then(() => {
-							this.$router.replace({path: '/login'})
-						})
-						.catch(e => {
-							alert('An error occured when get data :(')
-							return false
-						})
+						this.$swal('Session Login kamu sudah habis!', 'Login lagi yah...', 'warning')
+				        this.$store.dispatch('logout')
+				        .then(() => {
+				          setTimeout(() => {
+				            this.$swal.close()
+				            this.$router.replace('/login')
+				          }, 1500)  
+				        })
+				        .catch(() => console.error(e))
 					}
 					else {
-						alert('Ada sedikit masalah di sisi server, harap hubungi pengembangnya :)')
 						console.log(e)
-						return false
+						this.$swal('Tidak bisa mengambil data!', 'Mohon Hubungi pengembangnya...', 'error')
+				        setTimeout(() => {
+				          this.$swal.close()
+				        }, 1500)
+				        return false
+
 					}
 				})
 			},

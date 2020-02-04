@@ -51,25 +51,25 @@
                           />
                           <CInput
                             type="text"
-                            :description="validator.sj_msg"
-                            :is-valid="validator.sj"
-                            @input="po.sj.length < 1 ? validator.sj = false : validator.sj = true"
-                            autocomplete="sj"
+                            :description="validator.no_surat_jalan_msg"
+                            :is-valid="validator.no_surat_jalan"
+                            @input="po.no_surat_jalan.length < 1 ? validator.no_surat_jalan = false : validator.no_surat_jalan = true"
+                            autocomplete="no_surat_jalan"
                             label="Nomer Surat Jalan"
                             horizontal
                             placeholder="Masukan Nomer Surat Jalan"
-                            v-model="po.sj"
+                            v-model="po.no_surat_jalan"
                           />
                           <CInput
                             type="text"
-                            :description="validator.invoice_msg"
-                            :is-valid="validator.invoice"
-                            @input="po.invoice.length < 1 ? validator.invoice = false : validator.invoice = true"
-                            autocomplete="invoice"
+                            :description="validator.no_invoice_msg"
+                            :is-valid="validator.no_invoice"
+                            @input="po.no_invoice.length < 1 ? validator.no_invoice = false : validator.no_invoice = true"
+                            autocomplete="no_invoice"
                             label="Nomer Invoice"
                             horizontal
-                            placeholder="Masukan Nomer Invoice"
-                            v-model="po.invoice"
+                            placeholder="Masukan Nomer no_Invoice"
+                            v-model="po.no_invoice"
                           />
                           <CInput
                             type="date"
@@ -195,10 +195,10 @@
           no_msg:null,
           tgl_po_masuk:null,
           tgl_po_masuk_msg:null,
-          sj:null,
-          sj_msg:null,
-          invoice:null,
-          invoice_msg:null,
+          no_surat_jalan:null,
+          no_surat_jalan_msg:null,
+          no_invoice:null,
+          no_invoice_msg:null,
           date:null,
           date_msg:null,
           date_line:null,
@@ -226,8 +226,8 @@
           other: null,
           catatan: null,
           tgl_po_masuk:null,
-          sj:null,
-          invoice:null
+          no_surat_jalan:null,
+          no_invoice:null
         }
       }
     },

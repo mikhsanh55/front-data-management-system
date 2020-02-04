@@ -118,7 +118,8 @@
 					this.karyawan.foto = 'https://young-temple-67589.herokuapp.com/' + res.foto
 				})
 				.catch(e => {
-					alert('Cannot get data!')
+					this.$swal('Tidak bisa mengambil data!', 'Mohon hubungi pengembangnya', 'error')
+					setTimeout(() => this.$swal.close())
 					console.error(e)
 					return false
 				})

@@ -76,7 +76,7 @@
 					showCancelButton:false,
 				})
 				
-				exportPDF(this, 'https://young-temple-67589.herokuapp.com/api/pdf/kwitansi', {
+				exportPDF(this, 'https://young-temple-67589.herokuapp.com/api/pdf/kwitansi/' + id, {
 					responseType: 'blob',
 					headers: {
 						'Authorization' : 'bearer ' + localStorage.token

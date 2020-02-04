@@ -7,8 +7,8 @@
           <CCard>
             <CCardHeader class="p-4">
               <div class="d-flex justify-content-around align-items-center">
-                <h3 class="align-middle">Aplikasi Alkes</h3>
-                <img class="align-middle" src="./alkes-96x96.png" width="40" height="40">  
+                <h4 class="align-middle">CV. SARANA ABDI BAKTI</h4>
+                <img class="align-middle ml-3" src="./alkes-96x96.png" width="40" height="40">  
 
               </div>
               <br>
@@ -158,13 +158,23 @@ export default {
             }
         })
         .then(() => {
+          let level = localStorage.level, homepath = '/'
+          if(level == 3) {
+            homepath = '/po'
+          }
+          else if(level == 4) {
+            homepath = '/stock-in-out'
+          }
+          else {
+            homepath = '/'
+          }
           this.$swal('Selamat Datang', 'Di Aplikasi Alkes', 'success')
           setTimeout(() => {
             this.notloading = true
             this.displayloading = false
             this.$swal.close()  
             setTimeout(() => {
-              this.$router.replace({path: '/'})
+              this.$router.replace({path: homepath})
             }, 1000)
           }, 3000)
           

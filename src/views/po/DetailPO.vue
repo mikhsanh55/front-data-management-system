@@ -191,7 +191,7 @@
 		},
 		methods: {
 			assignStatus(val) {
-				this.detailpo.status = value
+				this.detailpo.status = val
 			},
 			updateStatus() {
 				this.label = 'Loading...'

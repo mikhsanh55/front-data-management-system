@@ -451,7 +451,7 @@
 import MainChartExample from './charts/MainChartExample'
 import WidgetsDropdown from './widgets/WidgetsDropdown'
 import WidgetsBrand from './widgets/WidgetsBrand'
-import {checkPO, getDatas, fetchAll} from '@/containers/global-function.js'
+import {checkPO, getDatas} from '@/containers/global-function.js'
 export default {
   name: 'Dashboard',
   components: {
@@ -543,7 +543,32 @@ export default {
     }
   },
   created() {
+    let userData = JSON.parse(localStorage.user)
     checkPO(this)
+
+    getDatas(this, 'https://young-temple-67589.herokuapp.com/api/karyawan/' + userData.id_karyawan, {method:'POST', headers:{'Authorization': 'bearer ' + localStorage.token}}, 'post')
+    .then(res => console.log('Youre still Login!'))
+    .catch(e => {
+      console.log(e.response)
+      if(e.response.status == 401) {
+        this.$swal('Session Login kamu sudah habis!', 'Login lagi yah...', 'warning')
+        this.$store.dispatch('logout')
+        .then(() => {
+          setTimeout(() => {
+            this.$swal.close()
+            this.$router.replace('/login')
+          }, 1500)  
+        })
+        .catch(() => console.error(e))
+      }
+      else {
+        this.$swal('Tidak bisa mengambil data!', 'Mohon Hubungi pengembangnya...', 'error')
+        setTimeout(() => {
+          this.$swal.close()
+        }, 1500)
+        return false
+      }
+    })
   }
 }
 </script>
