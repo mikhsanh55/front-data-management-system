@@ -248,7 +248,8 @@
 		    	.catch(e => {
 		    		this.$swal.close()
 		    		this.$swal('Tidak bisa menghapus barang', '', 'error')
-		    		setTimeout(() => this.$swal.close())
+		    		setTimeout(() => this.$swal.close(), 1500)
+		    		return false
 		    	})
 		    },
 		    addToTable() {
@@ -349,7 +350,12 @@
 						})
 					})
 				})
-				.catch(e => console.error(e))	
+				.catch(e =>  {
+					console.error(e)
+					this.$swal('Tidak bisa mengambil data barang', 'Mohon hubungi pengembangnya', 'error')
+					setTimeout(() => this.$swal.close(), 1500)
+					return false
+				})	
 		    }
 		},
 		created() {

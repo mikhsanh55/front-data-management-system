@@ -229,11 +229,10 @@
 		    			'Authorization' : 'bearer ' + localStorage.token
 		    		}
 		    	}).then(() => {
+		    		this.barang = []
+		    		this.order_barang = []
 		    		this.fetchAll()
 					this.getDataTable()
-					.then((res) => {
-					})
-					.catch(e => console.error(e))
 					this.$swal.close()
 		    	})
 		    	.catch(e => {
@@ -266,8 +265,9 @@
 			    		}
 			    	})
 			    	.then((res) => {
+			    		this.order_barang = []
 			    		if(res.data.message)
-			    			this.$swal(res.data.message, '', 'warning')
+			    			this.$swal(res.data.message, '', 'success')
 			    			setTimeout(() => this.$swal.close(), 2500)
 			    		this.rpo = {
 							id_po:null,
@@ -327,50 +327,56 @@
 			    		}	
 		    		}
 		    	}) 
-		    	.catch(e => console.error(e))
+		    	.catch(e => {
+		    		console.error(e)
+					this.$swal('Tidak bisa mengambil data barang', 'Mohon hubungi pengembangnya', 'error')
+					setTimeout(() => this.$swal.close(), 1500)
+					return false
+		    	})
 		    },
 		    getDataTable() {
-		    	return new Promise((resolve, reject) => {
-				    this.$http.post('https://young-temple-67589.herokuapp.com/api/order/barang/po/detail/' + this.$route.params.id, {
-						headers:{
-							'Authorization':'bearer ' + localStorage.token
-						}
-					})
-					.then(res => {
-						let arr = []
-						arr = res.data
-						arr.forEach((item, i) => {
-							getDatas(this, 'https://young-temple-67589.herokuapp.com/api/barang/' + item.id_barang, { method:'POST', headers:{'Authorization': 'bearer ' + localStorage.token}}, 'POST')
-							.then(res => {
-								item.no = ++i
-								item.kode_barang = res.kode_barang
-								item.nama_barang = res.nama_barang
-								item.spesifikasi_barang = res.spesifikasi
-								item.harga_jual = Number(res.harga_jual)
-								item.total = ((item.harga_jual * item.qty) + item.tax) - (item.disc * (item.harga_jual * item.qty))
-								this.order_barang.push(item)
-							})
-							.catch(e => console.error(e))
-						})
 
-						return arr
+		    	getDatas(this, 'https://young-temple-67589.herokuapp.com/api/order/barang/po/detail/' + this.$route.params.id, {method:'post',headers: {'Authorization': 'bearer ' + localStorage.token}}, 'post')
+				.then(res => {
+					console.warn('REMIN')
+					console.log(res)
+					res.forEach((item, i) => {
+						getDatas(this, 'https://young-temple-67589.herokuapp.com/api/barang/' + item.id_barang, {method:'post', headers:{'Authorization': 'bearer ' + localStorage.token}}, 'post')
+						.then(res => {
+							let obj = {
+								id:item.id,
+								no:++i,
+								qty: item.qty,
+								tax: item.tax,
+								disc: item.disc,
+								kode_barang:res.kode_barang,
+								nama_barang:res.nama_barang,
+								spesifikasi_barang:res.spesifikasi,
+								harga_jual: res.harga_jual,
+								total: ((res.harga_jual * item.qty) + item.tax) - (item.disc * (res.harga_jual * item.qty))
+							}	
+							this.order_barang.push(obj)
+						})
+						.catch(e => {
+							console.error(e)
+							this.$swal('Tidak bisa mengambil data barang', 'Mohon hubungi pengembangnya', 'error')
+							setTimeout(() => this.$swal.close(),1500)
+							return false
+						})
 					})
-					.then(res => {
-						resolve(res)
-						console.log(res)
-					})
-					.catch(e => {
-						reject(e)
-					})	
-		    	})
-		    }
+				})
+				.catch(e => {
+					console.error(e)
+					this.$swal('Tidak bisa mengambil data barang', 'Mohon hubungi pengembangnya', 'error')
+					setTimeout(() => this.$swal.close(),1500)
+					return false
+				})	
+			}
+					
 		},
 		created() {
 			this.fetchAll()
 			this.getDataTable()
-			.then((res) => {
-			})
-			.catch(e => console.error(e))
 		}
 	}
 </script>
