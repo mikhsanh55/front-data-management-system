@@ -136,7 +136,7 @@
 				status: [],
 				label: 'Update Status PO',
 				data:this.$store.getters.userData,
-				tableFields:['no', 'foto', 'kode_barang', 'nama_barang', 'spesifikasi', 'stock'],
+				tableFields:['no', 'foto', 'kode_barang', 'nama_barang', 'spesifikasi'],
 				tableOptions: {
 					perPage:10,
 					pagination:{chunk:10, dropdown:false, edge:true, nav:'fixed'},
@@ -145,8 +145,7 @@
 			    		foto:'Foto',
 			    		kode_barang:'Kode Barang',
 			    		nama_barang:'Nama Barang',
-			    		spesifikasi:'Spesifikasi Barang',
-			    		stock: 'Stock'
+			    		spesifikasi:'Spesifikasi Barang'
 			    	},
 			    	sortable:['nama_barang'],
 			    	filterable:['nama_barang', 'kode_barang', 'spesifikasi', 'no'],
@@ -156,7 +155,6 @@
 			    		kode_barang:'align-middle',
 			    		nama_barang:'align-middle',
 			    		spesifikasi:'align-middle',
-			    		stock:'text-center align-middle',
 			    	}
 				},
 				po_barang:[],
@@ -231,8 +229,6 @@
 					console.log(res)
 					this.po = res
 					this.detailpo.status = res.status
-					this.po.sub_total = 0
-					this.po.sales_tax_rate = 0
 				})
 				.catch(e => {
 					console.error(e)

@@ -9,7 +9,7 @@
 				<CRow>
 					<CCol sm="12">
 
-						<button v-if="data.level == 5" @click="storeExcel" class="float-right mb-4 ml-2 btn btn-light"><small> <i class="fa fa fa-file-excel-o mr-1"></i> Export .xlsx</small></button>		
+						<button v-if="data.level == 5 || data.level == 2 || data.level == 1 || data.level == 3" @click="storeExcel" class="float-right mb-4 ml-2 btn btn-light"><small> <i class="fa fa fa-file-excel-o mr-1"></i> Export .xlsx</small></button>		
 						<router-link v-if="data.level == 5" to="/barang/add" class="float-right mb-4 btn btn-light"><small> <i class="fa fa-plus mr-1"></i> Tambah Barang</small></router-link>			
 						
 							<v-client-table
@@ -239,17 +239,19 @@
 			},
 			storeExcel() {
 				this.exportLabel = 'Loading...'
-				exportExcel(this, 'https://young-temple-67589.herokuapp.com/api/excel/barang', {from:this.date.from, to:this.date.to}, {
+				this.$swal('Mohon tunggu', '', 'info')
+				exportExcel(this, 'https://young-temple-67589.herokuapp.com/api/excel/barang', {from:null, to:null}, {
 					responseType: 'blob',
 					headers: {
 						'Authorization' : 'bearer ' + localStorage.token
 					}
 				}, 'barang.xls')
 				.then(() => {
-					this.modal = false
+					this.$swal.close()
 					this.exportLabel = 'Mulai Export'
 				})
 				.catch(e => {
+					this.$swal.close()
 					this.exportLabel = 'Mulai Export'
 					console.log(e)
 					this.$swal('Tidak bisa mengambil data', '', 'error')
@@ -340,6 +342,7 @@
 	}	
 	#barang_table .form-inline input[type=text] {
 		width: 130%;
+		margin-bottom: 25px;
 	}
 	#barang_table .form-inline {
 		margin:0;

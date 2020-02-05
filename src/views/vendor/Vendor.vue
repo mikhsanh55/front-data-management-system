@@ -7,7 +7,7 @@
 			<CCardBody>
 				<CRow>
 					<CCol sm="12">
-						<button @click="modal = true" class="float-right mb-4 ml-2 btn btn-light"><small> <i class="fa fa fa-file-excel-o mr-1"></i> Export .xlsx</small></button>		
+						<button @click="storeExcel" class="float-right mb-4 ml-2 btn btn-light"><small> <i class="fa fa fa-file-excel-o mr-1"></i> Export .xlsx</small></button>		
 						<router-link v-if="data.level != 2" to="/vendor/add" class="float-right mb-4 btn btn-light"><small> <i class="fa fa-plus mr-1"></i> Tambah Vendor</small></router-link>	
 						<v-client-table
 						:data="vendor"
@@ -101,25 +101,25 @@
 		},
 		methods: {
 			storeExcel() {
-				if(this.date == null)  {
-					this.$swal('Tanggal tidak boleh kosong', '', 'warning')
-					setTimeout(() => {
-						this.$swal.close()
-						return false
-					}, 2000)
-					this.exportLabel = 'Mulai Export'
-					return false
-				}
-				this.exportLabel = 'Loading...'
-				exportExcel(this, 'https://young-temple-67589.herokuapp.com/api/excel/vendor', {from:this.date.from, to:this.date.from}, {
+				this.$swal('Mohon tunggu...', '', 'info')
+				exportExcel(this, 'https://young-temple-67589.herokuapp.com/api/excel/vendor', {from:null, to:null}, {
 					responseType: 'blob',
 					headers: {
 						'Authorization' : 'bearer ' + localStorage.token
 					}
 				}, 'vendor.xls')
 				.then(() => {
-					this.modal = false
+					this.$swal.close()
+				})
+				.catch(e => {
 					this.exportLabel = 'Mulai Export'
+					console.log(e)
+					this.$swal('Tidak bisa mengambil data', '', 'error')
+					setTimeout(() => {
+						this.$swal.close()
+						this.modal = false
+					}, 2000)
+					return false
 				})
 			},
 			getData() {
