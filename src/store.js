@@ -170,12 +170,6 @@ let store = new Vuex.Store({
 				          icon: 'cil-pencil'
 			        },
 			        {
-			        	_name: 'CSidebarNavItem',
-				          name: 'Order Barang',
-				          to: '/po/data-order-barang',
-				          icon: 'cil-pencil'
-			        },
-			        {
 			        	  _name: 'CSidebarNavItem',
 				          name: 'Request Barang',
 				          to: '/data-request-barang',

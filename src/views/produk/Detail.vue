@@ -6,9 +6,8 @@
 			</CCardHeader>
 			<CCardBody>
 				<CRow class="mx-auto d-flex justify-content-center">
-					<CCol sm="12" class="mt-4">
-							<img :src="product.foto" style="border-radius:50%;width:70px;height: 70px;" />
-						
+					<CCol sm="12" class="mt-4 d-flex justify-content-center">
+						<img :src="product.foto" style="border-radius:50%;width:70px;height: 70px;" />
 					</CCol>
 				</CRow>
 				<br>
@@ -30,12 +29,12 @@
 							<tr>
 								<th class="w-50">Spesifikasi Barang</th>
 								<td>{{product.spesifikasi}}</td>
-							</tr>	
+							</tr>			
 							<tr>
 								<th class="w-50">Harga Jual</th>
 								<td>{{product.harga_jual}}</td>
 							</tr>
-							<tr>
+							<tr v-if="data.level == 1 || data.level == 2 || data.level == 5">
 								<th class="w-50">Harga Dasar</th>
 								<td> {{product.harga_dasar}} </td>
 							</tr>
@@ -69,6 +68,7 @@
 		name:'DetailListHarga',
 		data() {
 			return {
+				data:'',
 				product:[]	
 			}
 		},
@@ -95,19 +95,6 @@
 					console.log(e)
 					return false
 				})
-				// this.$http.post('https://young-temple-67589.herokuapp.com/api/barang/' + this.$route.params.id, {
-				// 	headers: {
-				// 		'Authorization':'bearer ' + localStorage.getItem('token')
-				// 	},
-				// 	redirect:'follow'
-				// })
-				// .then(res => {
-				// 	this.product = res.data
-				// 	console.log(res)
-				// })
-				// .catch(e => {
-				// 	console.log(e)
-				// })
 			}
 		},
 		filters: {
@@ -131,6 +118,7 @@
 		},
 		created() {
 			this.getData()
+			this.data = JSON.parse(localStorage.user)
 		}
 	}
 </script>

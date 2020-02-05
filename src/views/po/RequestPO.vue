@@ -7,6 +7,7 @@
 			<CCardBody>
 				<CRow>
 					<CCol sm="12">
+						<router-link v-if="data.level == 1 || data.level == 2 || data.level == 6" to="/data-request-barang/add" class="float-right mb-4 ml-2 btn btn-light"><small> <i class="fa fa-plus mr-1"></i> Tambah Request Barang</small></router-link>	
 						<button @click="modal = true" class="float-right mb-4 ml-2 btn btn-light"><small> <i class="fa fa fa-file-excel-o mr-1"></i> Export .xlsx</small></button>	
 						<v-client-table
 						:data="request_po"
@@ -74,6 +75,7 @@
 			return {
 				exportLabel: 'Mulai Export',
 				modal:false,
+				data:'',
 				date:{from:null, to:null},
 				tableFields: ['no', 'date', 'nama_barang', 'qty', 'keterangan', 'status', 'aksi'],
 				tableOptions: {
@@ -238,6 +240,7 @@
 		},
 		created() {
 			this.getData()
+			this.data = JSON.parse(localStorage.user)
 		}
 	}
 </script>

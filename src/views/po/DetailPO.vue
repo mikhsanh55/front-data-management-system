@@ -136,7 +136,7 @@
 				status: [],
 				label: 'Update Status PO',
 				data:this.$store.getters.userData,
-				tableFields:['no', 'foto', 'kode_barang', 'nama_barang', 'spesifikasi'],
+				tableFields:['no', 'foto', 'kode_barang', 'nama_barang', 'spesifikasi', 'disc', 'tax', 'total'],
 				tableOptions: {
 					perPage:10,
 					pagination:{chunk:10, dropdown:false, edge:true, nav:'fixed'},
@@ -145,20 +145,26 @@
 			    		foto:'Foto',
 			    		kode_barang:'Kode Barang',
 			    		nama_barang:'Nama Barang',
-			    		spesifikasi:'Spesifikasi Barang'
+			    		spesifikasi:'Spesifikasi Barang',
+			    		disc: 'Diskon',
+			    		tax: 'Tax',
+			    		total: 'Total'
 			    	},
 			    	sortable:['nama_barang'],
-			    	filterable:['nama_barang', 'kode_barang', 'spesifikasi', 'no'],
+			    	filterable:['nama_barang', 'kode_barang', 'spesifikasi', 'no', 'disc', 'tax', 'total'],
 			    	columnsClasses: {
 			    		no:'text-center align-middle',
 			    		foto: 'text-center align-middle',
 			    		kode_barang:'align-middle',
 			    		nama_barang:'align-middle',
 			    		spesifikasi:'align-middle',
+			    		disc:'align-middle',
+			    		tax:'align-middle',
+			    		total:'align-middle'
 			    	}
 				},
 				po_barang:[],
-				info_po:'',
+				info_po:[],
 				info_barang_po:[],
 				detailpo: {
 					status:2,
@@ -246,22 +252,21 @@
 					}, 'post')
 					.then(res => {
 						let arr = []
+						console.warn('Order Barang')
+						console.log(res)
 						this.info_po = res
 						this.info_po.forEach((item, i) => {
 							getDatas(this, 'https://young-temple-67589.herokuapp.com/api/barang/' + item.id_barang, { method:'POST', headers:{'Authorization': 'bearer ' + localStorage.token}}, 'POST')
 							.then(res => {
-								
-								item.nama_barang = res.nama_barang
-								item.kode_barang = 
-								item.spesifikasi = res.spesifikasi
-								item.foto = 
 								arr.push({
 									no:++i,
+									tax: item.tax,
+									disc: item.disc,
+									total:0,
 									foto:'https://young-temple-67589.herokuapp.com/' + res.foto,
 									kode_barang:res.kode_barang,
 									nama_barang: res.nama_barang,
 									spesifikasi: res.spesifikasi,
-									stock:res.stock
 								})
 								this.po.sub_total += res.harga_jual
 								this.po.sales_tax_rate += 0
