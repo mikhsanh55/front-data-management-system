@@ -103,7 +103,7 @@
 	</div>
 </template>
 <script type="text/javascript">
-	import {exportExcel, exportPDF} from '@/containers/global-function.js'
+	import {exportExcel, exportPDF, getDatas, deleteData} from '@/containers/global-function.js'
 	export default {
 		name: 'PO',
 		data() {
@@ -169,6 +169,25 @@
 			assignPDF(val) {
 				this.pdf.type = val
 			},
+			getData() {
+				getDatas(this, 'https://young-temple-67589.herokuapp.com/api/po', {
+					headers: {
+						'Authorization': 'bearer ' + localStorage.token
+					},
+					method:'get',
+					redirect: 'follow'
+				}, 'get')
+				.then(res => {
+					this.po = res
+					this.po.forEach((item, i) => {
+						item.nod = i + 1
+					})
+				})
+				.catch(e => {
+					console.error(e)
+					return false
+				})
+			},
 			storePDF() {
 				let url = 'https://young-temple-67589.herokuapp.com/api/pdf/po/' + this.id, filename = 'po.pdf'
 				switch(this.pdf.type) {
@@ -208,48 +227,6 @@
 						this.modal = false
 					}, 2000)
 					return false
-				})
-			},
-			getData() {
-				let headers = new Headers()
-				headers.append('Authorization', 'bearer ' + localStorage.getItem('token'))
-				let options = {
-					method:'GET',
-					headers,
-					redirect:'follow'
-				}
-				fetch('https://young-temple-67589.herokuapp.com/api/po', options)
-				.then(res => res.json())
-				.then(res => {
-					if(res.length > 0) {
-						this.po = res
-						for(let i = 0;i < this.po.length;i++) {
-							this.po[i].nod = i+1
-						}
-					}
-				})
-				.catch(e => {
-					console.error('ADa error')
-					if(e.response.status == 401) {
-						this.$swal('Session Login kamu sudah habis!', 'Login lagi yah...', 'warning')
-				        this.$store.dispatch('logout')
-				        .then(() => {
-				          setTimeout(() => {
-				            this.$swal.close()
-				            this.$router.replace('/login')
-				          }, 1500)  
-				        })
-				        .catch(() => console.error(e))
-					}
-					else {
-						console.log(e)
-						this.$swal('Tidak bisa mengambil data!', 'Mohon Hubungi pengembangnya...', 'error')
-				        setTimeout(() => {
-				          this.$swal.close()
-				        }, 1500)
-				        return false
-
-					}
 				})
 			},
 			storeExcel() {
@@ -303,12 +280,14 @@
 			      })
 			      .then((deleted) => {
 			      	if(deleted) {
-			      		this.$http.delete('https://young-temple-67589.herokuapp.com/api/po/' + id, {
-							headers: {
-								'Authorization': 'bearer ' + localStorage.token
-							}
-						})
-						.then(() => {
+			      		deleteData(this, 'https://young-temple-67589.herokuapp.com/api/po/' + id, {
+			      			method: 'delete',
+			      			headers: {
+			      				'Authorization': 'bearer ' + localStorage.token
+			      			},
+			      			redirect: 'follow'
+			      		})
+			      		.then(() => {
 							this.$swal('Data Purchase Order berhasil dihapus', 'Mohon tunggu sebentar...', 'success')
 							setTimeout(() => {
 								this.$swal.close()
@@ -323,6 +302,7 @@
 		                    }, 1500)
 							return false
 						})
+						
 			      	}
 			      	else {
 			      		this.$swal.close()

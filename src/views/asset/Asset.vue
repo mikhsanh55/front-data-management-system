@@ -99,7 +99,7 @@
 			      })
 				.then((deleted) => {
 					if(deleted) {
-						this.$http.delete('https://young-temple-67589.herokuapp.com/api/assets' + id, {
+						this.$http.delete('https://young-temple-67589.herokuapp.com/api/assets/' + id, {
 							headers: {
 								'Authorization':'bearer ' + localStorage.token
 							},

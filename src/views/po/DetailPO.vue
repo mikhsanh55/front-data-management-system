@@ -70,7 +70,7 @@
 							</tr>
 							<tr>
 								<th class="w-50">Status</th>
-								<td>
+								<td v-if="detailpo.status != 4">
 									<CSelect
 			                            horizontal
 			                            v-model="detailpo.status"
@@ -78,14 +78,17 @@
 			                            @update:value="assignStatus"
 			                          />  
 								</td>
+								<td v-else>
+									Sukses
+								</td>
 							</tr>
 							<tr>
 								<th class="w-50">Sub Total</th>
-								<td>Rp {{po.sub_total | formatMoney }}</td>
+								<td>{{po.sub_total}}</td>
 							</tr>
 							<tr>
 								<th class="w-50">Discount</th>
-								<td></td>
+								<td>{{po.disc}}</td>
 							</tr>
 							<tr>
 								<th class="w-50">Sales Tax Rate</th>
@@ -93,7 +96,7 @@
 							</tr>
 							<tr>
 								<th class="w-50">Grand Total</th>
-								<td></td>
+								<td>{{po.grand_total}}</td>
 							</tr>
 						</table>
 					</CCol>
@@ -189,7 +192,7 @@
 					tgl_po_masuk: null,
 					sub_total:0,
 					sales_tax_rate:0,
-					disc:0
+					disc:1
 				}	
 			}
 		},
@@ -221,16 +224,13 @@
 		        })
 			},
 			getData() {
-				let headers = new Headers()
-				headers.append('Authorization', 'bearer ' + localStorage.token)
-				let options = {
+				getDatas(this, 'https://young-temple-67589.herokuapp.com/api/po/' + this.$route.params.id, {
 					method: 'POST',
-					headers,
+					headers: {
+						'Authorization' :'bearer ' + localStorage.token
+					},
 					redirect: 'follow'
-				}
-
-				fetch('https://young-temple-67589.herokuapp.com/api/po/' + this.$route.params.id, options)
-				.then(res => res.json())
+				}, 'post')
 				.then(res => {
 					console.log(res)
 					this.po = res
@@ -241,7 +241,6 @@
 					return false
 				})
 			},
-
 		    getDataTable() {
 		    	return new Promise((resolve, reject) => {
 					getDatas(this, 'https://young-temple-67589.herokuapp.com/api/order/barang/po/detail/' + this.$route.params.id, {
@@ -258,22 +257,32 @@
 						this.info_po.forEach((item, i) => {
 							getDatas(this, 'https://young-temple-67589.herokuapp.com/api/barang/' + item.id_barang, { method:'POST', headers:{'Authorization': 'bearer ' + localStorage.token}}, 'POST')
 							.then(res => {
+								let total = item.qty * res.harga_jual, 
+								disc = Math.round((total - item.disc) / 100) - (item.tax / 100),
+								tax = ((total + item.tax) / 100 - disc).toFixed(2)
 								arr.push({
 									no:++i,
-									tax: item.tax,
-									disc: item.disc,
-									total:0,
+									total:total,
+									disc: disc,
+									tax: tax,
 									foto:'https://young-temple-67589.herokuapp.com/' + res.foto,
 									kode_barang:res.kode_barang,
 									nama_barang: res.nama_barang,
 									spesifikasi: res.spesifikasi,
 								})
-								this.po.sub_total += res.harga_jual
-								this.po.sales_tax_rate += 0
-							
+								console.warn(this.po.sub_total)
+								this.po.sub_total = 0
+								this.po.sub_total += total
+								this.po.disc = 0
+								this.po.disc += disc
+								this.po.tax = 0
+								this.po.tax += tax
+								this.po.sales_tax_rate = 0
+								this.po.grand_total = Math.round(( (this.po.sub_total - this.po.disc) + this.po.tax_rate) - this.po.sales_fee)
 							})
 							
 						})
+
 						resolve(arr)
 						// this.$http.post('https://young-temple-67589.herokuapp.com/api/barang/' + res.data.id_barang, {
 						// 	headers: {
@@ -320,7 +329,7 @@
 
 			// getOrderBarang()
 			// contoh aja
-			this.data = this.$store.getters.userData
+			this.data = JSON.parse(localStorage.user)
 			if(this.data.level == 6) {
 				this.status = [
 					{label: 'Request', value: 1},

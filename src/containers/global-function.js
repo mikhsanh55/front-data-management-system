@@ -61,16 +61,6 @@ export function exportPDF(self, url, options, filename, method = 'get') {
 			})
 	})
 }
-
-export function getDatas(self, url, options, method) {
-	return new Promise((resolve, reject) => {
-		fetch(url, options)
-		.then(res => res.json())
-		.then(res => resolve(res))
-		.catch(e => reject(e))
-	})
-}
-
 export function checkPO(self) {
 	return new Promise((resolve, reject) => {
 		self.$http.get('https://young-temple-67589.herokuapp.com/api/po', {
@@ -142,6 +132,11 @@ export function getOrderBarang() {
 	})
 }
 
+// CRUD FUNCTIONS SECTION
+
+/* digunakan untuk get data lebih dari 1 url
+ *
+ */
 export function fetchAll(urls, options) {
 	return new Promise((resolve, reject) => {
 		let i = -1
@@ -155,6 +150,98 @@ export function fetchAll(urls, options) {
 		.then(results => {
 			resolve(results)
 		})
+		.catch(e => reject(e))
+	})
+}
+
+/* digunakan untuk get data dengan id dan data all
+ *
+ */
+export function getDatas(self, url, options, method) {
+	return new Promise((resolve, reject) => {
+		fetch(url, options)
+		.then(res => {
+			if(res.status == 401) {
+				self.$swal('Maaf sesi login kamu sudah habis', 'silahkan login lagi yah...', 'warning')
+				setTimeout(() => {
+					self.$swal.close()
+					self.$store.dispatch('logout')
+					.then(() => self.$router.replace('/login'))
+				}, 1500)
+				return false
+			}
+			else if(res.status == 500) {
+				self.$swal('Tidak bisa mengambil data', 'Mohon hubungi pengembangnya...', 'error')
+				setTimeout(() => {
+					self.$swal.close()
+				}, 1500)
+				return false	
+			}
+			else {
+				return res.json()
+			}
+		})
+		.then(res => resolve(res))
+		.catch(e => reject(e))
+	})
+}
+
+export function postData(self, url, data, options) {
+	return new Promise((resolve, reject) => {
+		fetch(url, data, options)
+		.then(res => {
+			if(res.status == 401) {
+				self.$swal('Maaf sesi login kamu sudah habis', 'silahkan login lagi yah...', 'warning')
+				setTimeout(() => {
+					self.$swal.close()
+					self.$store.dispatch('logout')
+					.then(() => self.$router.replace('/login'))
+				}, 1500)
+				return false
+			}
+			else if(res.status == 500) {
+				self.$swal('Tidak bisa menambah data', 'Mohon hubungi pengembangnya...', 'error')
+				setTimeout(() => {
+					self.$swal.close()
+				}, 1500)
+				return false	
+			}
+			else {
+				return res.json()
+			}
+		})
+		.then(res => resolve(res))
+		.catch(e => reject(e))
+	})
+}
+/* digunakan untuk delete data by id
+ *
+ */
+export function deleteData(self, url, options) {
+	return new Promise((resolve, reject) => {
+		fetch(url, options)
+		.then(res => {
+			if(res.status == 401) {
+				self.$swal('Maaf sesi login kamu sudah habis', 'silahkan login lagi yah...', 'warning')
+				setTimeout(() => {
+					self.$swal.close()
+					self.$store.dispatch('logout')
+					.then(() => self.$router.replace('/login'))
+				}, 1500)
+				return false
+			}
+			else if(res.status == 500) {
+				self.$swal('Tidak bisa menghapus data', 'Mohon hubungi pengembangnya...', 'error')
+				setTimeout(() => {
+					self.$swal.close()
+				}, 1500)
+				return false	
+			}
+			else {
+				return res.json()
+			}
+		})
+		.then(res => resolve(res))
 		.catch(e => reject(e))
 	})
 }

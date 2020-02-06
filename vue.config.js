@@ -10,5 +10,10 @@ module.exports = {
   devServer: {
   	proxy: 'https://api-alkes.herokuapp.com',
     historyApiFallback:true
+  },
+  pwa: {
+    workboxOptions: {
+      skipWaiting: true
+    }
   }
 }

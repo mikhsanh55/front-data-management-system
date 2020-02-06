@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/bin/node /usr/share/yarn/bin/yarn.js install
+  /usr/bin/node /usr/share/yarn/bin/yarn.js add vuex-persistedstate
 
 PATH: 
   /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/ranmark/.yarn/bin:/home/ranmark/.yarn/bin
@@ -14,7 +14,7 @@ Platform:
   linux x64
 
 Trace: 
-  Error: EACCES: permission denied, unlink '/home/ranmark/Documents/ikhsan/alkes/node_modules/node-sass/vendor/win32-x64-72/binding.node'
+  Error: EACCES: permission denied, mkdir '/home/ranmark/Documents/ikhsan/alkes/node_modules/@vue/cli-plugin-e2e-nightwatch/node_modules/deepmerge'
 
 npm manifest: 
   {

@@ -290,6 +290,10 @@ export default {
       .then(res => {
         console.warn('HI')
         this.data = {...res[0]}
+      })
+      .catch(e => {
+        console.error('Ada error guys')
+        console.error(e)
       })  
     }  
     console.log(this.user)

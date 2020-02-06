@@ -136,6 +136,7 @@
 			    		kode_barang:'align-middle',
 			    		nama_barang:'align-middle',
 			    		spesifikasi:'align-middle',
+			    		stock:'text-center align-middle',
 			    		aksi:'text-center align-middle'
 			    	}
 			    },
@@ -151,14 +152,15 @@
 			    		harga_jual:'Harga Jual',
 			    		aksi:'Aksi'
 			    	},
-			    	sortable:['no', 'kode_barang', 'spesifikasi', 'nama_barang', 'harga_jual'],
-			    	filterable:['no', 'kode_barang', 'spesifikasi', 'nama_barang', 'harga_jual'],
+			    	sortable:['no', 'kode_barang', 'spesifikasi', 'nama_barang', 'harga_jual', 'stock'],
+			    	filterable:['no', 'kode_barang', 'spesifikasi', 'nama_barang', 'harga_jual', 'stock'],
 			    	columnsClasses: {
 			    		no:'text-center align-middle',
 			    		kode_barang:'align-middle',
 			    		nama_barang:'align-middle',
 			    		spesifikasi:'align-middle',
 			    		harga_jual:'text-center align-middle',
+			    		stock:'text-center align-middle',
 			    		aksi:'text-center align-middle'
 			    	}
 			    }

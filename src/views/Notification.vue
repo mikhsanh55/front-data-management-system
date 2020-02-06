@@ -64,7 +64,6 @@
 			}
 			else {
 				this.datas = null
-				console.log(this.datas)
 			}
 		}
 	}

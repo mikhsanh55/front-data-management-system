@@ -60,7 +60,7 @@
 	</div>
 </template>
 <script type="text/javascript">
-	import {exportExcel} from '@/containers/global-function.js'
+	import {exportExcel, getDatas, deleteData} from '@/containers/global-function.js'
 	export default {
 		name:"Karyawan",
 		data() {
@@ -110,7 +110,7 @@
 					return false
 				}
 				this.exportLabel = 'Loading...'
-				exportExcel(this, 'https://young-temple-67589.herokuapp.com/api/excel/karyawan', {from:this.date.from, to:this.date.from}, {
+				exportExcel(this, 'https://young-temple-67589.herokuapp.com/api/excel/karyawan', {from:null, to:null}, {
 					responseType: 'blob',
 					headers: {
 						'Authorization' : 'bearer ' + localStorage.token
@@ -147,8 +147,7 @@
 					headers,
 					redirect:'follow'
 				}
-				fetch(this.api_url, options)
-				.then(res => res.json())
+				getDatas(this, this.api_url, options)
 				.then(res => {
 					console.log(res)
 					this.karyawan = res
@@ -157,34 +156,8 @@
 					}
 				})
 				.catch(e => {
-					if(e.response.status == 401) {
-	                  this.$store.dispatch('logout')
-	                  .then(() => {
-	                    let path = window.location.href
-	                    path = path.split('/')
-	                    localStorage.setItem('prevPath', path[path.length - 1])
-	                    this.$swal('Sesi login kamu habis :(', 'login lagi yah :)', 'warning')
-	                    setTimeout(() => {
-	                      this.$swal.close()
-	                      this.$router.replace({path: '/login'})
-	                    }, 2000)
-	                    
-	                  })
-	                  .catch(e => {
-	                    this.$swal('Maaf tidak bisa hapus data :(', 'hubungi pengembangnya yah :)', 'danger')
-	                    setTimeout(() => {
-	                      this.$swal.close()
-	                    }, 2000)
-	                    return false
-	                  })
-	                }
-	                else if(e.response.status == 500) {
-						this.$swal('Maaf tidak bisa hapus data :(', 'hubungi pengembangnya yah :)', 'danger')
-	                    setTimeout(() => {
-	                      this.$swal.close()
-	                    }, 2000)
-					}
-					console.log(e.response)
+					console.warn('NGETEH ASU!')
+					console.error('Get Karyawan error woy ' + e)
 					return false
 				})
 			},
@@ -198,50 +171,23 @@
 			      })
 				.then((deleted) => {
 					if(deleted) {
-						this.$http.delete('https://young-temple-67589.herokuapp.com/api/karyawan/' + id, {
+						deleteData(this, 'https://young-temple-67589.herokuapp.com/api/karyawan/' + id, {
+							method: 'delete',
 							headers: {
 								'Authorization': 'bearer ' + localStorage.getItem('token')
 							},
-							redirect:'follow'
-						})
+							redirect:'follow'	
+						}, 'delete')
 						.then(res => {
-							this.$swal(res.data.message, '', 'success')
+							this.$swal('Data Karyawan berhasil dihapus', '', 'success')
 							setTimeout(() => {
 								this.$swal.close()	
 								this.getData()
 							}, 1500)
 						})
 						.catch(e => {
-							console.error(e.response)
-							if(e.response.status == 401) {
-			                  this.$store.dispatch('logout')
-			                  .then(() => {
-			                    let path = window.location.href
-			                    path = path.split('/')
-			                    localStorage.setItem('prevPath', path[path.length - 1])
-			                    this.$swal('Sesi login kamu hais :(', 'login lagi yah :)', 'warning')
-			                    setTimeout(() => {
-			                      this.$swal.close()
-			                      this.$router.replace({path: '/login'})
-			                    }, 2000)
-			                    
-			                  })
-			                  .catch(e => {
-			                    // alert('An error occured when get data :(')
-			                    this.$swal('Maaf tidak bisa hapus data :(', 'hubungi pengembangnya yah :)', 'danger')
-			                    setTimeout(() => {
-			                      this.$swal.close()
-			                    }, 2000)
-			                    return false
-			                  })
-			                }
-			                else if (e.response.status === 500) {
-								this.$swal('Maaf tidak bisa hapus data :(', 'hubungi pengembangnya yah :)', 'danger')
-			                    setTimeout(() => {
-			                      this.$swal.close()
-			                    }, 2000)
-								return false
-							}
+							console.warn('NGETEH ASU!')
+							console.error('Delete Karyawan error woy ' + e)
 							return false
 						})
 					}
@@ -253,7 +199,7 @@
 			}
 		},
 		created() {
-			this.data = this.$store.getters.userData
+			this.data = JSON.parse(localStorage.user)
 			setTimeout(() => {
 				this.getData()	
 			}, 500)

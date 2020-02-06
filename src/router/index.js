@@ -573,3 +573,8 @@ function configRoutes () {
   ]
 }
 
+function refresh(promise) {
+  promise.catch(e => {
+    window.location.reload()
+  })
+}

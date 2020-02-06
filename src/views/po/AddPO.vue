@@ -247,8 +247,8 @@
 					this.notif.add(this.po)
 
 					this.label = 'Loading...'
-					this.validMsg = true
-					this.$http.post('https://young-temple-67589.herokuapp.com/api/po', this.po, {
+					postData(this, 'https://young-temple-67589.herokuapp.com/api/po', this.po, {
+						method: 'post',
 						headers: {
 							'Authorization': 'bearer ' + localStorage.token
 						},
