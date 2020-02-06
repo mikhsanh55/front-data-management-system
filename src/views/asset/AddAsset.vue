@@ -113,7 +113,7 @@
 				asset: {
 					kode:null,
 					deskripsi_barang:null,
-					id_karyawan:null,
+					id_karyawan:1,
 					jabatan:null,
 					tanggal_beli:"0000-00-00",
 					tanggal_expired:"0000-00-00"
