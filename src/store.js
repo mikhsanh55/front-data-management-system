@@ -345,6 +345,7 @@ let store = new Vuex.Store({
 			              }
 			            }).then(res => {
 			            	localStorage.setItem('level', res.data.level)
+			            	
 			            	dispatch('filterMenu', res.data)
 			            	.then(() => {
 			            		localStorage.setItem('user', JSON.stringify(res.data))
@@ -353,7 +354,8 @@ let store = new Vuex.Store({
 			            		resolve(res.data)
 			            	})
 			            	.catch(e => {
-			            		console.error(e)
+			            		console.error('Error ASW')
+			            		console.error(e.response)
 			            		return false
 			            	})
 			            }).catch(e => reject(e))

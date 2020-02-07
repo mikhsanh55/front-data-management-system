@@ -146,6 +146,7 @@
 	</div>
 </template>
 <script type="text/javascript">
+	import {getDatas, postData} from '@/containers/global-function.js'
 	export default {
 		name:"AddKaryawan",
 		data() {
@@ -223,27 +224,26 @@
 	         }
 	      },
 	      	getJabatan() {
-	      		this.$http.get('https://young-temple-67589.herokuapp.com/api/jabatan', {
+	      		getDatas(this, 'https://young-temple-67589.herokuapp.com/api/jabatan', {
+	      			method: 'get',
 	      			headers: {
 	      				'Authorization': 'bearer ' + localStorage.token
-	      			}
-	      		})
+	      		}}, 'get')
 	      		.then(res => {
 	      			// console.log(res.data)
-	      			for(let i = 0;i < res.data.length;i++) {
+	      			for(let i = 0;i < res.length;i++) {
 	      				let obj = {}
-	      				obj.value = res.data[i].id
-	      				obj.label = res.data[i].nama
+	      				obj.value = res[i].id
+	      				obj.label = res[i].nama
 	      				this.jabatan.push(obj)
 	      			}
-	      			console.log(this.jabatan)
 	      		})
 	      		.catch(e => {
-	      			this.$swal('Maaf tidak bisa ambil data :(', 'hubungi pengembanya', 'danger')
+	      			this.$swal('Maaf tidak bisa ambil data :(', 'hubungi pengembangnya', 'error')
                     setTimeout(() => {
                       this.$swal.close()
                     }, 2000)
-	      			console.error(e.response)
+	      			console.error(e)
 	      			return false
 	      		})
 	      	},
@@ -317,19 +317,22 @@
 					if(this.karyawan.foto != null) {
 		              formData.append('foto', this.karyawan.foto)
 		            }
-
-					
+					// postData(this, 'https://young-temple-67589.herokuapp.com/api/karyawan', this.karyawan, {
+					// 	method: 'post',
+					// 	headers: {
+					// 		'Authorization': 'bearer ' + localStorage.token
+					// 	},
+					// 	redirect:'follow'
+					// })
 					this.$http.post('https://young-temple-67589.herokuapp.com/api/karyawan', formData, {
 						headers: {
-							'Authorization':'bearer ' + localStorage.getItem('token'),
-							'Access-Control-Allow-Origin': '*'
-						},
-						redirect:'follow'
+							'Authorization': 'bearer ' + localStorage.token
+						}
 					})
 					.then(res => {
 						this.label = 'Tambah Karyawan'
 						console.warn(res)
-						this.$swal(res.data.message, 'mohon tunggu sebentar...', 'success')
+						this.$swal('Data karyawan berhasil ditambah', 'mohon tunggu sebentar...', 'success')
 		                  setTimeout(() => {
 		                    this.$swal.close()
 		                    this.$router.push({path: '/karyawan'})
@@ -338,35 +341,9 @@
 					})
 					.catch(e => {
 						this.label = 'Tambah Karyawan'
-						if(e.response.status == 401) {
-		                  this.$store.dispatch('logout')
-		                  .then(() => {
-		                    let path = window.location.href
-		                    path = path.split('/')
-		                    localStorage.setItem('prevPath', path[path.length - 1])
-		                    this.$swal('Sesi login kamu habis :(', 'login lagi yah :)', 'warning')
-		                    setTimeout(() => {
-		                      this.$swal.close()
-		                      this.$router.replace({path: '/login'})
-		                    }, 2000)
-		                    
-		                  })
-		                  .catch(e => {
-		                    this.$swal('Maaf tidak bisa tambah data :(', 'hubungi pengembangnya yah :)', 'danger')
-		                    setTimeout(() => {
-		                      this.$swal.close()
-		                    }, 2000)
-		                    return false
-		                  })
-		                }
-		                else if(e.response.status == 500) {
-							this.$swal('Maaf tidak bisa tambah data :(', 'hubungi pengembangnya yah :)', 'danger')
-		                    setTimeout(() => {
-		                      this.$swal.close()
-		                    }, 2000)
-						}
-						console.log(e.response)
-						return false
+						this.$swal('Tidak bisa menambah data', 'Mohon hubungi pengembanya...', 'error')
+						setTimeout(() => this.$swal.close(), 1500)
+						console.error('Error ASW ' + e)
 					})
 				}
 				else {

@@ -30,7 +30,7 @@
                 <CRow>
                   <CCol col="12">
                     <CButton color="primary" class="px-4 w-100 mt-3" @click.prevent="sendEmail" @keyup.enter="sendEmail" type="submit">
-                    	<span>Send my password</span>
+                    	<span>{{label}}</span>
                     	<spring-spinner
                           :class="{'d-none':notloading, 'd-inline-block':displayloading}"
                           :animation-duration="2000"
@@ -63,7 +63,8 @@
 				errorHide:false,
 				notloading:true,
 				displayloading:false,
-				errors:[]
+				errors:[],
+				label: 'Send my password'
 			}
 		},
 		components: {
@@ -88,13 +89,29 @@
         			this.displayloading = false
 				}
 
-				if(this.errors.length > 0) {
-					setTimeout(() => {
-			          this.errorHide = true
-			          this.errors = []
-			          this.errorHide = false
-			          return false
-			        }, 3000)
+				if(this.errors.length == 0) {
+					this.label = 'Loading...'		
+					this.$http.post(localStorage.base_api + 'auth/lupa/password', {email:this.email})
+					.then(res => {
+						console.log(res)
+							this.label = 'Send my password'
+							this.notloading = true
+        					this.displayloading = false
+							this.$swal(res.data.message, 'Harap di cek yah emailnya...', 'info')
+							setTimeout(() => {
+								this.$swal.close()
+								this.email = null
+							}, 2500)
+					})
+					.catch(e => {
+						this.label = 'Send my password'
+							this.notloading = true
+        					this.displayloading = false
+						console.error(e)
+					})
+				}
+				else {
+
 				}
 			},
 			validateEmail(email) {

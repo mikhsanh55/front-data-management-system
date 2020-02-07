@@ -119,6 +119,7 @@
   </div>
 </template>
 <script>
+  import {getDatas} from '@/containers/global-function.js'
   export default {
     name: 'EditKonsumen',
     data() {
@@ -164,8 +165,7 @@
           headers,
           redirect:'follow'
         }
-        fetch("https://young-temple-67589.herokuapp.com/api/konsumen/" + this.$route.params.id, options)
-        .then(response => response.json())
+        getDatas(this, "https://young-temple-67589.herokuapp.com/api/konsumen/" + this.$route.params.id, options)
         .then(result => {
           this.konsumen = result
         })

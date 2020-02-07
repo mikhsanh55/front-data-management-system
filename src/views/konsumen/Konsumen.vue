@@ -34,7 +34,7 @@
 	</div>
 </template>
 <script>
-	import {exportExcel} from '@/containers/global-function.js'
+	import {exportExcel, getDatas} from '@/containers/global-function.js'
 	export default {
 		name: 'Konsumen',
 		data () {
@@ -140,8 +140,7 @@
 						
 			},
 			getData() {
-
-				this.$http.get('https://young-temple-67589.herokuapp.com/api/konsumen', {
+				getDatas(this, 'https://young-temple-67589.herokuapp.com/api/konsumen', {
 					headers: {
 						'Authorization': 'bearer ' + localStorage.getItem('token'),
 						'Access-Control-Allow-Origin': '*',
@@ -149,7 +148,7 @@
 					}
 				})
 				.then(response => {
-					this.tableItem = response.data
+					this.tableItem = response
 					for(let i = 0;i < this.tableItem.length;i++) {
 						this.tableItem[i].no = i+1
 					}

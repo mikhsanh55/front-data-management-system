@@ -144,6 +144,7 @@
 </template>
 <script type="text/javascript">
 	import Notif from '@/containers/notif.js'
+	import {postData} from '@/containers/global-function.js'
 	export default {
 		name: 'AddPO',
 		data() {
@@ -247,8 +248,7 @@
 					this.notif.add(this.po)
 
 					this.label = 'Loading...'
-					postData(this, 'https://young-temple-67589.herokuapp.com/api/po', this.po, {
-						method: 'post',
+					this.$http.post('https://young-temple-67589.herokuapp.com/api/po', this.po, {
 						headers: {
 							'Authorization': 'bearer ' + localStorage.token
 						},

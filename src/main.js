@@ -16,7 +16,7 @@ Vue.use(ClientTable)
 
 
 const token = localStorage.getItem('token')
-
+localStorage.setItem('base_api', 'https://young-temple-67589.herokuapp.com/api/')
 let app = new Vue({
   el: '#app',
   router,
