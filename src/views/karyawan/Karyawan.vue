@@ -71,6 +71,7 @@
 				exportLabel: 'Mulai Export',
 				id:0,
 				uri:localStorage.base_uri,
+				
 				data:'',
 				api_url:'',
 				smallModal:false,
