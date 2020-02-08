@@ -129,8 +129,8 @@
 					}
 				})
 				.then(res => {
-					console.log(res.data)
-					this.vendor = res.data
+					console.log(res)
+					this.vendor = res
 					for(let i = 0;i < this.vendor.length;i++) {
 						this.vendor[i].no = i+1
 					}

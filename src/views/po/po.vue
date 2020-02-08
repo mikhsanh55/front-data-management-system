@@ -192,14 +192,14 @@
 				let url =  localStorage.base_api + 'pdf/po/' + this.id, filename = 'po.pdf'
 				switch(this.pdf.type) {
 					case 'po':
-						url = localStorage.base_api + 'po/' + this.id
+						url = localStorage.base_api + 'pdf/po/' + this.id
 						break
 					case 'surat-jalan':
-						url = localStorage.base_api + 'po/jalan/' + this.id	
+						url = localStorage.base_api + 'pdf/po/jalan/' + this.id	
 						filename = 'Surat Jalan.pdf'
 						break
 					case 'invoice':
-						url = localStorage.base_api + 'po/invoice/' + this.id	 
+						url = localStorage.base_api + 'pdf/po/invoice/' + this.id	 
 						filename = 'Invoice.pdf'
 						break
 				}

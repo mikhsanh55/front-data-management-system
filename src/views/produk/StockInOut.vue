@@ -75,9 +75,9 @@
 					}
 				})
 				.then(res => {
-					console.log(res.data)
+					console.log(res)
 						let index = 0
-						this.stockinout = res.data
+						this.stockinout = res
 						this.stockinout.forEach((r) => {
 							r.no = index + 1
 							index++

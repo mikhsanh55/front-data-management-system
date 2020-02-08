@@ -273,7 +273,7 @@
 					redirect:'follow'
 				})
 				.then(response => {
-					this.tableItem = response.data
+					this.tableItem = response
 					for(let i = 0;i < this.tableItem.length;i++) {
 						this.tableItem[i].no = i+1;
 					}

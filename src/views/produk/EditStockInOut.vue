@@ -16,8 +16,7 @@
 				                @update:value="assignBarang"
 				                v-model="stockinout.id_barang"
 				              />  
-				            <
-				            CInput
+				            <CInput
 		                        type="text"
 		                        :description="validator.qty_msg"
 		                        :is-valid="validator.qty"
