@@ -93,7 +93,7 @@
 					
 					this.barang_pesanan.tanggal = this.barang_pesanan.tanggal_pesanan
 					this.label = 'Loading...'
-					this.$http.post('https://young-temple-67589.herokuapp.com/api/barang/pesanan/edit/' + this.$route.params.id, this.barang_pesanan, {
+					this.$http.post(localStorage.base_api + 'barang/pesanan/edit/' + this.$route.params.id, this.barang_pesanan, {
 						headers: {
 							'Authorization': 'bearer ' + localStorage.getItem('token')
 						},
@@ -145,7 +145,7 @@
 			}
 		},
 		created() {
-			getDatas(this, 'https://young-temple-67589.herokuapp.com/api/barang/pesanan/' + this.$route.params.id, {
+			getDatas(this, localStorage.base_api + 'barang/pesanan/' + this.$route.params.id, {
 				method:'POST',
 				headers: {
 					'Authorization': 'bearer ' + localStorage.token

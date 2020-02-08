@@ -87,7 +87,7 @@
 		},
 		methods: {
 			getJabatan() {
-				this.$http.get('https://young-temple-67589.herokuapp.com/api/jabatan', {
+				this.$http.get(localStorage.base_api + 'jabatan', {
 	      			headers: {
 	      				'Authorization': 'bearer ' + localStorage.token
 	      			}
@@ -116,7 +116,7 @@
 					headers,
 					redirect:'follow'
 				}
-				fetch('https://young-temple-67589.herokuapp.com/api/karyawan', options)
+				fetch(localStorage.base_api + 'karyawan', options)
 				.then(res => res.json())
 				.then(res => {
 					for(let i = 0;i < res.length;i++) {
@@ -158,7 +158,7 @@
 				if(!this.errors.length) {
 					console.log(this.user)
 					this.label = 'Loading...'
-					this.$http.post('https://young-temple-67589.herokuapp.com/api/user', this.user, {
+					this.$http.post(localStorage.base_api + 'user', this.user, {
 						headers: {
 							'Authorization': 'bearer ' + localStorage.getItem('token')
 						},

@@ -38,6 +38,7 @@
 	</div>
 </template>
 <script type="text/javascript">
+	import {getDatas} from '@/containers/global-function.js'
 	export default {
 		name: 'DetailUser',
 		data() {
@@ -60,8 +61,7 @@
 					headers,
 					redirect:'follow'
 				}
-				fetch('https://young-temple-67589.herokuapp.com/api/user/' + this.$route.params.id, options)
-				.then(res => res.json())
+				getDatas(this, localStorage.base_api + 'user/' + this.$route.params.id, options)
 				.then(res => {
 					this.user = res
 				})

@@ -162,7 +162,7 @@
 		},
 		methods: {
 			getVendor() {
-				this.$http.get('https://young-temple-67589.herokuapp.com/api/vendor', {
+				this.$http.get(localStorage.base_api + 'vendor', {
 					headers: {
 						'Authorization': 'bearer ' + localStorage.token
 					}
@@ -272,7 +272,7 @@
 
 	         	if(!this.errors.length) {
 	         		this.label = 'Loading...'
-	         		this.$http.post('https://young-temple-67589.herokuapp.com/api/barang', this.barang, {
+	         		this.$http.post(localStorage.base_api + 'barang', this.barang, {
 	         			headers: {
 	         				'Authorization':'bearer ' + localStorage.token
 	         			},
@@ -280,7 +280,7 @@
 	         		})
 	         		.then(res => {
 	         			this.label = 'Tambah Barang'
-	         			this.$swal(res.data.message, 'hubungi pengembanya', 'success')
+	         			this.$swal(res.data.message, 'hubungi pengembangya', 'success')
 	                    setTimeout(() => {
 	                      this.$swal.close()
 	                      this.$router.push({path: '/barang'})

@@ -41,7 +41,7 @@
 											<router-link v-if="data.level != 2" title="edit po" :to="'/po/edit/' + props.row.id" class="text-primary btn btn-secondary btn-sm mr-2"><i class="fa fa-edit"></i>
 											</router-link>
 											<button  v-if="data.level != 2" title="export pdf" class="text-danger btn btn-secondary btn-sm mr-2" @click="confirmPDF(props.row.id)"><i class="fa fa-file-pdf-o" ref="id" :id="props.row.id"></i></button>
-											<button  v-if="data.level != 2 && data.level != 6 && data.level != 3" title="hapus po" class="text-danger btn btn-secondary btn-sm" @click="deletePO(props.row.id)"><i class="fa fa-trash" ref="id" :id="props.row.id"></i></button>
+											<button v-if="data.level != 2 && data.level != 6 && data.level != 3" title="hapus po" class="text-danger btn btn-secondary btn-sm" @click="deletePO(props.row.id)"><i class="fa fa-trash" ref="id" :id="props.row.id"></i></button>
 										
 									</td>
 								</v-client-table>
@@ -170,7 +170,7 @@
 				this.pdf.type = val
 			},
 			getData() {
-				getDatas(this, 'https://young-temple-67589.herokuapp.com/api/po', {
+				getDatas(this, localStorage.base_api + 'po', {
 					headers: {
 						'Authorization': 'bearer ' + localStorage.token
 					},
@@ -189,17 +189,17 @@
 				})
 			},
 			storePDF() {
-				let url = 'https://young-temple-67589.herokuapp.com/api/pdf/po/' + this.id, filename = 'po.pdf'
+				let url =  localStorage.base_api + 'pdf/po/' + this.id, filename = 'po.pdf'
 				switch(this.pdf.type) {
 					case 'po':
-						url = 'https://young-temple-67589.herokuapp.com/api/pdf/po/' + this.id
+						url = localStorage.base_api + 'po/' + this.id
 						break
 					case 'surat-jalan':
-						url = 'https://young-temple-67589.herokuapp.com/api/pdf/po/jalan/' + this.id	
+						url = localStorage.base_api + 'po/jalan/' + this.id	
 						filename = 'Surat Jalan.pdf'
 						break
 					case 'invoice':
-						url = 'https://young-temple-67589.herokuapp.com/api/pdf/po/invoice/' + this.id	 
+						url = localStorage.base_api + 'po/invoice/' + this.id	 
 						filename = 'Invoice.pdf'
 						break
 				}
@@ -249,7 +249,7 @@
 				}
 
 				this.exportLabel = 'Loading...'
-				exportExcel(this, 'https://young-temple-67589.herokuapp.com/api/excel/po', {from:this.date.from, to:this.date.to}, {
+				exportExcel(this, localStorage.base_api + 'excel/po', {from:this.date.from, to:this.date.to}, {
 					responseType: 'blob',
 					headers: {
 						'Authorization' : 'bearer ' + localStorage.token
@@ -280,7 +280,7 @@
 			      })
 			      .then((deleted) => {
 			      	if(deleted) {
-			      		deleteData(this, 'https://young-temple-67589.herokuapp.com/api/po/' + id, {
+			      		deleteData(this, localStorage.base_api + 'po/' + id, {
 			      			method: 'delete',
 			      			headers: {
 			      				'Authorization': 'bearer ' + localStorage.token
@@ -296,7 +296,7 @@
 							
 						})
 						.catch(e => {
-							this.$swal('Tidak bisa ambil data', 'hubungi pengembangnya...', 'danger')
+							this.$swal('Tidak bisa ambil data', 'hubungi pengembangnya...', 'error')
 		                    setTimeout(() => {
 		                    	this.$swal.close()
 		                    }, 1500)
@@ -334,7 +334,7 @@
 			this.getData()
 		},
 		mounted() {
-			this.data = this.$store.getters.userData
+			this.data = JSON.parse(localStorage.user)
 		}
 	}
 </script>

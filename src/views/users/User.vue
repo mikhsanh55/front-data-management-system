@@ -34,6 +34,7 @@
 	</div>
 </template>
 <script type="text/javascript">
+	import {getDatas} from '@/containers/global-function.js'
 	export default {
 		name:"User",
 		data() {
@@ -75,8 +76,7 @@
 					redirect: 'follow'
 				}
 
-				fetch('https://young-temple-67589.herokuapp.com/api/user', options)
-				.then(res => res.json())
+				getDatas(this, localStorage.base_api + 'user', options)
 				.then(res => {
 					console.log(res)
 					if(res.errcode == 40001) {
@@ -122,7 +122,7 @@
 			      })
 				.then((deleted) => {
 					if(deleted)	 {
-						this.$http.delete('https://young-temple-67589.herokuapp.com/api/user/' + id, {
+						this.$http.delete(localStorage.base_api + 'user/' + id, {
 							headers: {
 								'Authorization':'bearer ' + localStorage.token
 							}
@@ -160,7 +160,7 @@
 			this.getData()
 		},
 		mounted() {
-			this.data = this.$store.getters.userData
+			this.data = JSON.parse(localStorage.user)
 			console.log(this.data)
 		}
 	}

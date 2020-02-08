@@ -30,6 +30,7 @@
 	</div>
 </template>
 <script type="text/javascript">
+	import {getDatas} from '@/containers/global-function.js'
 	export default {
 		name:'StockInOut',
 		data() {
@@ -68,7 +69,7 @@
 		},
 		methods: {
 			getData() {
-				this.$http.get('https://young-temple-67589.herokuapp.com/api/stock', {
+				getDatas(this, localStorage.base_api + 'stock', {
 					headers: {
 						'Authorization': 'bearer ' + localStorage.token
 					}
@@ -131,7 +132,7 @@
 			      })
 				.then((del) => {
 					if(del) {
-						this.$http.delete('https://young-temple-67589.herokuapp.com/api/stock/' + id, {
+						this.$http.delete(localStorage.base_api + 'stock/' + id, {
 							headers: {
 								'Authorization':'bearer ' + localStorage.getItem('token')
 							},

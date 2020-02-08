@@ -15,7 +15,7 @@
 						<table class="table table-borderless">
 							<tr>
 								<td>Foto Profile</td>
-								<td><img :src="'https://young-temple-67589.herokuapp.com/' + user.foto" width="100" height="100" /></td>
+								<td><img :src="uri + user.foto" width="100" height="100" /></td>
 							</tr>
 							<tr>
 								<td>Nama</td>
@@ -60,18 +60,19 @@
 				label: 'Ubah Password',
 				user:'',
 				password:null,
-				confirmPassword:null
+				confirmPassword:null,
+				uri:localStorage.base_uri
 			}
 		},
 		methods: {
 			getData(id) {
-				// this.$http.post('https://young-temple-67589.herokuapp.com/api/karyawan/' + id, {
+				// this.$http.post(localStorage.base_api + 'karyawan/' + id, {
 				// 	headers: {
 				// 		'Authorization':'bearer ' + localStorage.getItem('token')
 				// 	},
 				// 	redirect:'follow'
 				// })
-				getDatas(this, 'https://young-temple-67589.herokuapp.com/api/karyawan/' + id, {method:'post', headers:{'Authorization':'bearer ' + localStorage.token}}, 'post')
+				getDatas(this, localStorage.base_api + 'karyawan/' + id, {method:'post', headers:{'Authorization':'bearer ' + localStorage.token}}, 'post')
 				.then(res => {
 					console.log(res)
 				})
@@ -95,7 +96,7 @@
 				}
 				else {
 					this.label = 'Loading...'
-					this.$http.post('https://young-temple-67589.herokuapp.com/api/user/password/edit/' + user.id, {new_password:this.password, new_password_confirmation:this.confirmPassword}, {
+					this.$http.post(localStorage.base_api + 'user/password/edit/' + user.id, {new_password:this.password, new_password_confirmation:this.confirmPassword}, {
 						headers: {
 							'Authorization': 'bearer ' + localStorage.token
 						}
@@ -115,7 +116,7 @@
 		},
 		created() {
 			let user = JSON.parse(localStorage.user)
-			getDatas(this, 'https://young-temple-67589.herokuapp.com/api/karyawan/' + user.id_karyawan, {
+			getDatas(this, localStorage.base_api + 'karyawan/' + user.id_karyawan, {
 				method:'post',
 				headers: {
 					'Authorization' : 'bearer ' + localStorage.token

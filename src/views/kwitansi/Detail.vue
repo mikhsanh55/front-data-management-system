@@ -42,6 +42,7 @@
 	</div>
 </template>
 <script type="text/javascript">
+	import {getDatas} from '@/containers/global-function.js'
 	export default {
 		name: 'DetailKwitansi',
 		data() {
@@ -64,8 +65,7 @@
 					headers,
 					redirect:'follow'
 				}
-				fetch('https://young-temple-67589.herokuapp.com/api/Kwitansi/' + this.$route.params.id, options)
-				.then(res => res.json())
+				getDatas(this, 'https://young-temple-67589.herokuapp.com/api/Kwitansi/' + this.$route.params.id, options)
 				.then(res => {
 					this.kwitansi = res
 				})

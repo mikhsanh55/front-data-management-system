@@ -64,7 +64,7 @@
 	</div>
 </template>
 <script>
-	import {exportExcel, exportPDF} from '@/containers/global-function.js'
+	import {exportExcel, exportPDF, getDatas} from '@/containers/global-function.js'
 	export default {
 		name: 'BarangPesanan',
 		data() {
@@ -108,7 +108,7 @@
 					showCancelButton:false,
 				})
 				
-				exportPDF(this, 'https://young-temple-67589.herokuapp.com/api/pdf/barang/pesanan/' + id, {
+				exportPDF(this, localStorage.base_api + 'pdf/barang/pesanan/' + id, {
 					responseType: 'blob',
 					headers: {
 						'Authorization' : 'bearer ' + localStorage.token
@@ -128,7 +128,7 @@
 				})
 			},
 			getData() {
-				this.$http.get('https://young-temple-67589.herokuapp.com/api/barang/pesanan', {
+				getDatas(this, localStorage.base_api + 'barang/pesanan', {
 					headers: {
 						'Authorization': 'bearer ' + localStorage.token
 					},
@@ -179,7 +179,7 @@
 			      })
 			      .then((del) => {
 			      	if(del)	{
-			      		this.$http.delete('https://young-temple-67589.herokuapp.com/api/barang/pesanan/' + id, {
+			      		this.$http.delete(localStorage.base_api + 'barang/pesanan/' + id, {
 							headers: {
 								'Authorization':'bearer ' + localStorage.getItem('token')
 							},
@@ -218,7 +218,7 @@
 					return false
 				}
 				this.exportLabel = 'Loading...'
-				exportExcel(this, 'https://young-temple-67589.herokuapp.com/api/excel/barang/pesanan', {from:this.date.from, to:this.date.to}, {
+				exportExcel(this, localStorage.base_api + 'excel/barang/pesanan', {from:this.date.from, to:this.date.to}, {
 					responseType: 'blob',
 					headers: {
 						'Authorization' : 'bearer ' + localStorage.token

@@ -37,6 +37,7 @@
 	</div>
 </template>
 <script type="text/javascript">
+	import {getDatas} from '@/containers/global-function.js'
 	export default {
 		name: 'DetailRequestPO',
 		data() {
@@ -54,8 +55,7 @@
 					redirect: 'follow'
 				}
 
-				fetch('https://young-temple-67589.herokuapp.com/api/request/barang/' + this.$route.params.id, options)
-				.then(res => res.json())
+				getDatas(this, localStorage.base_api + 'request/barang/' + this.$route.params.id, options)
 				.then(res => {
 					this.request_po = res
 				})

@@ -110,7 +110,7 @@
 					return false
 				}
 				this.exportLabel = 'Loading...'
-				exportExcel(this, 'https://young-temple-67589.herokuapp.com/api/excel/order/barang', {from:this.date.from, to:this.date.to}, {
+				exportExcel(this,localStorage.base_api + 'excel/order/barang', {from:this.date.from, to:this.date.to}, {
 					responseType: 'blob',
 					headers: {
 						'Authorization' : 'bearer ' + localStorage.token
@@ -133,14 +133,12 @@
 			}	
 		},
 		created() {
-			// this.getData()
-			// getOrderBarang()
-			getDatas(this, 'https://young-temple-67589.herokuapp.com/api/order/barang/po', {headers:{'Authorization' : 'bearer ' + localStorage.token}}, 'get')
+			getDatas(this, localStorage.base_api + 'order/barang/po', {headers:{'Authorization' : 'bearer ' + localStorage.token}}, 'get')
 			.then(res => {
 				let data = res, arr = []
 				data.forEach((item, i) => {
 					i += 1
-					getDatas(this, 'https://young-temple-67589.herokuapp.com/api/barang/' + item.id_barang, {method:'post', headers:{'Authorization':'bearer ' + localStorage.token}}, 'post')
+					getDatas(this, localStorage.base_api + 'barang/' + item.id_barang, {method:'post', headers:{'Authorization':'bearer ' + localStorage.token}}, 'post')
 					.then(res => {
 						
 						let obj = {}

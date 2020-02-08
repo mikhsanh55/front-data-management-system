@@ -112,7 +112,7 @@
 
 				if(!this.errors.length) {
 					this.label = 'Loading...'
-					this.$http.post('https://young-temple-67589.herokuapp.com/api/kwitansi', this.kwitansi, {
+					this.$http.post(localStorage.base_api + 'kwitansi', this.kwitansi, {
 						headers: {
 							'Authorization':'bearer ' + localStorage.getItem('token')
 						},
@@ -135,14 +135,14 @@
 	                    }, 1500)
 	                    return false
 						this.label = 'Tambah Kwitansi'
-						console.log(e.response)
+						console.log(e)
 						return false
 					})
 				}
 			}
 		},
 		created() {
-			getDatas(this, 'https://young-temple-67589.herokuapp.com/api/po', {headers:{'Authorization': 'bearer ' + localStorage.token}}, 'get')
+			getDatas(this, localStorage.base_api + 'po', {headers:{'Authorization': 'bearer ' + localStorage.token}}, 'get')
 			.then(res => {
 				console.log(res)
 				this.po = res
@@ -168,12 +168,13 @@
                   })
                   .catch(e => {
                     alert('An error occured when get data :(')
+                    console.errr('error add kwitansi' + e)
                     return false
                   })
                 }
                 else {
 					alert('There an error occured')
-					console.log(e.response)
+					console.log(e)
 					return false
 				}
 			})

@@ -248,7 +248,7 @@
 					this.notif.add(this.po)
 
 					this.label = 'Loading...'
-					this.$http.post('https://young-temple-67589.herokuapp.com/api/po', this.po, {
+					this.$http.post(localStorage.base_api + 'po', this.po, {
 						headers: {
 							'Authorization': 'bearer ' + localStorage.token
 						},
@@ -329,7 +329,7 @@
 		      },
 			fetchAll() {
 		        let self = this
-		        this.getRequest('https://young-temple-67589.herokuapp.com/api/sales', function(data){
+		        this.getRequest(localStorage.base_api + 'sales', function(data){
 		          for(let i = 0;i < data.length;i++) {
 		            let obj = {}
 		            obj.value = data[i].id
@@ -337,7 +337,7 @@
 		            self.sales.push(obj)
 		          }
 		        })
-		        this.getRequest('https://young-temple-67589.herokuapp.com/api/kurir', function(data){
+		        this.getRequest(localStorage.base_api + 'kurir', function(data){
 		          for(let i = 0;i < data.length;i++) {
 		            let obj = {}
 		            obj.value = data[i].id
@@ -345,7 +345,7 @@
 		            self.kurir.push(obj)
 		          }
 		        })
-		        this.getRequest('https://young-temple-67589.herokuapp.com/api/konsumen', function(data){
+		        this.getRequest(localStorage.base_api + 'konsumen', function(data){
 		          for(let i = 0;i < data.length;i++) {
 		            let obj = {}
 		            obj.value = data[i].id

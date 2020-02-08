@@ -82,12 +82,14 @@
 	</div>
 </template>
 <script type="text/javascript">
+	import {getDatas} from '@/containers/global-function.js'
 	export default {
 		name:"EditAsset",
 		data() {
 			return {
 				label: 'Simpan Perubahan',
 				karyawanselected:1,
+				base_api: localStorage.base_api,
 				validator: {
 					kode:null,
 					kode_msg:null,
@@ -119,8 +121,7 @@
 					headers,
 					redirect:'follow'
 				}
-				fetch('https://young-temple-67589.herokuapp.com/api/karyawan', options)
-				.then(res => res.json())
+				getDatas(this, this.base_api + 'karyawan', options)
 				.then(res => {
 					for(let i = 0;i < res.length;i++) {
 	      				let obj = {}
@@ -155,8 +156,7 @@
 					headers,
 					redirect:'follow'
 				}
-				fetch('https://young-temple-67589.herokuapp.com/api/assets/' + this.$route.params.id, options)
-				.then(res => res.json())
+				getDatas(this, this.base_api + 'assets/' + this.$route.params.id, options)
 				.then(res => {
 					this.jabatanselected = res.jabatan
 					this.karyawanselected = res.id
@@ -222,7 +222,7 @@
 					formData.append('tanggal_beli', this.asset.tanggal_beli)
 					formData.append('tanggal_expired', this.asset.tanggal_expired)
 					// formData.append('jabatan', this.asset.jabatan)
-					this.$http.post('https://young-temple-67589.herokuapp.com/api/assets/edit/' + this.$route.params.id, formData, {
+					this.$http.post(this.base_api + 'assets/edit/' + this.$route.params.id, formData, {
 						headers : {
 							'Authorization': 'bearer ' + localStorage.token
 						}

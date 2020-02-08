@@ -8,7 +8,7 @@
 				<CRow>
 					
 					<CCol sm="12">
-						<button v-if="data.level == 2 || data.level == 1 || data.level == 3" @click="storeExcel" class="float-right mb-4 ml-2 btn btn-light"><small> <i class="fa fa fa-file-excel-o mr-1"></i> Export .xlsx</small></button>		
+						<button @click="storeExcel" class="float-right mb-4 ml-2 btn btn-light"><small> <i class="fa fa fa-file-excel-o mr-1"></i> Export .xlsx</small></button>		
 						<router-link v-if="data.level != 2 || data.level == 5 || data.level == 1" to="/konsumen/add" class="float-right mb-4 btn btn-light"><small> <i class="fa fa-plus mr-1"></i> Tambah Konsumen</small></router-link>		
 						<v-client-table
 						:data="tableItem"
@@ -82,7 +82,7 @@
 			storeExcel() {
 				this.$swal('Mohon tunggu...', '', 'info')
 				this.exportLabel = 'Loading...'
-				exportExcel(this, 'https://young-temple-67589.herokuapp.com/api/excel/konsumen', {from:null, to:null}, {
+				exportExcel(this, localStorage.base_api + 'excel/konsumen', {from:null, to:null}, {
 					responseType: 'blob',
 					headers: {
 						'Authorization' : 'bearer ' + localStorage.token
@@ -112,7 +112,7 @@
 			      })
 			      .then((out) => {
 			        if(out) {
-			          this.$http.delete('https://young-temple-67589.herokuapp.com/api/konsumen/' + id, {
+			          this.$http.delete(localStorage.base_api + 'konsumen/' + id, {
 							headers: {
 								'Authorization': 'bearer ' + localStorage.getItem('token'),
 								'Access-Control-Allow-Origin':'*',
@@ -140,7 +140,7 @@
 						
 			},
 			getData() {
-				getDatas(this, 'https://young-temple-67589.herokuapp.com/api/konsumen', {
+				getDatas(this, localStorage.base_api + 'konsumen', {
 					headers: {
 						'Authorization': 'bearer ' + localStorage.getItem('token'),
 						'Access-Control-Allow-Origin': '*',

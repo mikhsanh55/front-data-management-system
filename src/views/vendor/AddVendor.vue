@@ -165,7 +165,7 @@
 
 				if(!this.errors.length) {
 					this.label_btn = 'Loading...'
-					this.$http.post('https://young-temple-67589.herokuapp.com/api/vendor', this.vendor, {
+					this.$http.post(localStorage.base_api + 'vendor', this.vendor, {
 						headers: {
 							'Authorization': 'bearer ' + localStorage.getItem('token')
 						},

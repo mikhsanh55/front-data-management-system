@@ -242,7 +242,7 @@
 
 					let qs = require('qs')
 					this.label = 'Loading...'
-					this.$http.post('https://young-temple-67589.herokuapp.com/api/konsumen', formData, {
+					this.$http.post(localStorage.base_api + 'konsumen', formData, {
 						headers: {
 							'Authorization': 'bearer ' + localStorage.getItem('token')
 						}

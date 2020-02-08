@@ -178,6 +178,7 @@
   </div>
 </template>
 <script>
+  import {getDatas} from '@/containers/global-function.js'
   export default {
     name: 'EditPO',
     data() {
@@ -268,8 +269,7 @@
           headers,
           redirect:'follow'
         }
-         fetch('https://young-temple-67589.herokuapp.com/api/po/' + this.$route.params.id, options)
-         .then(res => res.json())
+         getDatas(this, localStorage.base_api + 'po/' + this.$route.params.id, options)
          .then(response => {
             this.po = response
             this.po.tgl_po_masuk = response.tgl_po_masuk.split('T')[0]
@@ -353,7 +353,7 @@
         }
         if(!this.errors.length) {
           this.label = 'Loading...'
-          postData(this, 'https://young-temple-67589.herokuapp.com/api/po/edit/' + this.$route.params.id, this.po, {
+          postData(this, localStorage.base_api + 'po/edit/' + this.$route.params.id, this.po, {
             method: 'post',
             headers: {
               'Authorization': 'bearer ' + localStorage.token
@@ -415,7 +415,7 @@
       },
       fetchAll() {
         let self = this
-        this.getRequest('https://young-temple-67589.herokuapp.com/api/sales', function(data){
+        this.getRequest(localStorage.base_api + 'sales', function(data){
           for(let i = 0;i < data.length;i++) {
             let obj = {}
             obj.value = data[i].id
@@ -423,7 +423,7 @@
             self.sales.push(obj)
           }
         })
-        this.getRequest('https://young-temple-67589.herokuapp.com/api/kurir', function(data){
+        this.getRequest(localStorage.base_api + 'kurir', function(data){
           for(let i = 0;i < data.length;i++) {
             let obj = {}
             obj.value = data[i].id
@@ -431,7 +431,7 @@
             self.kurir.push(obj)
           }
         })
-        this.getRequest('https://young-temple-67589.herokuapp.com/api/konsumen', function(data){
+        this.getRequest(localStorage.base_api + 'konsumen', function(data){
           for(let i = 0;i < data.length;i++) {
             let obj = {}
             obj.value = data[i].id

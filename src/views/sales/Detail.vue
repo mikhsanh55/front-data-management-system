@@ -61,6 +61,7 @@
 	</div>
 </template>
 <script type="text/javascript">
+	import {getDatas} from '@/containers/global-function.js'
 	export default {
 		name: 'DetailSales',
 		data() {
@@ -90,8 +91,7 @@
 					headers,
 					redirect:'follow'
 				}
-				fetch('https://young-temple-67589.herokuapp.com/api/karyawan/' + this.$route.params.id, options)
-				.then(res => res.json())
+				getDatas(this, localStorage.base_api + 'karyawan/' + this.$route.params.id, options)
 				.then(res => {
 					this.sales = res
 				})
@@ -120,7 +120,6 @@
 	                  })
 	                }
 	                else {
-	                  this.label = 'Update Barang'
 	                  console.log(e)
 	                  this.$swal('Tidak bisa ambil data', 'hubungi pengembangnya...', 'danger')
 	                    setTimeout(() => {

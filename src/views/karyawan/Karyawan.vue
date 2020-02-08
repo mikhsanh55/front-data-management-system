@@ -16,7 +16,7 @@
 						id="karyawan_table"
 						>
 							<div slot="foto" slot-scope="props">
-								<img :src="props.row.foto" />
+								<img :src="uri + props.row.foto" />
 							</div>
 							<div slot="jk" slot-scope="props">
 								<p v-if="props.row.jk == 1">Laki - laki</p>
@@ -66,9 +66,11 @@
 		data() {
 			return {
 				modal:false,
+				base_api: localStorage.base_api,
 				date:{from:null},
 				exportLabel: 'Mulai Export',
 				id:0,
+				uri:localStorage.base_uri,
 				data:'',
 				api_url:'',
 				smallModal:false,
@@ -100,28 +102,20 @@
 		},
 		methods: {
 			storeExcel() {
-				if(this.date.from == null)  {
-					this.$swal('Tanggal tidak boleh kosong', '', 'warning')
-					setTimeout(() => {
-						this.$swal.close()
-						return false
-					}, 2000)
-					this.exportLabel = 'Mulai Export'
-					return false
-				}
-				this.exportLabel = 'Loading...'
-				exportExcel(this, 'https://young-temple-67589.herokuapp.com/api/excel/karyawan', {from:null, to:null}, {
+				this.$swal('Mohon tunggu...', '', 'info')
+				exportExcel(this, this.base_api + 'excel/karyawan', {from:null, to:null}, {
 					responseType: 'blob',
 					headers: {
-						'Authorization' : 'bearer ' + localStorage.token
+						'Authorization' : 'bearer ' + localStorage.token,
+						'Access-Control-Allow-Origin': '*'
 					}
 				}, 'karyawan.xls')
 				.then(() => {
 					this.modal = false
-					this.exportLabel = 'Mulai Export'
+					this.$swal.close()
 				})
 				.catch(e => {
-					this.exportLabel = 'Mulai Export'
+					this.$swal.close()
 					console.log(e)
 					this.$swal('Tidak bisa mengambil data', '', 'error')
 					setTimeout(() => {
@@ -133,11 +127,11 @@
 			},
 			getData() {
 				if(this.data.level == 7) {
-					this.api_url = 'https://young-temple-67589.herokuapp.com/api/sales'
+					this.api_url = this.base_api + 'sales'
 					console.log(this.data.level)
 				}
 				else {
-					this.api_url = 'https://young-temple-67589.herokuapp.com/api/karyawan'	
+					this.api_url = this.base_api + 'karyawan'	
 					console.log(this.data.level)
 				}
 				let headers = new Headers()
@@ -171,7 +165,7 @@
 			      })
 				.then((deleted) => {
 					if(deleted) {
-						deleteData(this, 'https://young-temple-67589.herokuapp.com/api/karyawan/' + id, {
+						deleteData(this, this.base_api + 'karyawan/' + id, {
 							method: 'delete',
 							headers: {
 								'Authorization': 'bearer ' + localStorage.getItem('token')

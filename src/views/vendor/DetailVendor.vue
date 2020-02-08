@@ -8,7 +8,7 @@
 				<CRow class="max-auto d-flex justify-content-center mb-4 mt-4">
 					<CCol sm="12">
 						<div class="mx-auto d-flex justify-content-center">
-							<img :src="'https://young-temple-67589.herokuapp.com/' + vendor.foto" style="border-radius:50%;width:70px;height: 70px;" />
+							<img :src="uri + vendor.foto" style="border-radius:50%;width:70px;height: 70px;" />
 						</div>
 					</CCol>
 				</CRow>
@@ -53,10 +53,12 @@
 	</div>
 </template>
 <script type="text/javascript">
+	import {getDatas} from '@/containers/global-function.js'
 	export default {
 		name: 'DetailVendor',
 		data() {
 			return {
+				uri:localStorage.base_uri,
 				vendor: {
 					id:0,
 					nama:null,
@@ -79,10 +81,9 @@
 					headers,
 					redirect:'follow'
 				}
-				fetch('https://young-temple-67589.herokuapp.com/api/vendor/' + this.$route.params.id, options)
-				.then(res => res.json())
+				getDatas(this, localStorage.base_api + 'vendor/' + this.$route.params.id, options)
 				.then(res => {
-					if(this.checkImage('https://young-temple-67589.herokuapp.com/' + this.vendor.foto) == true) {
+					if(this.checkImage(localStorage.base_uri + this.vendor.foto) == true) {
 						this.image = 1
 					}
 					else {

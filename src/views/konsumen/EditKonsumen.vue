@@ -101,7 +101,7 @@
                         @change="handleFile"
                       />
                       <div v-show="konsumen.foto != null">
-                        <img :src="'https://young-temple-67589.herokuapp.com/' + konsumen.foto" width="80" height="80" />
+                        <img :src="uri + konsumen.foto" width="80" height="80" />
                       </div>
                   </CCol>
                 </CRow>
@@ -126,6 +126,7 @@
       return {
         is_edit:false ,
         validMsg:false,
+        uri:localStorage.base_uri,
         validator: {
           nama:null,
           nama_msg:'',
@@ -165,7 +166,7 @@
           headers,
           redirect:'follow'
         }
-        getDatas(this, "https://young-temple-67589.herokuapp.com/api/konsumen/" + this.$route.params.id, options)
+        getDatas(this, localStorage.base_api + "konsumen/" + this.$route.params.id, options)
         .then(result => {
           this.konsumen = result
         })
@@ -256,7 +257,7 @@
             this.label = 'Loading...'
             // alert('Perbaharuan Data Berhasil!')
             // this.$router.push({path: '/konsumen'})
-              this.$http.post('https://young-temple-67589.herokuapp.com/api/konsumen/edit/' + this.$route.params.id, formData, {
+              this.$http.post(localStorage.base_api + 'konsumen/edit/' + this.$route.params.id, formData, {
                   headers: {
                     'Authorization': 'bearer ' + localStorage.getItem('token'),
                     'Access-Control-Allow-Origin':'*',

@@ -203,7 +203,7 @@
 			updateStatus() {
 				this.label = 'Loading...'
 				
-				this.$http.post('https://young-temple-67589.herokuapp.com/api/po/edit/' + this.$route.params.id, this.detailpo, {
+				this.$http.post(localStorage.base_api + 'po/edit/' + this.$route.params.id, this.detailpo, {
 		            headers: {
 		              'Authorization': 'bearer ' + localStorage.token
 		            },
@@ -224,7 +224,7 @@
 		        })
 			},
 			getData() {
-				getDatas(this, 'https://young-temple-67589.herokuapp.com/api/po/' + this.$route.params.id, {
+				getDatas(this, localStorage.base_api + 'po/' + this.$route.params.id, {
 					method: 'POST',
 					headers: {
 						'Authorization' :'bearer ' + localStorage.token
@@ -243,7 +243,7 @@
 			},
 		    getDataTable() {
 		    	return new Promise((resolve, reject) => {
-					getDatas(this, 'https://young-temple-67589.herokuapp.com/api/order/barang/po/detail/' + this.$route.params.id, {
+					getDatas(this,localStorage.base_api + 'order/barang/po/detail/' + this.$route.params.id, {
 						method:'post',
 						headers: {
 							'Authorization':'bearer ' + localStorage.token
@@ -255,7 +255,7 @@
 						console.log(res)
 						this.info_po = res
 						this.info_po.forEach((item, i) => {
-							getDatas(this, 'https://young-temple-67589.herokuapp.com/api/barang/' + item.id_barang, { method:'POST', headers:{'Authorization': 'bearer ' + localStorage.token}}, 'POST')
+							getDatas(this,localStorage.base_api + 'barang/' + item.id_barang, { method:'POST', headers:{'Authorization': 'bearer ' + localStorage.token}}, 'POST')
 							.then(res => {
 								let total = item.qty * res.harga_jual, 
 								disc = Math.round((total - item.disc) / 100) - (item.tax / 100),
@@ -265,7 +265,7 @@
 									total:total,
 									disc: disc,
 									tax: tax,
-									foto:'https://young-temple-67589.herokuapp.com/' + res.foto,
+									foto:localStorage.base_uri + res.foto,
 									kode_barang:res.kode_barang,
 									nama_barang: res.nama_barang,
 									spesifikasi: res.spesifikasi,

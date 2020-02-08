@@ -86,7 +86,7 @@
 		                        v-model="vendor.alamat"
 		                      />  
 		                    <div>
-		                    	<img :src="'https://young-temple-67589.herokuapp.com/' + vendor.foto" width="80" height="80">
+		                    	<img :src="uri + vendor.foto" width="80" height="80">
 		                    </div>  
 						</CCol>
 					</CRow>
@@ -101,10 +101,12 @@
 	</div>
 </template>
 <script type="text/javascript">
+	import {getDatas} from '@/containers/global-function.js'
 	export default {
 		name:"addVendor",
 		data() {
 			return {
+				uri: localStorage.base_uri,
 				label: 'Simpan Perubahan',
 				vendor: {
 					nama:null,
@@ -141,8 +143,7 @@
 					headers,
 					redirect:'follow'
 				}
-				fetch('https://young-temple-67589.herokuapp.com/api/vendor/' + this.$route.params.id, options)
-				.then(res => res.json())
+				getDatas(this, localStorage.base_api + 'vendor/' + this.$route.params.id, options)
 				.then(res => {
 					console.log(res)
 					this.vendor = res
@@ -155,7 +156,7 @@
                     }, 1500)
 					return false
 				})
-				// this.$http.post('https://young-temple-67589.herokuapp.com/api/vendor/' + this.$route.params.id, {
+				// this.$http.post(localStorage.base_api + 'vendor/' + this.$route.params.id, {
 				// 	headers: {
 				// 		'Authorization': 'bearer ' + localStorage.getItem('token')
 				// 	},
@@ -197,7 +198,7 @@
 
 				if(!this.errors.length) {
 					this.label = 'Loading...'
-					this.$http.post('https://young-temple-67589.herokuapp.com/api/vendor/edit/'+ this.$route.params.id, this.vendor, {
+					this.$http.post(localStorage.base_api + 'vendor/edit/'+ this.$route.params.id, this.vendor, {
 						headers: {
 							'Authorization':'bearer ' + localStorage.getItem('token')
 						},

@@ -64,6 +64,7 @@
 	</div>
 </template>
 <script type="text/javascript">
+	import {getDatas} from '@/containers/global-function.js'
 	export default {
 		name:'DetailListHarga',
 		data() {
@@ -84,8 +85,7 @@
 					headers,
 					redirect:'follow'
 				}
-				fetch('https://young-temple-67589.herokuapp.com/api/barang/' + this.$route.params.id, options)
-				.then(res => res.json())
+				getDatas(this, localStorage.base_api + 'barang/' + this.$route.params.id, options)
 				.then(res => {
 					console.log(res)
 					this.product = res
@@ -96,25 +96,6 @@
 					return false
 				})
 			}
-		},
-		filters: {
-			// formatRupiah: function(angka, prefix){
-			// 	let number_string = angka.toString().replace(/[^,\d]/g, ''),
-			// 	split   		= number_string.split(','),
-			// 	sisa     		= split[0].length % 3,
-			// 	rupiah     		= split[0].substr(0, sisa),
-			// 	ribuan     		= split[0].substr(sisa).match(/\d{3}/gi),
-			// 	separator ='';
-	 
-			// 	// tambahkan titik jika yang di input sudah menjadi angka ribuan
-			// 	if(ribuan){
-			// 		separator = sisa ? '.' : '';
-			// 		rupiah += separator + ribuan.join('.');
-			// 	}
-	 
-			// 	rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
-			// 	return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
-			// }
 		},
 		created() {
 			this.getData()

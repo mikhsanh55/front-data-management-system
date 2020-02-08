@@ -546,7 +546,7 @@ export default {
     let userData = JSON.parse(localStorage.user)
     checkPO(this)
 
-    getDatas(this, 'https://young-temple-67589.herokuapp.com/api/karyawan/' + userData.id_karyawan, {method:'POST', headers:{'Authorization': 'bearer ' + localStorage.token}}, 'post')
+    getDatas(this, localStorage.base_api + 'karyawan/' + userData.id_karyawan, {method:'POST', headers:{'Authorization': 'bearer ' + localStorage.token}}, 'post')
     .then(res => console.log('Youre still Login!'))
     .catch(e => {
       console.log(e.response)

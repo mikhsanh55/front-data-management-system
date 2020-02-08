@@ -68,7 +68,7 @@
 	</div>	
 </template>
 <script type="text/javascript">
-	import {exportExcel} from '@/containers/global-function.js'
+	import {exportExcel, getDatas} from '@/containers/global-function.js'
 	export default {
 		name: 'RequestPO',
 		data() {
@@ -116,8 +116,7 @@
 					headers,
 					redirect:'follow'
 				}
-				fetch('https://young-temple-67589.herokuapp.com/api/request/barang', options)
-				.then(res => res.json())
+				getDatas(this, localStorage.base_api + 'request/barang', options)
 				.then(res => {
 
 					if(res.status_code == 500) {
@@ -190,7 +189,7 @@
 			      })
 				.then((del) => {
 					if(del) {
-						this.$http.delete('https://young-temple-67589.herokuapp.com/api/request/barang/' + id, {
+						this.$http.delete(localStorage.base_api + 'request/barang/' + id, {
 							headers: {
 								'Authorization': 'bearer ' + localStorage.token
 							}
@@ -216,7 +215,7 @@
 			},
 			storeExcel() {
 				this.exportLabel = 'Loading...'
-				exportExcel(this, 'https://young-temple-67589.herokuapp.com/api/excel/request/barang', {from:this.date.from, to:this.date.to}, {
+				exportExcel(this, localStorage.base_api + 'excel/request/barang', {from:this.date.from, to:this.date.to}, {
 					responseType: 'blob',
 					headers: {
 						'Authorization' : 'bearer ' + localStorage.token

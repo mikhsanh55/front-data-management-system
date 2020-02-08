@@ -224,7 +224,7 @@
 		    	// order_barang.splice(e.index)
 		    	// localStorage.setItem('order_barang', JSON.stringify(this.order_barang))
 		    	this.$swal('Mohon tunggu', '', 'info')
-		    	this.$http.delete('https://young-temple-67589.herokuapp.com/api/order/barang/po/' + i, {
+		    	this.$http.delete(localStorage.base_api + 'order/barang/po/' + i, {
 		    		headers: {
 		    			'Authorization' : 'bearer ' + localStorage.token
 		    		}
@@ -259,7 +259,7 @@
 					this.rpo.id_po = this.$route.params.id
 					this.rpo.total = Math.round(((this.rpo.harga_jual * this.rpo.qty) + this.rpo.tax / 100) - (this.rpo.disc / 100 * (this.rpo.harga_jual * this.rpo.qty)))
 		    	
-			    	this.$http.post('https://young-temple-67589.herokuapp.com/api/order/barang/po', this.rpo, {
+			    	this.$http.post(localStorage.base_api + 'order/barang/po', this.rpo, {
 			    		headers: {
 			    			'Authorization': 'bearer ' + localStorage.token
 			    		}
@@ -309,7 +309,7 @@
 		    	let 
 		    	self = this,
 		    	arr = []
-		    	this.getRequest('https://young-temple-67589.herokuapp.com/api/barang').then((data) => {
+		    	this.getRequest(localStorage.base_api + 'barang').then((data) => {
 
 		    		if(data.length < 1){
 		    			alert('Mohon maaf belum ada barang masuk untuk saat ini, silahkan tambah dulu barangnya yah')
@@ -336,12 +336,12 @@
 		    },
 		    getDataTable() {
 
-		    	getDatas(this, 'https://young-temple-67589.herokuapp.com/api/order/barang/po/detail/' + this.$route.params.id, {method:'post',headers: {'Authorization': 'bearer ' + localStorage.token}}, 'post')
+		    	getDatas(this, localStorage.base_api + 'order/barang/po/detail/' + this.$route.params.id, {method:'post',headers: {'Authorization': 'bearer ' + localStorage.token}}, 'post')
 				.then(res => {
 					console.warn('REMIN')
 					console.log(res)
 					res.forEach((item, i) => {
-						getDatas(this, 'https://young-temple-67589.herokuapp.com/api/barang/' + item.id_barang, {method:'post', headers:{'Authorization': 'bearer ' + localStorage.token}}, 'post')
+						getDatas(this, localStorage.base_api + 'barang/' + item.id_barang, {method:'post', headers:{'Authorization': 'bearer ' + localStorage.token}}, 'post')
 						.then(res => {
 							let obj = {
 								id:item.id,

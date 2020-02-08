@@ -97,6 +97,7 @@
 		name:"AddAsset",
 		data() {
 			return {
+				base_api:localStorage.base_api,
 				label: 'Tambah Asset',
 				jabatanselected:1,
 				karyawanselected:1,
@@ -132,7 +133,7 @@
 					headers,
 					redirect:'follow'
 				}
-				fetch('https://young-temple-67589.herokuapp.com/api/karyawan', options)
+				fetch(this.base_api + 'karyawan', options)
 				.then(res => res.json())
 				.then(res => {
 					for(let i = 0;i < res.length;i++) {
@@ -177,7 +178,7 @@
 
 				if(!this.errors.length) {
 					this.label = 'Loading...'
-					this.$http.post('https://young-temple-67589.herokuapp.com/api/assets', this.asset, {
+					this.$http.post(this.base_api + 'assets', this.asset, {
 						headers: {
 							'Authorization':'bearer ' + localStorage.token
 						}

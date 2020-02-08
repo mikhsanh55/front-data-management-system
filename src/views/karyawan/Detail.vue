@@ -9,7 +9,7 @@
 					<CRow class="mx-auto d-flex justify-content-center">
 						<CCol sm="12">
 
-							<div v-if="karyawan.foto" class="mx-auto d-flex justify-content-center">
+							<div v-if="uri + karyawan.foto" class="mx-auto d-flex justify-content-center">
 								<img :src="karyawan.foto" style="border-radius:50%;width:70px;height: 70px;" />
 							</div>
 							<div v-else class="mx-auto d-flex justify-content-center">
@@ -79,10 +79,12 @@
 	</div>
 </template>
 <script type="text/javascript">
+	import {getDatas} from '@/containers/global-function.js'
 	export default {
 		name:'DetailKaryawan',
 		data() {
 			return {
+				uri:localStorage.base_uri,
 				image:0,
 				karyawan: {
 					id:0,
@@ -109,13 +111,12 @@
 					headers,
 					redirect:'follow'
 				}
-				fetch('https://young-temple-67589.herokuapp.com/api/karyawan/' + this.$route.params.id, options)
-				.then(res => res.json())
+				getDatas(this, localStorage.base_api + 'karyawan/' + this.$route.params.id, options)
 				.then(res => {
-					console.log(res)
+					console.log(res)	
 					
 					this.karyawan = res
-					this.karyawan.foto = 'https://young-temple-67589.herokuapp.com/' + res.foto
+					this.karyawan.foto = localStorage.base_uri + res.foto
 				})
 				.catch(e => {
 					this.$swal('Tidak bisa mengambil data!', 'Mohon hubungi pengembangnya', 'error')

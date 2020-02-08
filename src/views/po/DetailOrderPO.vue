@@ -53,7 +53,7 @@
 			}
 		},
 		created() {
-			getDatas(this, 'https://young-temple-67589.herokuapp.com/api/order/barang/po/' + this.$route.params.id, {method:'post', headers:{'Authorization': 'bearer ' + localStorage.token}}, 'post')
+			getDatas(this, localStorage.base_api + 'order/barang/po/' + this.$route.params.id, {method:'post', headers:{'Authorization': 'bearer ' + localStorage.token}}, 'post')
 			.then(res => {
 				getDatas(this, 'https://young-temple-67589.herokuapp.com/api/barang/' + res.id_barang, {method: 'post', headers: {'Authorization' : 'bearer ' + localStorage.token}}, 'post')
 				.then(res => {

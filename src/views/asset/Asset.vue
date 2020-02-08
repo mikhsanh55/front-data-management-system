@@ -31,6 +31,7 @@
 	</div>
 </template>
 <script type="text/javascript">
+	import {getDatas} from '@/containers/global-function.js'
 	export default {
 		name:"Asset",
 		data() {
@@ -41,6 +42,7 @@
 				tableFields: [
 					'no', 'kode', 'deskripsi_barang', 'tanggal_beli', 'tanggal_expired', 'aksi'
 				],
+				base_api:localStorage.base_api,
 				tableOptions: {
 					perPage:10,
 					pagination:{chunk:10, dropdown:false, edge:true, nav:'fixed'},
@@ -67,25 +69,25 @@
 		},
 		methods: {
 			getData() {
-				this.$http.get('https://young-temple-67589.herokuapp.com/api/assets', {
+				getDatas(this, this.base_api + 'assets', {
 					headers: {
 						'Authorization':'bearer ' + localStorage.getItem('token')
 					},
 					redirect:'follow'
 				})
 				.then(res => {
-					console.log(res.data)
-						this.assets = res.data
+					console.log(res)
+						this.assets = res
 						for(let i = 0;i < this.assets.length;i++) {
 							this.assets[i].no = i+1
 						}
 				})
 				.catch(e => {
-					this.$swal('Tidak bisa ambil data', 'hubungi pengembangnya...', 'danger')
+					this.$swal('Tidak bisa ambil data', 'hubungi pengembangnya...', 'error')
                     setTimeout(() => {
                     	this.$swal.close()
                     }, 1500)
-					console.log(e.response)
+					console.log(e)
 					return false
 				})
 			},
@@ -99,7 +101,7 @@
 			      })
 				.then((deleted) => {
 					if(deleted) {
-						this.$http.delete('https://young-temple-67589.herokuapp.com/api/assets/' + id, {
+						this.$http.delete(this.base_api + 'assets/' + id, {
 							headers: {
 								'Authorization':'bearer ' + localStorage.token
 							},

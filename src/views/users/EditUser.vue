@@ -52,6 +52,7 @@
 	</div>
 </template>
 <script type="text/javascript">
+	import {getDatas} from '@/containers/global-function.js'
 	export default {
 		name:"EditUser",
 		data() {
@@ -76,7 +77,7 @@
 		},
 		methods: {
 			getJabatan() {
-				this.$http.get('https://young-temple-67589.herokuapp.com/api/jabatan', {
+				getDatas(this, localStorage.base_api + 'jabatan', {
 	      			headers: {
 	      				'Authorization': 'bearer ' + localStorage.token
 	      			}
@@ -129,8 +130,7 @@
 					headers,
 					redirect:'follow'
 				}
-				fetch('https://young-temple-67589.herokuapp.com/api/karyawan', options)
-				.then(res => res.json())
+				getDatas(this, localStorage.base_api + 'karyawan', options)
 				.then(res => {
 					for(let i = 0;i < res.length;i++) {
 	      				let obj = {}
@@ -192,8 +192,7 @@
 					headers,
 					redirect:'follow'
 				}
-				fetch('https://young-temple-67589.herokuapp.com/api/user/' + this.$route.params.id, options)
-				.then(res => res.json())
+				getDatas(this, localStorage.base_api + 'user/' + this.$route.params.id, options)
 				.then(res => {
 					this.user = res
 				})	
@@ -247,7 +246,7 @@
 				formData.append('email', this.user.email)
 				formData.append('level', this.user.id_level)
 				
-					this.$http.post('https://young-temple-67589.herokuapp.com/api/user/edit/' + this.user.id, formData, {
+					this.$http.post(localStorage.base_api + 'user/edit/' + this.user.id, formData, {
 						headers:{
 							'Authorization': 'bearer ' + localStorage.getItem('token')
 						}

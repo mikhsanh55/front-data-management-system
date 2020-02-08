@@ -61,6 +61,7 @@
 	</div>
 </template>
 <script type="text/javascript">
+	import {getDatas} from '@/containers/global-function.js'
 	export default {
 		name: 'EditRequestPO',
 		data() {
@@ -124,8 +125,7 @@
 					redirect:'follow'
 				}
 
-				fetch('https://young-temple-67589.herokuapp.com/api/request/barang/' + this.$route.params.id, options)
-				.then(res => res.json())
+				getDatas(localStorage.base_api + 'request/barang/' + this.$route.params.id, options)
 				.then(res => {
 					if(res.errcode == 40001) {
 						
@@ -194,7 +194,7 @@
 				}
 
 				if(!this.errors.length) {
-					this.$http.post('https://young-temple-67589.herokuapp.com/api/request/barang/edit/' + this.$route.params.id, this.request_po, {
+					this.$http.post(localStorage.base_api + 'request/barang/edit/' + this.$route.params.id, this.request_po, {
 						headers: {
 							'Authorization': 'bearer ' + localStorage.token
 						},
@@ -232,7 +232,7 @@
 		},
 		created() {
 			
-			this.$http.get('https://young-temple-67589.herokuapp.com/api/barang', {
+			this.$http.get(localStorage.base_api + 'barang', {
 				headers: {
 					'Authorization': 'bearer ' + localStorage.token
 				}

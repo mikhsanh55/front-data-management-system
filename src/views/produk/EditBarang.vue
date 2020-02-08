@@ -116,6 +116,7 @@
 	</div>
 </template>
 <script type="text/javascript">
+	import {getDatas} from '@/containers/global-function.js'
 	export default {
 		name:'AddBarang',
 		data() {
@@ -157,8 +158,7 @@
 		          headers,
 		          redirect:'follow'
 		        }
-		        fetch("https://young-temple-67589.herokuapp.com/api/barang/" + this.$route.params.id, options)
-		        .then(response => response.json())
+		        getDatas(this, localStorage.base_api + "barang/" + this.$route.params.id, options)
 		        .then(result => {
 		          this.barang = result
 		        })
@@ -231,7 +231,7 @@
 	         	if(!this.errors.length) {
 	         		
 	         		this.barang.harga_dasar = this.barang.harga_jual
-	         		this.$http.post('https://young-temple-67589.herokuapp.com/api/barang/edit/' + this.$route.params.id, this.barang, {
+	         		this.$http.post(localStorage.base_api + 'barang/edit/' + this.$route.params.id, this.barang, {
 	         			headers: {
 	         				'Authorization':'bearer ' + localStorage.token
 	         			},
@@ -291,7 +291,7 @@
 	         	}
 	         },
 	         getVendor() {
-	         	this.$http.get('https://young-temple-67589.herokuapp.com/api/vendor', {
+	         	this.$http.get(localStorage.base_api + 'vendor', {
 					headers: {
 						'Authorization': 'bearer ' + localStorage.token
 					}

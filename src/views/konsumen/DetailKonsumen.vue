@@ -7,8 +7,8 @@
 			<CCardBody>
 				<CRow class="max-auto d-flex justify-content-center mb-4 mt-4">
 					<CCol sm="12">
-						<div v-if="'https://young-temple-67589.herokuapp.com/' + konsumen.foto" class="mx-auto d-flex justify-content-center">
-							<img :src="'https://young-temple-67589.herokuapp.com/' + konsumen.foto" style="border-radius:50%;width:70px;height: 70px;" />
+						<div v-if="uri + konsumen.foto" class="mx-auto d-flex justify-content-center">
+							<img :src="uri + konsumen.foto" style="border-radius:50%;width:70px;height: 70px;" />
 						</div>
 						<div v-else class="mx-auto d-flex justify-content-center">
 							<img class="img-thumbnail" src="./../../assets/img/avatar/default.svg" style="border-radius:50%;width:70px;height: 70px;" />
@@ -57,11 +57,13 @@
 	</div>
 </template>
 <script type="text/javascript">
+	import {getDatas} from '@/containers/global-function.js'
 	export default {
 		name: 'DetailKonsumen',
 		data() {
 			return {
 				image:0,
+				uri:localStorage.base_uri,
 				konsumen: {
 					id:null,
 					nama:null,
@@ -84,10 +86,9 @@
 					headers,
 					redirect:'follow'
 				}
-				fetch('https://young-temple-67589.herokuapp.com/api/konsumen/' + this.$route.params.id, options)
-				.then(res => res.json())
+				getDatas(this, localStorage.base_api + 'konsumen/' + this.$route.params.id, options)
 				.then(res => {
-					if(this.checkImage('https://young-temple-67589.herokuapp.com/' + this.konsumen.foto) == true) {
+					if(this.checkImage(this.uri + this.konsumen.foto) == true) {
 						this.image = 1
 					}
 					else {

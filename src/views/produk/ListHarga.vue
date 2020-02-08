@@ -20,7 +20,7 @@
 							id="barang_table"
 							>
 							<div slot="foto" slot-scope="props">
-									<img :src="'https://young-temple-67589.herokuapp.com/' + props.row.foto"  height="50" width="70" />
+									<img :src="uri + props.row.foto"  height="50" width="70" />
 								
 							</div>
 							<div slot="aksi" slot-scope="props" class="d-flex justify-content-center">
@@ -46,8 +46,8 @@
 							id="barang_table"
 							>
 							<div slot="foto" slot-scope="props">
-								<div v-if="'https://young-temple-67589.herokuapp.com/' +props.row.foto == true" class="mx-auto d-flex justify-content-center">
-									<img :src="'https://young-temple-67589.herokuapp.com/' + props.row.foto" style="border-radius:50%;" />
+								<div v-if="uri +props.row.foto == true" class="mx-auto d-flex justify-content-center">
+									<img :src="uri + props.row.foto" style="border-radius:50%;" />
 								</div>
 								<div v-else class="mx-auto d-flex justify-content-center">
 									<img class="img-thumbnail" src="./../../assets/img/avatar/default.svg" style="border-radius:50%;width:35px;height: 35px;" />
@@ -98,12 +98,13 @@
 </template>
 <script type="text/javascript">
 	import CTableWrapper from '@/views/base/Table.vue'
-	import {exportExcel} from '@/containers/global-function.js'
+	import {exportExcel, getDatas} from '@/containers/global-function.js'
 	export default {
 		name:'ListHarga',
 		data() {
 			return {
 				modal: false,
+				uri:localStorage.base_uri,
 				date:{from:null, to:null},
 				exportLabel: 'Mulai Export',
 				id:0,
@@ -181,7 +182,7 @@
 			      })
 				.then((deleted) => {
 					if(deleted) {
-						this.$http.delete('https://young-temple-67589.herokuapp.com/api/barang/' + id, {
+						this.$http.delete(localStorage.base_api + 'barang/' + id, {
 							headers: {
 								'Authorization': 'bearer ' + localStorage.getItem('token')
 							},
@@ -242,7 +243,7 @@
 			storeExcel() {
 				this.exportLabel = 'Loading...'
 				this.$swal('Mohon tunggu', '', 'info')
-				exportExcel(this, 'https://young-temple-67589.herokuapp.com/api/excel/barang', {from:null, to:null}, {
+				exportExcel(this, localStorage.base_api + 'excel/barang', {from:null, to:null}, {
 					responseType: 'blob',
 					headers: {
 						'Authorization' : 'bearer ' + localStorage.token
@@ -265,8 +266,7 @@
 				})
 			},
 			getData() {
-
-				this.$http.get('https://young-temple-67589.herokuapp.com/api/barang', {
+				getDatas(this, localStorage.base_api + 'barang', {
 					headers: {
 						'Authorization': 'bearer ' + localStorage.getItem('token')
 					},

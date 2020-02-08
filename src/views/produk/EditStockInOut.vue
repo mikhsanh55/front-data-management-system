@@ -16,7 +16,8 @@
 				                @update:value="assignBarang"
 				                v-model="stockinout.id_barang"
 				              />  
-				            <CInput
+				            <
+				            CInput
 		                        type="text"
 		                        :description="validator.qty_msg"
 		                        :is-valid="validator.qty"
@@ -123,7 +124,7 @@
 		methods: {
 
 			getBarang() {
-				this.$http.get('https://young-temple-67589.herokuapp.com/api/barang', {
+				this.$http.get(localStorage.base_api + 'barang', {
 					headers: {
 						'Authorization': 'bearer ' + localStorage.token
 					}
@@ -199,7 +200,7 @@
 	         			redirect: 'follow',
 	         			body:this.stockinout
 	         		}
-	         		this.$http.post('https://young-temple-67589.herokuapp.com/api/stock/edit/' + this.$route.params.id, this.stockinout, {
+	         		this.$http.post(localStorage.base_api + 'stock/edit/' + this.$route.params.id, this.stockinout, {
 	         			headers: {
 	         				'Authorization':'bearer ' + localStorage.token
 	         			},
@@ -263,7 +264,7 @@
 		},
 		created() {
 			this.getBarang()
-			getDatas(this, 'https://young-temple-67589.herokuapp.com/api/stock/' + this.$route.params.id, {
+			getDatas(this, localStorage.base_api + 'stock/' + this.$route.params.id, {
 				method:'POST',
 				headers: {
 					'Authorization' : 'bearer ' + localStorage.token

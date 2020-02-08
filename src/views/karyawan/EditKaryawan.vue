@@ -133,7 +133,7 @@
 				                @update:value="assignJabatan"
 				              />
 				              <div v-if="karyawan.foto != null">
-		                        <img :src="'https://young-temple-67589.herokuapp.com/' + karyawan.foto" width="80" height="80" />
+		                        <img :src="uri + karyawan.foto" width="80" height="80" />
 		                      </div>  
 						</CCol>
 					</CRow>
@@ -152,6 +152,7 @@
 		name:"EditKaryawan",
 		data() {
 			return {
+				uri:localStorage.base_uri,
 				label: 'Simpan Perubahan',
 				jkselected: 1,
 				validator: {
@@ -207,17 +208,17 @@
 		},
 		methods: {
 			getJabatan() {
-	      		this.$http.get('https://young-temple-67589.herokuapp.com/api/jabatan', {
+	      		getDatas(this, localStorage.base_api + 'jabatan', {
 	      			headers: {
 	      				'Authorization': 'bearer ' + localStorage.token
 	      			}
 	      		})
 	      		.then(res => {
 	      			// console.log(res.data)
-	      			for(let i = 0;i < res.data.length;i++) {
+	      			for(let i = 0;i < res.length;i++) {
 	      				let obj = {}
-	      				obj.value = res.data[i].id
-	      				obj.label = res.data[i].nama
+	      				obj.value = res[i].id
+	      				obj.label = res[i].nama
 	      				this.jabatan.push(obj)
 	      			}
 	      			console.log(this.jabatan)
@@ -291,8 +292,7 @@
 					headers,
 					redirect:'follow'
 				}
-				fetch('https://young-temple-67589.herokuapp.com/api/karyawan/' + this.$route.params.id, options)
-				.then(res => res.json())
+				getDatas(localStorage.base_api + 'karyawan/' + this.$route.params.id, options)
 				.then(res => {
 					this.jkselected = res.jk
 					this.karyawan = res
@@ -394,7 +394,7 @@
 		            }
 
 					this.label = 'Loading...'
-					this.$http.post('https://young-temple-67589.herokuapp.com/api/karyawan/edit/' + this.$route.params.id, formData, {
+					this.$http.post(localStorage.base_api + 'karyawan/edit/' + this.$route.params.id, formData, {
 						headers: {
 							'Authorization': 'bearer ' + localStorage.getItem('token')
 						},

@@ -108,7 +108,7 @@
 				this.stockinout.type = val
 			},
 			getBarang() {
-				this.$http.get('https://young-temple-67589.herokuapp.com/api/barang', {
+				this.$http.get(localStorage.base_api + 'barang', {
 					headers: {
 						'Authorization': 'bearer ' + localStorage.token
 					}
@@ -171,7 +171,7 @@
 
 	         	if(!this.errors.length) {
 	         		this.label = 'Loading...'
-	         		this.$http.post('https://young-temple-67589.herokuapp.com/api/stock', this.stockinout, {
+	         		this.$http.post(localStorage.base_api + 'stock', this.stockinout, {
 	         			headers: {
 	         				'Authorization':'bearer ' + localStorage.token
 	         			},

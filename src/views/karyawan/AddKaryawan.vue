@@ -224,7 +224,7 @@
 	         }
 	      },
 	      	getJabatan() {
-	      		getDatas(this, 'https://young-temple-67589.herokuapp.com/api/jabatan', {
+	      		getDatas(this, localStorage.base_api + 'jabatan', {
 	      			method: 'get',
 	      			headers: {
 	      				'Authorization': 'bearer ' + localStorage.token
@@ -324,7 +324,7 @@
 					// 	},
 					// 	redirect:'follow'
 					// })
-					this.$http.post('https://young-temple-67589.herokuapp.com/api/karyawan', formData, {
+					this.$http.post(localStorage.base_api + 'karyawan', formData, {
 						headers: {
 							'Authorization': 'bearer ' + localStorage.token
 						}

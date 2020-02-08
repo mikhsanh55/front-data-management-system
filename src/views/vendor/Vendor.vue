@@ -56,7 +56,7 @@
 	</div>
 </template>
 <script type="text/javascript">
-	import {exportExcel} from '@/containers/global-function.js'
+	import {exportExcel, getDatas} from '@/containers/global-function.js'
 	export default {
 		name:"Vendor",
 		data() {
@@ -102,7 +102,7 @@
 		methods: {
 			storeExcel() {
 				this.$swal('Mohon tunggu...', '', 'info')
-				exportExcel(this, 'https://young-temple-67589.herokuapp.com/api/excel/vendor', {from:null, to:null}, {
+				exportExcel(this, localStorage.base_api + 'excel/vendor', {from:null, to:null}, {
 					responseType: 'blob',
 					headers: {
 						'Authorization' : 'bearer ' + localStorage.token
@@ -123,7 +123,7 @@
 				})
 			},
 			getData() {
-				this.$http.get('https://young-temple-67589.herokuapp.com/api/vendor', {
+				getDatas(this, localStorage.base_api + 'vendor', {
 					headers: {
 						'Authorization': 'bearer ' + localStorage.getItem('token')
 					}
@@ -178,7 +178,7 @@
 			      })
 				.then((deleted) => {
 					if(deleted) {
-						this.$http.delete('https://young-temple-67589.herokuapp.com/api/vendor/' + id, {
+						this.$http.delete(localStorage.base_api + 'vendor/' + id, {
 							headers: {
 								'Authorization': 'bearer ' + localStorage.getItem('token')
 							},
@@ -208,7 +208,7 @@
 			this.getData()
 		},
 		mounted() {
-			this.data = this.$store.getters.userData
+			this.data = JSON.parse(localStorage.user)
 			console.log(this.data)
 		}
 	}

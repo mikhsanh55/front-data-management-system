@@ -146,7 +146,7 @@
 				}
 
 				if(!this.errors.length) {
-					this.$http.post('https://young-temple-67589.herokuapp.com/api/request/barang', this.request_po, {
+					this.$http.post(localStorage.base_api + 'request/barang', this.request_po, {
 						headers: {
 							'Authorization': 'bearer ' + localStorage.token
 						},
@@ -181,7 +181,7 @@
 			}
 		},
 		created() {
-			this.$http.get('https://young-temple-67589.herokuapp.com/api/barang', {
+			this.$http.get(localStorage.base_api + 'barang', {
 				headers: {
 					'Authorization': 'bearer ' + localStorage.token
 				}

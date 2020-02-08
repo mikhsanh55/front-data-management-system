@@ -120,6 +120,7 @@
 	</div>
 </template>
 <script type="text/javascript">
+	import {getDatas} from '@/containers/global-function.js'
 	export default {
 		name:"EditKurir",
 		data() {
@@ -163,11 +164,6 @@
 		},
 		methods: {
 			getData() {
-				// this.$http.get('https://young-temple-67589.herokuapp.com/api/kurir/' + this.$route.params.id, {
-				// 	headers: {
-				// 		'Authorization': 'bearer ' + localStorage.token
-				// 	}
-				// })
 				let headers = new Headers()
 				headers.append('Authorization', 'bearer ' + localStorage.token)
 				let options = {
@@ -175,8 +171,7 @@
 					headers,
 					redirect:'follow'
 				}
-				fetch('https://young-temple-67589.herokuapp.com/api/kurir/' + this.$route.params.id, options)
-				.then(res => res.json())
+				getDatas(this, 'https://young-temple-67589.herokuapp.com/api/kurir/' + this.$route.params.id, options)
 				.then(res => {
 					console.log(res.data)
 					this.kurir = res.data

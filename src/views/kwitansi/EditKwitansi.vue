@@ -104,8 +104,7 @@
 					headers,
 					redirect:'follow'
 				}
-				fetch('https://young-temple-67589.herokuapp.com/api/kwitansi/' + this.$route.params.id, options)
-				.then(res => res.json())
+				getDatas(this, localStorage.base_api + 'kwitansi/' + this.$route.params.id, options)
 				.then(res => {
 					console.log(res)
 					this.kwitansi = res
@@ -136,7 +135,7 @@
 
 				if(!this.errors.length) {
 					this.label = 'Loading...'
-					this.$http.post('https://young-temple-67589.herokuapp.com/api/kwitansi/edit/' + this.$route.params.id, this.kwitansi, {
+					this.$http.post(localStorage.base_api + 'kwitansi/edit/' + this.$route.params.id, this.kwitansi, {
 						headers: {
 							'Authorization':'bearer ' + localStorage.getItem('token')
 						},

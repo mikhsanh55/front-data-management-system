@@ -216,7 +216,7 @@
 		    deleteFromTable(id) {
 
 		    	this.$swal('Mohon tunggu', '', 'info')
-	    		this.$http.delete('https://young-temple-67589.herokuapp.com/api/order/barang/pesanan/'+id, {
+	    		this.$http.delete(localStorage.base_api + 'order/barang/pesanan/'+id, {
 		    		headers: {
 		    			'Authorization': 'bearer ' + localStorage.token
 		    		}
@@ -225,7 +225,7 @@
 		    		this.order_barang_table = []
 			    	this.barangs = []
 		    		this.$swal.close()
-		    		getDatas(this, 'https://young-temple-67589.herokuapp.com/api/barang', {headers: {'Authorization': 'bearer ' + localStorage.token}}, 'post')
+		    		getDatas(this, localStorage.base_api + 'barang', {headers: {'Authorization': 'bearer ' + localStorage.token}}, 'post')
 						.then(res => {
 							this.barangs = res
 							// this.barangs.forEach((item, i) => {
@@ -268,7 +268,7 @@
 					// Contoh dulu
 					this.order_barang_pesanan.id_pesanan = this.$route.params.id
 		    	
-			    	this.$http.post('https://young-temple-67589.herokuapp.com/api/order/barang/pesanan', this.order_barang_pesanan, {
+			    	this.$http.post(localStorage.base_api + 'order/barang/pesanan', this.order_barang_pesanan, {
 			    		headers: {
 			    			'Authorization': 'bearer ' + localStorage.token
 			    		}
@@ -277,7 +277,7 @@
 			    		this.order_barang_table = []
 			    		this.barangs = []
 			    		this.label = 'Tambah'
-			    		getDatas(this, 'https://young-temple-67589.herokuapp.com/api/barang', {headers: {'Authorization': 'bearer ' + localStorage.token}}, 'post')
+			    		getDatas(this, localStorage.base_api + 'barang', {headers: {'Authorization': 'bearer ' + localStorage.token}}, 'post')
 						.then(res => {
 							this.barangs = res
 							// this.barangs.forEach((item, i) => {
@@ -328,11 +328,11 @@
 		    },
 		    getDataTable() {
 			    	// Get semua barang pesanan
-				getDatas(this, 'https://young-temple-67589.herokuapp.com/api/order/barang/pesanan/detail/' + this.$route.params.id, {method:'post',headers: {'Authorization': 'bearer ' + localStorage.token}}, 'post')
+				getDatas(this, localStorage.base_api + 'order/barang/pesanan/detail/' + this.$route.params.id, {method:'post',headers: {'Authorization': 'bearer ' + localStorage.token}}, 'post')
 				.then(res => {
 
 					res.forEach((item, i) => {
-						getDatas(this, 'https://young-temple-67589.herokuapp.com/api/barang/' + item.id_barang, {method:'post', headers:{'Authorization': 'bearer ' + localStorage.token}}, 'post')
+						getDatas(this, localStorage.base_api + 'barang/' + item.id_barang, {method:'post', headers:{'Authorization': 'bearer ' + localStorage.token}}, 'post')
 						.then(res => {
 							let obj = {
 								id:item.id,
@@ -360,7 +360,7 @@
 		},
 		created() {
 			// Get Semua Barang untuk obral
-			getDatas(this, 'https://young-temple-67589.herokuapp.com/api/barang', {headers: {'Authorization': 'bearer ' + localStorage.token}}, 'post')
+			getDatas(this, localStorage.base_api + 'barang', {headers: {'Authorization': 'bearer ' + localStorage.token}}, 'post')
 			.then(res => {
 				this.barangs = res
 				// this.barangs.forEach((item, i) => {

@@ -30,6 +30,7 @@
 	</div>
 </template>
 <script type="text/javascript">
+	import {getDatas} from '@/containers/global-function.js'
 	export default {
 		name:'Sales',
 		data() {
@@ -62,7 +63,7 @@
 		},
 		methods: {
 			getData() {
-				this.$http.get('https://young-temple-67589.herokuapp.com/api/sales', {
+				getDatas(this,localStorage.base_api + 'sales', {
 					headers: {
 						'Authorization': 'bearer ' + localStorage.getItem('token')
 					},
@@ -121,7 +122,7 @@
 			      })
 				.then((deleted) => {
 					if(deleted) {
-						this.$http.delete('https://young-temple-67589.herokuapp.com/api/sales/' + id, {
+						this.$http.delete(localStorage.base_api + 'sales/' + id, {
 							headers: {
 								'Authorization': 'bearer ' + localStorage.getItem('token')
 							},
@@ -171,7 +172,7 @@
 			this.getData()
 		},
 		mounted() {
-			this.data = this.$store.getters.userData
+			this.data = JSON.parse(localStorage.user)
 			console.log(this.data)
 		}
 	}

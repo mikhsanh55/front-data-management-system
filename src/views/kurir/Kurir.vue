@@ -23,7 +23,7 @@
 								<router-link v-if="data.level != 2" :to="'/kurir/edit/' + props.row.id" class="btn btn-primary btn-sm mr-2" title="edit kurir">
 									<i class="fa fa-edit"></i>
 								</router-link> -->
-								<button v-if="data.level != 2" title="hapus data kurir" class="text-danger btn btn-secondary btn-sm" @click="deleteKurir(props.row.id)"><i class="fa fa-trash" ref="id" :id="props.row.id"></i></button>
+								<button v-if="data.level != 2" title="hapus data kurir" class="text-danger btn btn-secondary btn-sm" @click="deleteKurir(props.row.id)"><i class="fa fa-trash" ref="id" :id="props.row.id_karyawan"></i></button>
 							</div>
 						</v-client-table>
 					</CCol>
@@ -45,6 +45,7 @@
 	</div>
 </template>
 <script type="text/javascript">
+	import {getDatas} from '@/containers/global-function.js'
 	export default {
 		name:"Kurir",
 		data() {
@@ -81,21 +82,22 @@
 		},
 		methods: {
 			getData() {
-				this.$http.get('https://young-temple-67589.herokuapp.com/api/kurir', {
+				getDatas(this, localStorage.base_api + 'kurir', {
 					headers: {
 						'Authorization': 'bearer ' + localStorage.getItem('token')
 					},
 					redirect:'follow'
 				})
 				.then(res => {
-					this.kurir = res.data
+					this.kurir = res
 					for(let i = 0;i < this.kurir.length;i++) {
 						this.kurir[i].no = i+1
 					}
 					console.log(res)
 				})
 				.catch(e => {
-					this.$swal('Tidak bisa ambil data', 'hubungi pengembangnya...', 'danger')
+					console.error(e)
+					this.$swal('Tidak bisa ambil data', 'hubungi pengembangnya...', 'error')
                     setTimeout(() => {
                     	this.$swal.close()
                     }, 1500)
@@ -112,7 +114,7 @@
 			      })
 				.then((deleted) => {
 					if(deleted) {
-						this.$http.delete('https://young-temple-67589.herokuapp.com/api/kurir/' + id, {
+						this.$http.delete(localStorage.base_api + 'karyawan/' + id, {
 							headers: {
 								'Authorization': 'bearer ' + localStorage.token
 							}
@@ -121,7 +123,7 @@
 							this.$swal('data user berhasil dihapus', 'Mohon tunggu sebentar...', 'success')
 							setTimeout(() => {
 								this.$swal.close()
-								this.$router.push('/kurir')	
+								this.getData()
 							}, 1500)
 						})
 						.catch(e => {
@@ -140,7 +142,8 @@
 									
 								})
 								.catch(e => {
-									this.$swal('Tidak bisa hapus data', 'hubungi pengembangnya...', 'danger')
+									console.log(e)
+									this.$swal('Tidak bisa hapus data', 'hubungi pengembangnya...', 'error')
 				                    setTimeout(() => {
 				                    	this.$swal.close()
 				                    }, 1500)
@@ -148,7 +151,7 @@
 								})
 							}
 							else {
-								this.$swal('Tidak bisa hapus data', 'hubungi pengembangnya...', 'danger')
+								this.$swal('Tidak bisa hapus data', 'hubungi pengembangnya...', 'error')
 			                    setTimeout(() => {
 			                    	this.$swal.close()
 			                    }, 1500)
