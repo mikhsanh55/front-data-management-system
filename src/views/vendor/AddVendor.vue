@@ -105,6 +105,7 @@
 		name:"addVendor",
 		data() {
 			return {
+				data:JSON.parse(localStorage.user),
 				vendor: {
 					nama:null,
 					foto:null,
@@ -192,6 +193,11 @@
 						return false
 					})
 				}
+			}
+		},
+		created() {
+			if(this.data.level == 3 || this.data.level == 4 || this.data.level == 6 || this.data.level == 7 ) {
+				this.$router.push('/')
 			}
 		}
 	}

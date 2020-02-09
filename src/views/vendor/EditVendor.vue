@@ -119,7 +119,8 @@
 					karakteristik_perusahaan:null		
 				},
 				validMsg:false,
-				errors:[]
+				errors:[],
+				data:JSON.parse(localStorage.user),
 			}
 		},
 		methods: {
@@ -235,6 +236,9 @@
 			}
 		},
 		created() {
+			if(this.data.level == 3 || this.data.level == 4 || this.data.level == 6 || this.data.level == 7 ) {
+				this.$router.push('/')
+			}
 			this.getData()
 		}
 	}

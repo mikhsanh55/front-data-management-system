@@ -65,7 +65,7 @@
 				modal:false,
 				date:{from:null},
 				id:0,
-				data:'',
+				data:JSON.parse(localStorage.user),
 				smallModal:false,
 				tableFields: [
 					'no', 'nama', 'email', 'wa_hp', 'nama_instansi',
@@ -205,12 +205,11 @@
 			}
 		},
 		created() {
+			if(this.data.level == 3 || this.data.level == 4 || this.data.level == 6 || this.data.level == 7 ) {
+				this.$router.push('/')
+			}
 			this.getData()
 		},
-		mounted() {
-			this.data = JSON.parse(localStorage.user)
-			console.log(this.data)
-		}
 	}
 </script>
 <style>	
