@@ -160,8 +160,62 @@
         </CCol>
       </CRow>
     </div>
+    <div v-if="level == 6"> 
+      <CRow>
+        <CCol sm="6" lg="4">
+              <CWidgetDropdown color="secondary" :header="data.request == 0 ? '0' : data.request" text="Request">
+                
+                <template #footer>
+                  <CChartLineSimple
+                    pointed
+                    class="px-3"
+                    style="height:70px"
+                    :data-points="[1, 18, 9, 17, 34, 22, 11]"
+                    background-color="primary"
+                    :options="{ elements: { line: { tension: 0.00001 }}}"
+                    label="Members"
+                    labels="months"
+                  />
+                </template>
+              </CWidgetDropdown>
+            </CCol>
 
-    <div v-if="level == 7 || level == 6">
+            <CCol sm="6" lg="4">
+              <CWidgetDropdown
+                color="primary"
+                :header="data.proses == 0 ? '0' : data.proses"
+                text="Proses"
+              >
+                <template #footer>
+                  <CChartBarSimple
+                    style="height:70px"
+                    background-color="rgb(250, 152, 152)"
+                    label="Members"
+                    labels="months"
+                  />
+                </template>
+              </CWidgetDropdown>
+            </CCol>
+            <CCol sm="6" lg="4">
+              <CWidgetDropdown color="warning" :header="data.pengiriman == 0 ? '0' : data.pengiriman" text="Pengiriman">
+                
+                <template #footer>
+                  <CChartLineSimple
+                    pointed
+                    class="px-3"
+                    style="height:70px"
+                    :data-points="[1, 18, 9, 17, 34, 22, 11]"
+                    background-color="danger"
+                    :options="{ elements: { line: { tension: 0.00001 }}}"
+                    label="Members"
+                    labels="months"
+                  />
+                </template>
+              </CWidgetDropdown>
+            </CCol>
+      </CRow>
+    </div>  
+    <div v-if="level == 7">
       <CRow>
         <CCol sm="6" lg="3">
           <CWidgetDropdown color="secondary" :header="data.request == 0 ? '0' : data.request" text="Request">
@@ -233,6 +287,118 @@
         </CCol>
       </CRow>
     </div>
+    <div v-if="level == 3">
+      <CRow>
+        <CCol sm="12" lg="6">
+          <CWidgetDropdown
+            color="primary"
+            :header="data.pengiriman_po == 0 ? '0' : data.pengiriman_po"
+            text="Pengiriman Purchase Order"
+          >
+            <template #footer>
+              <CChartLineSimple
+                pointed
+                class="px-3"
+                style="height:70px"
+                :data-points="[1, 18, 9, 17, 34, 22, 11]"
+                background-color="primary"
+                :options="{ elements: { line: { tension: 0.00001 }}}"
+                label="Members"
+                labels="months"
+              />
+            </template>
+          </CWidgetDropdown>
+        </CCol>
+        <CCol sm="12" lg="6">
+          <CWidgetDropdown
+            color="success"
+            :header="data.pengiriman_req_barang == 0 ? '0' : data.pengiriman_req_barang"
+            text="Pengiriman Request Barang"
+          >
+            <template #footer>
+              <CChartBarSimple
+                style="height:70px"
+                background-color="rgb(250, 152, 0)"
+                labels="months"
+              />
+            </template>
+          </CWidgetDropdown>
+        </CCol>
+      </CRow>
+    </div>
+    <div v-if="level == 4"> 
+      <CRow>
+        <CCol sm="6" lg="4">
+          <CWidgetDropdown
+            color="primary"
+            :header="data.barang_masuk == 0 ? '0' : data.barang_masuk"
+            text="Barang Masuk"
+          >
+            <template #footer>
+              <CChartBarSimple
+                style="height:70px"
+                background-color="rgb(250, 152, 0)"
+                labels="months"
+              />
+            </template>
+          </CWidgetDropdown>
+        </CCol>
+        <CCol sm="6" lg="4">
+          <CWidgetDropdown
+            color="success"
+            :header="data.barang_keluar == 0 ? '0' : data.barang_keluar"
+            text="Barang Keluar"
+          >
+            <template #footer>
+              <CChartLineSimple
+                style="height:70px"
+                background-color="rgba(255,255,255,.2)"
+                :data-points="[78, 81, 80, 45, 34, 12, 40]"
+                :options="{ elements: { line: { borderWidth: 2.5 }}}"
+                point-hover-background-color="secondary"
+                label="Members"
+                labels="months"
+              />
+            </template>
+          </CWidgetDropdown>
+        </CCol>
+
+        <CCol sm="6" lg="4">
+          <CWidgetDropdown
+            color="danger"
+            :header="data.barang_habis == 0 ? '0' : data.barang_habis"
+            text="Barang Habis"
+          >
+            <template #footer>
+              <CChartBarSimple
+                style="height:70px"
+                background-color="rgb(250, 90, 0)"
+                labels="months"
+              />
+            </template>
+          </CWidgetDropdown>
+        </CCol>
+      </CRow>
+    </div>
+    <div v-if="level == 5"> 
+      <CRow class="d-flex justify-content-center">
+        <CCol sm="4" lg="4">
+          <CWidgetDropdown
+            color="primary"
+            :header="data.barang_pesanan == 0 ? '0' : data.barang_pesanan"
+            text="Barang Pesanan"
+          >
+            <template #footer>
+              <CChartBarSimple
+                style="height:70px"
+                background-color="rgb(250, 90, 40)"
+                labels="barang pesanan"
+              />
+            </template>
+          </CWidgetDropdown>
+        </CCol>
+      </CRow>
+    </div>
   </div>
 </template>
 
@@ -264,24 +430,26 @@ export default {
         console.warn('HI')
         res.shift()
         this.data = {...res[0], ...res[1]}
-        console.log(this.data)
+        
       })
     }
     else if(this.level == 7) {
       fetchAll([
         'https://young-temple-67589.herokuapp.com/api/dashboard/psb',
+        'https://young-temple-67589.herokuapp.com/api/dashboard/pk',
         'https://young-temple-67589.herokuapp.com/api/dashboard/k'
       ], [
+        {headers:{'Authorization': 'bearer ' + localStorage.token}},
         {headers:{'Authorization': 'bearer ' + localStorage.token}},
         {headers:{'Authorization': 'bearer ' + localStorage.token}}
       ])
       .then(res => {
         console.warn('HI')
-        this.data = {...res[0], ...res[1]}
-        console.log(this.data)
+        this.data = {...res[0], ...res[1], ...res[2]}
+        
       }) 
     }
-    else  {
+    else if(this.level == 6) {
       fetchAll([
         'https://young-temple-67589.herokuapp.com/api/dashboard/rbs'
       ], [
@@ -295,8 +463,54 @@ export default {
         console.error('Ada error guys')
         console.error(e)
       })  
+    }
+    else if(this.level == 3) { // admin umum
+      fetchAll([
+        'https://young-temple-67589.herokuapp.com/api/dashboard/sp'
+      ], [
+        {headers:{'Authorization': 'bearer ' + localStorage.token}}
+      ])
+      .then(res => {
+        console.warn('HI')
+        this.data = {...res[0]}
+        console.log(this.data.pengiriman_po)
+      })
+      .catch(e => {
+        console.error('Ada error guys')
+        console.error(e)
+      })  
     }  
-    console.log(this.user)
+    else if(this.level == 4) { // admin stok
+      fetchAll([
+        'https://young-temple-67589.herokuapp.com/api/dashboard/tio'
+      ], [
+        {headers:{'Authorization': 'bearer ' + localStorage.token}}
+      ])
+      .then(res => {
+        console.warn('HI')
+        this.data = {...res[0]}
+      })
+      .catch(e => {
+        console.error('Ada error guys')
+        console.error(e)
+      })  
+    }
+
+    else if(this.level == 5) { // admin pengadaan
+      fetchAll([
+        'https://young-temple-67589.herokuapp.com/api/dashboard/bp'
+      ], [
+        {headers:{'Authorization': 'bearer ' + localStorage.token}}
+      ])
+      .then(res => {
+        console.warn('HI')
+        this.data = {...res[0]}
+      })
+      .catch(e => {
+        console.error('Ada error guys')
+        console.error(e)
+      })  
+    }
   }
 }
 </script>
