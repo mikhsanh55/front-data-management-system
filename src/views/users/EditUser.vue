@@ -30,6 +30,7 @@
 		                        horizontal
 		                        placeholder="Masukan Email"
 		                        v-model="user.email"
+		                        readonly
 		                      />  
 		                      <CSelect
 		                      label="Jabatan"
@@ -63,7 +64,8 @@
 					email_msg:null
 				},
 				user: {
-					id:36,
+					id:1,
+					id_karyawan:1,
 					nama:null,
 					email:null,
 					username:null,
@@ -71,6 +73,7 @@
 				},
 				jabatan: [],
 				karyawan: [],
+				data_karyawan:[],
 				validMsg:false,
 				errors:[],
 			}
@@ -84,10 +87,10 @@
 	      		})
 	      		.then(res => {
 	      			// console.log(res.data)
-	      			for(let i = 0;i < res.data.length;i++) {
+	      			for(let i = 0;i < res.length;i++) {
 	      				let obj = {}
-	      				obj.value = res.data[i].id
-	      				obj.label = res.data[i].nama
+	      				obj.value = res[i].id
+	      				obj.label = res[i].nama
 	      				this.jabatan.push(obj)
 	      			}
 	      			console.log(this.jabatan)
@@ -96,29 +99,8 @@
 	      			this.getData()
 	      		})
 	      		.catch(e => {
-	      			alert('Maaf lagi ada error sedikit :D')
-	      			console.error(e.response)
 	      			this.label = 'Tambah Karyawan'
-					if(e.response.status == 401) {
-	                  this.$store.dispatch('logout')
-	                  .then(() => {
-	                    let path = window.location.href
-	                    path = path.split('/')
-	                    localStorage.setItem('prevPath', path[path.length - 1])
-	                    alert('Session Login kamu sudah habis! silahkan login kembali')
-	                    
-	                  })
-	                  .then(() => {
-	                    this.$router.replace({path: '/login'})
-	                  })
-	                  .catch(e => {
-	                    alert('An error occured when get data :(')
-	                    return false
-	                  })
-	                }
-	                else if(e.response.status == 500) {
-						alert('Ada sedikit masalah disisi server, Mohon hubungi pengembangnya yah :)')
-					}
+					console.error(e)
 	      			return false
 	      		})
 			},
@@ -132,6 +114,7 @@
 				}
 				getDatas(this, localStorage.base_api + 'karyawan', options)
 				.then(res => {
+					this.data_karyawan = res
 					for(let i = 0;i < res.length;i++) {
 	      				let obj = {}
 	      				obj.value = res[i].id
@@ -179,6 +162,13 @@
 			},
 			assignKaryawan(val) {
 				this.user.nama = val
+				this.data_karyawan.forEach((item, i) => {
+					if(val == item.id) {
+						this.user.email = item.email
+						this.user.level = item.id_jabatan
+						return
+					}
+				})
 			},
 			assignJabatan(val) {
 				this.user.id_level = val
@@ -194,40 +184,11 @@
 				}
 				getDatas(this, localStorage.base_api + 'user/' + this.$route.params.id, options)
 				.then(res => {
+					console.warn(res)
 					this.user = res
 				})	
 				.catch(e => {
 					this.label = 'Simpan Perubahan'
-					if(e.response.status == 401) {
-	                  this.$store.dispatch('logout')
-	                  .then(() => {
-	                    let path = window.location.href
-	                    path = path.split('/')
-	                    localStorage.setItem('prevPath', path[path.length - 1])
-	                    this.$swal('Sesi login kamu sudah habis', 'login kagi yah...', 'warning')
-	                    setTimeout(() => {
-	                    	this.$swal.close()
-	                    	this.$router.replace({path: '/login'})
-	                    }, 1500)
-	                    
-	                  })
-	                  .catch(e => {
-	                    this.$swal('Tidak bisa ambil data', 'hubungi pengembangnya...', 'danger')
-	                    setTimeout(() => {
-	                    	this.$swal.close()
-	                    	this.$router.replace({path: '/login'})
-	                    }, 1500)
-	                    return false
-	                  })
-	                }
-	                else if(e.response.status == 500) {
-						this.$swal('Tidak bisa ambil data', 'hubungi pengembangnya...', 'danger')
-	                    setTimeout(() => {
-	                    	this.$swal.close()
-	                    	this.$router.replace({path: '/login'})
-	                    }, 1500)
-	                    return false
-					}
 					return false
 				})
 			},
@@ -262,23 +223,15 @@
 					})
 					.catch(e => {
 						this.label = 'Simpan Perubahan'
-						if(e.response.status == 401) {
-							this.$swal('Sesi login kamu sudah habis', 'login kagi yah...', 'warning')
+						
+						console.log(e)
+						for(let item in e.response.data.errmsg) {
+							console.log(e.response.data.errmsg[item][0])
+							this.$swal(e.response.data.errmsg[item][0], 'hubungi pengembangnya yah', 'error')
 		                    setTimeout(() => {
 		                    	this.$swal.close()
-		                    	this.$router.replace({path: '/login'})
-		                    }, 1500)
-		                    return false
+		                    }, 1500)	
 						}
-						else {
-							this.$swal('Tidak bisa update data', 'hubungi pengembangnya...', 'danger')
-		                    setTimeout(() => {
-		                    	this.$swal.close()
-		                    	this.$router.replace({path: '/login'})
-		                    }, 1500)
-		                    return false
-						}
-						console.log(e.response)
 						return false
 					})
 				}

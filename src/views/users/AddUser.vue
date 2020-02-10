@@ -30,6 +30,7 @@
 		                        horizontal
 		                        placeholder="Masukan Email"
 		                        v-model="user.email"
+		                        readonly
 		                      />  
 		                      <CInput
 		                        type="password"
@@ -80,6 +81,7 @@
 					level:6
 				},
 				karyawan: [],
+				data_karyawan:[],
 				jabatan: [],
 				validMsg:false,
 				errors:[]
@@ -118,7 +120,9 @@
 				}
 				fetch(localStorage.base_api + 'karyawan', options)
 				.then(res => res.json())
+				
 				.then(res => {
+					this.data_karyawan = res
 					for(let i = 0;i < res.length;i++) {
 	      				let obj = {}
 	      				obj.value = res[i].id
@@ -137,6 +141,14 @@
 			},
 			assignKaryawan(val) {
 				this.user.id_karyawan = val
+				this.data_karyawan.forEach((item, i) => {
+					if(val == item.id) {
+						this.user.email = item.email
+						this.user.level = item.id_jabatan
+						return
+					}
+
+				})
 				console.log(val)
 			},
 			assignJabatan(val) {
@@ -175,7 +187,7 @@
 						
 					})
 					.catch(e => {
-						
+						console.warn(e.response)
 						if(e.response.status == 401) {
 		                  this.$store.dispatch('logout')
 		                  .then(() => {
@@ -190,7 +202,8 @@
 		                    return false
 		                  })
 		                  .catch(e => {
-		                    this.$swal('Tidak bisa menambah data', 'hubungi pengembangnya yah', 'danger')
+		                  	console.log(e)
+		                    this.$swal('Tidak bisa menambah data', 'hubungi pengembangnya yah', 'error')
 		                    setTimeout(() => {
 		                    	this.$swal.close()
 		                    }, 1500)
@@ -199,12 +212,14 @@
 		                }
 						else {
 							this.label = 'Tambah User'
-							this.$swal('Tidak bisa menambah data', 'hubungi pengembangnya yah', 'danger')
-		                    setTimeout(() => {
-		                    	this.$swal.close()
-		                    }, 1500)
+							for(let item in e.response.data.errmsg) {
+								console.log(e.response.data.errmsg[item][0])
+								this.$swal(e.response.data.errmsg[item][0], 'hubungi pengembangnya yah', 'error')
+			                    setTimeout(() => {
+			                    	this.$swal.close()
+			                    }, 1500)	
+							}
 		                    return false
-							return false
 						}
 					})
 				}
