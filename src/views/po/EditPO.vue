@@ -31,13 +31,13 @@
                             :options="konsumen"
                             @update:value="assignKonsumen"
                           />  
-                          <CSelect
+                          <!-- <CSelect
                             label="Kurir"
                             horizontal
                             v-model="po.id_kurir"
                             :options="kurir"
                             @update:value="assignKurir"
-                          />  
+                          />   -->
                           <CInput
                             type="text"
                             :description="validator.no_po_msg"
@@ -49,7 +49,7 @@
                             placeholder="Masukan Nomer PO"
                             v-model="po.no_po"
                           />
-                          <CInput
+                          <!-- <CInput
                             type="text"
                             :description="validator.no_surat_jalan_msg"
                             :is-valid="validator.no_surat_jalan"
@@ -70,7 +70,7 @@
                             horizontal
                             placeholder="Masukan Nomer no_Invoice"
                             v-model="po.no_invoice"
-                          />
+                          /> -->
 
                           <CInput
                             type="date"
@@ -144,6 +144,7 @@
                             horizontal
                             placeholder="Other"
                             v-model="po.other"
+                            readonly
                           />
                           <CTextarea
                             label="Catatan"
@@ -185,10 +186,6 @@
           no_msg:null,
           tgl_po_masuk:null,
           tgl_po_masuk_msg:null,
-          no_surat_jalan:null,
-          no_surat_jalan_msg:null,
-          no_invoice:null,
-          no_invoice_msg:null,
           date:null,
           date_msg:null,
           date_line:null,

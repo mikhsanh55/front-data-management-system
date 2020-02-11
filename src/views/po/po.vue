@@ -8,7 +8,7 @@
 				<CCardBody>
 					<CRow>
 						<CCol sm="12">
-							<button @click="modal = true" class="float-right mb-4 ml-2 btn btn-light"><small> <i class="fa fa fa-file-excel-o mr-1"></i> Export .xlsx</small></button>		
+							<button @click="modal = true" class="float-right mb-4 ml-2 btn btn-light"><small> <i class="fa fa fa-file-excel-o mr-1"></i> Export PO</small></button>		
 							<router-link v-if="data.level != 2 && data.level != 6 && data.level != 3" to="/po/add" class="float-right mb-4 btn btn-light"><small> <i class="fa fa-plus mr-1"></i> Tambah PO</small></router-link>		
 
 								<v-client-table
@@ -20,17 +20,12 @@
 									<!-- <td slot="other" slot-scope="props">
 										<div>{{props.row.other == null ? '-' : props.row.other}}</div>
 									</td> -->
-									<td slot="status" slot-scope="props" class="d-flex justify-content-center">
-										
-											<span  v-if="props.row.status == 1" class="badge badge-primary">Request</span>
-											<span  v-else-if="props.row.status == 2" class="badge badge-warning">Proses</span>
-											<span  v-else-if="props.row.status == 3" class="badge badge-warning">Pengiriman</span>
-											<span  v-else-if="props.row.status == 4" class="badge badge-success">Selesai</span>
-											<span  v-else-if="props.row.status == 5" class="badge badge-danger">Batal</span>
-										
-									</td>
-									<td slot="aksi" slot-scope="props" class="d-flex justify-content-center">
-										
+									<td slot="aksi" slot-scope="props" class="d-flex justify-content-center align-items-center">
+											<span  v-if="props.row.status == 1" class="badge mr-2 align-middle ml-2 badge-primary">Request</span>
+											<span  v-else-if="props.row.status == 2" class="badge mr-2 align-middle ml-2 badge-warning">Proses</span>
+											<span  v-else-if="props.row.status == 3" class="badge mr-2 align-middle ml-2 badge-warning">Pengiriman</span>
+											<span  v-else-if="props.row.status == 4" class="badge mr-2 align-middle ml-2 badge-success">Selesai</span>
+											<span  v-else-if="props.row.status == 5" class="badge mr-2 align-middle ml-2 badge-danger">Batal</span>
 											<router-link title="detail po" :to="'/po/detail/' + props.row.id" class="text-dark btn btn-secondary mr-2 btn-sm">
 												<i class="fa fa-eye"></i>
 											</router-link>
@@ -134,7 +129,7 @@
 				data:'',
 				po:[],
 				tableFields : [ 
-					'nod', 'sales', 'konsumen', 'no', 'status','aksi'
+					'nod', 'no', 'date', 'tgl_po_masuk', 'date_line', 'sales', 'konsumen',  'aksi'
 			    ],
 			    tableOptions : {
 			    	perPage:10,
@@ -142,20 +137,24 @@
 			    	headings : {
 			    		nod: 'No',
 			    		sales: 'Nama Sales',
+			    		date: 'Tanggal PO',
+			    		tgl_po_masuk: 'Tanggal PO Masuk',
+			    		date_line: 'Tanggal Pengiriman',
 			    		konsumen: 'Nama Konsumen',
 			    		no: 'No PO',
-			    		status: 'Status',
 			    		aksi: 'Aksi'
 			    	},
-			    	sortable:['nod', 'sales', 'konsumen'],
-			    	filterable:['nod', 'sales', 'konsumen', 'no', 'status'],
+			    	sortable:['nod', 'sales', 'konsumen', 'date', 'date_line', 'tgl_po_masuk'],
+			    	filterable:['nod', 'sales', 'konsumen', 'no',  'date', 'date_line', 'tgl_po_masuk'],
 			    	columnsClasses: {
 			    		nod:'text-center align-middle',
 			    		sales:'align-middle',
 			    		konsumen:'align-middle',
 			    		no:'align-middle',
-			    		status:'text-center align-middle',
-			    		aksi:'text-center align-middle'
+			    		aksi:'text-center align-middle',
+			    		date:'text-center align-middle',
+			    		date_line:'text-center align-middle',
+			    		tgl_po_masuk:'text-center align-middle'
 			    	}
 			    },
 			    id:0
@@ -180,7 +179,14 @@
 				.then(res => {
 					this.po = res
 					this.po.forEach((item, i) => {
+						let dates = item.date.split('-'),
+						dateline = item.date_line.split('-'),
+						tgl_po_masuk = item.tgl_po_masuk.split('-')
+
 						item.nod = i + 1
+						item.date = `${dates[2]}-${dates[1]}-${dates[0]}`
+						item.date_line = `${dateline[2]}-${dateline[1]}-${dateline[0]}`
+						item.tgl_po_masuk = `${tgl_po_masuk[2]}-${tgl_po_masuk[1]}-${tgl_po_masuk[0]}`
 					})
 				})
 				.catch(e => {

@@ -13,12 +13,12 @@
 		                      </p>    
 
 		                    <CSelect
-		                    	placeholder="Pilih Karyawan"
 		                    	label="Nama Karyawan"
 		                    	horizontal
 		                    	:options="karyawan"
 		                        description="Masukan Nama Karyawan"
 		                        autocomplete="nama_karyawan"
+		                        v-model="user.id_karyawan"
 		                        @update:value="assignKaryawan"
 		                      />
 		                    <CInput
@@ -45,7 +45,6 @@
 		                        v-model="user.password"
 		                      /> 
 		                      <CSelect
-		                      placeholder="Pilih Jabatan"
 		                      label="Jabatan"
 		                      horizontal
 		                      :options="jabatan"
@@ -77,10 +76,10 @@
 					password_msg:null
 				},
 				user: {
-					id_karyawan:1,
+					id_karyawan:null,
 					email: null,
 					password:null,
-					level:6
+					level:null
 				},
 				karyawan: [],
 				data_karyawan:[],
@@ -91,6 +90,7 @@
 		},
 		methods: {
 			getJabatan() {
+				this.jabatan.push({value:'000', label: 'Pilih Jabatan'})
 				this.$http.get(localStorage.base_api + 'jabatan', {
 	      			headers: {
 	      				'Authorization': 'bearer ' + localStorage.token
@@ -113,6 +113,7 @@
 	      		})
 			},
 			getKaryawan() {
+				this.karyawan.push({value: '000', label: 'Pilih Karyawan'})
 				let headers = new Headers()
 				headers.append('Authorization', 'bearer ' + localStorage.getItem('token'))
 				let options = {
@@ -167,6 +168,19 @@
 					this.validator.password = false
 		            this.validator.password_msg = 'Harap isi password karyawan'
 		            this.errors.push('password karyawan kosong')
+				}
+
+				if(!this.user.id_jabatan || this.user.id_jabatan == '000') {
+					this.errors.push('Harap pilih jabatan')
+					this.$swal('Harap pilih jabatan', '', 'warning')
+					setTimeout(() => this.$swal.close(), 1500)
+				}
+
+
+				if(!this.user.id_karyawan || this.user.id_karyawan == '000') {
+					this.errors.push('Harap pilih karyawan')
+					this.$swal('Harap pilih karyawan', '', 'warning')
+					setTimeout(() => this.$swal.close(), 1500)
 				}
 
 				if(!this.errors.length) {

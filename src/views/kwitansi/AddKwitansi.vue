@@ -17,7 +17,6 @@
 		                        </p>
 		                      </div>  
 		                    <CSelect
-		                    	placeholder="Pilih Guna Pembayaran"
 				                label="Guna Pembayaran"
 				                horizontal
 				                :options="guna_pembayaran"
@@ -87,12 +86,18 @@
 		},
 		methods: {
 			assignGunaPembayaran(val) {
+
 				this.po.forEach((item) => {
 					if(item.id == val) {
 						this.kwitansi.guna_pembayaran = item.id
 						this.kwitansi.no = item.no_invoice
 						this.kwitansi.terima_dari = item.konsumen
 						return
+					}
+					else {
+						this.kwitansi.guna_pembayaran = null
+						this.kwitansi.no = null
+						this.kwitansi.terima_dari = null
 					}
 				})
 			},
@@ -107,8 +112,10 @@
 				if(!this.kwitansi.uang) {
 					this.errors.push('Uang Terbilang Wajib diisi')
 				}
-				if(!this.kwitansi.guna_pembayaran) {
+				if(!this.kwitansi.guna_pembayaran || this.kwitansi.guna_pembayaran == '000') {
 					this.errors.push('Guan Pembayaran Wajib diisi')
+					this.$swal('Harap Pilih Guna Pembayaran', '', 'warning')
+					setTimeout(() => this.$swal.close(), 1500)
 				}
 
 				if(!this.errors.length) {
@@ -148,6 +155,7 @@
 			}
 			getDatas(this, localStorage.base_api + 'po', {headers:{'Authorization': 'bearer ' + localStorage.token}}, 'get')
 			.then(res => {
+				this.guna_pembayaran.push({value: '000', label:'Pilih Guna Pembayaran'})
 				console.log(res)
 				this.po = res
 				res.forEach((item, i) => {
@@ -156,11 +164,6 @@
 					obj.label = item.no
 					this.guna_pembayaran.push(obj)
 				})
-			})
-			.then(() => {
-				this.kwitansi.guna_pembayaran = this.po[0].id
-				this.kwitansi.no = this.po[0].no_invoice
-				this.kwitansi.terima_dari = this.po[0].konsumen
 			})
 			.catch(e => {
 				if(e.response.status == 401) {

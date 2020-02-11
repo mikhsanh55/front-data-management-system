@@ -78,7 +78,7 @@ export function checkPO(self) {
 				data.push( {
 					date:notifPO,
 					data:res.data[i],
-					link:'/po/' + res.data[i].id
+					link:'po/detail/' + res.data[i].id
 				} )
 				
 			}
@@ -93,8 +93,8 @@ export function checkPO(self) {
 					})
 				}
 			}
-			localStorage.setItem('notif', JSON.stringify(notif))
-			return notif
+			localStorage.setItem('notif', JSON.stringify(data))
+			return data
 		})
 		.then(notif => resolve(notif))
 		.catch(e => reject(e))

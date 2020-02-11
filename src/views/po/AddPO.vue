@@ -179,9 +179,9 @@
 					other_msg: null,
 				},
 				po: {
-					id_sales:1,
-					id_konsumen:1,
-					id_kurir:1,
+					id_sales:null,
+					id_konsumen:null,
+					id_kurir:null,
 					status:1,
 					no: null,
 					date: null,
@@ -243,6 +243,24 @@
 					this.validator.sales_fee = false
 		            this.validator.sales_fee_msg = 'Harap isi sales fee'
 		            this.errors.push('sales_fee kosong')
+				}
+
+				if(!this.po.id_sales || this.po.id_sales == '000') {
+					this.errors.push('Harap pilih Sales')
+					this.$swal('Harap pilih Sales', '', 'warning')
+					setTimeout(() => this.$swal.close(), 1500)
+				}
+
+				if(!this.po.id_konsumen || this.po.id_konsumen == '000') {
+					this.errors.push('Harap pilih konsumen')
+					this.$swal('Harap pilih konsumen', '', 'warning')
+					setTimeout(() => this.$swal.close(), 1500)
+				}
+
+				if(!this.po.id_kurir || this.po.id_kurir == '000') {
+					this.errors.push('Harap pilih kurir')
+					this.$swal('Harap pilih kurir', '', 'warning')
+					setTimeout(() => this.$swal.close(), 1500)
 				}
 
 				if(!this.errors.length) {
@@ -333,6 +351,7 @@
 			fetchAll() {
 		        let self = this
 		        this.getRequest(localStorage.base_api + 'sales', function(data){
+		        	self.sales.push({value: '000', label:'Pilih Sales'})
 		          for(let i = 0;i < data.length;i++) {
 		            let obj = {}
 		            obj.value = data[i].id
@@ -341,6 +360,7 @@
 		          }
 		        })
 		        this.getRequest(localStorage.base_api + 'kurir', function(data){
+		        	self.kurir.push({value: '000', label:'Pilih Kurir'})
 		          for(let i = 0;i < data.length;i++) {
 		            let obj = {}
 		            obj.value = data[i].id
@@ -349,6 +369,7 @@
 		          }
 		        })
 		        this.getRequest(localStorage.base_api + 'konsumen', function(data){
+		        	self.konsumen.push({value: '000', label:'Pilih Konsumen'})
 		          for(let i = 0;i < data.length;i++) {
 		            let obj = {}
 		            obj.value = data[i].id

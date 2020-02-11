@@ -33,32 +33,13 @@
 		                        rows="3"
 		                        v-model="asset.deskripsi_barang"
 		                      /> 
-		                      <!-- <CInput
-	                        	type="text"
-		                        :description="validator.nama_karyawan_msg"
-		                        :is-valid="validator.nama_karyawan"
-		                        @input="asset.nama_karyawan.length < 1 ? validator.nama_karyawan = false : validator.nama_karyawan = true"
-		                        autocomplete="nama_karyawan"
-		                        label="Nama Karyawan"
-		                        horizontal
-		                        placeholder="Masukan Nama Karyawan"
-		                        v-model="asset.nama_karyawan"
-		                      /> -->
 		                    <CSelect
-		                    	placeholder="Pilih Karyawan"
 				                label="Karyawan"
 				                horizontal
-				                v-model="karyawanselected"
+				                v-model="asset.id_karyawan"
 				                :options="karyawan"
 				                @update:value="assignKaryawan"
 				              />  
-    	                    <!-- <CSelect
-				                label="Jabatan"
-				                horizontal
-				                v-model="jabatanselected"
-				                :options="jabatan"
-				                @update:value="assignJabatan"
-				              />   -->
 		                    <CInput
 	                        	type="date"
 		                        :description="validator.tanggal_beli_msg"
@@ -137,6 +118,7 @@
 				fetch(this.base_api + 'karyawan', options)
 				.then(res => res.json())
 				.then(res => {
+					this.karyawan.push({value:'000', label: 'Pilih Karyawan'})
 					for(let i = 0;i < res.length;i++) {
 	      				let obj = {}
 	      				obj.value = res[i].id
@@ -175,6 +157,12 @@
 					this.validator.tanggal_expired = false
 		            this.validator.tgl_expired_msg = 'Harap isi tanggal kadaluarsa'
 		            this.errors.push('tgl_expired karyawan kosong')
+				}
+
+				if(!this.asset.id_karyawan || this.asset.id_karyawan == '000') {
+					this.errors.push('Pilih Karyawan')
+					this.$swal('Harap Pilih Karyawan', '', 'warning')
+					setTimeout(() => this.$swal.close(), 1500)
 				}
 
 				if(!this.errors.length) {

@@ -9,7 +9,6 @@
 					<CRow class="mx-auto d-flex justify-content-center">
 						<CCol sm="8">
 							<CSelect
-								placeholder="Pilih Barang"
 								label="Barang"
 								horizontal
 								v-model="request_po.id_barang"
@@ -42,7 +41,6 @@
 								v-model="request_po.keterangan"
 							/>
 							<CSelect
-								placeholder="Pilih Status"
 								label="Status"
 								horizontal
 								v-model="request_po.status"
@@ -71,6 +69,10 @@
 				statusselected:1,
 				barang:[],
 				status:[
+					{
+						value:'000',
+						label:'Pilih Status'
+					},
 					{
 						value:1,
 						label:'Request'
@@ -112,7 +114,7 @@
 					date:null,
 					qty:null,
 					keterangan:null,
-					status:1,
+					status:null,
 				},
 				
 			}
@@ -120,6 +122,7 @@
 		methods: {
 			assignBarang(val) {
 				this.request_po.id_barang = val
+				console.warn(val)
 			},
 			assignStatus(val) {
 				this.request_po.status = val
@@ -145,6 +148,17 @@
 					this.validator.keterangan = false
 		            this.validator.keterangan_msg = 'Harap isi keterangan'
 		            this.errors.push('keterangan karyawan kosong')
+				}
+
+				if(!this.request_po.id_barang || this.request_po.id_barang == '000') {
+					this.errors.push('Harap pilih barang')
+					this.$swal('Harap pilih barang', '', 'warning')
+					setTimeout(() => this.$swal.close(), 1500)
+				}
+				if(!this.request_po.status || this.request_po.status == '000') {
+					this.errors.push('Harap pilih status')
+					this.$swal('Harap pilih status', '', 'warning')
+					setTimeout(() => this.$swal.close(), 1500)
 				}
 
 				if(!this.errors.length) {
@@ -183,6 +197,7 @@
 			}
 		},
 		created() {
+			this.barang.push({value:'000', label:'Pilih Barang'})
 			if(localStorage.level != 1 && localStorage.level != 2 && localStorage.level != 6 && localStorage.level != 5) {
 				this.$router.push('/')
 			}
@@ -192,6 +207,7 @@
 				}
 			})
 			.then(res => {
+				
 				for(let i = 0;i < res.data.length;i++) {
       				let obj = {}
       				obj.value = res.data[i].id

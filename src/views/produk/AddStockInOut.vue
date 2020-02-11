@@ -10,7 +10,6 @@
 						<CCol sm="8">
 
 							<CSelect
-								placeholder="Pilih Barang"
 				                label="Barang"
 				                horizontal
 				                :options="barang"
@@ -29,7 +28,6 @@
 		                        v-model="stockinout.qty"
 		                      />
 		                    <CSelect
-		                    	placeholder="Pilih Type"
 		                    	label="Type"
 				                horizontal
 				                :options="type"
@@ -74,7 +72,6 @@
 		name:'AddStockInOut',
 		data() {
 			return {
-				barangselected:1,
 				barang: [
 				],
 				validator: {
@@ -84,14 +81,18 @@
 					tanggal_msg:null,
 				},
 				stockinout: {
-					id_barang:1,
+					id_barang:null,
 					nama_barang:null,
-					type:1,
+					type:null,
 					qty:0,
 					tanggal:null,
 					alasan:null
 				},
 				type: [
+					{
+						value: '000',
+						label: 'Pilih Type'
+					},
 					{
 						value:1,
 						label:'In'
@@ -110,6 +111,7 @@
 				this.stockinout.type = val
 			},
 			getBarang() {
+				this.barang.push({value:'000', label: 'Pilih Barang'})
 				this.$http.get(localStorage.base_api + 'barang', {
 					headers: {
 						'Authorization': 'bearer ' + localStorage.token
@@ -171,6 +173,18 @@
 		            this.errors.push('tanggal stock in out kosong')
 	         	}
 
+	         	if(!this.stockinout.type || this.stockinout.id_barang == '000') {
+					this.errors.push('Harap pilih barang')
+					this.$swal('Harap pilih barang', '', 'warning')
+					setTimeout(() => this.$swal.close(), 1500)
+				}
+
+				if(!this.stockinout.type || this.stockinout.type == '000') {
+					this.errors.push('Harap pilih type')
+					this.$swal('Harap pilih type', '', 'warning')
+					setTimeout(() => this.$swal.close(), 1500)
+				}
+
 	         	if(!this.errors.length) {
 	         		this.label = 'Loading...'
 	         		this.$http.post(localStorage.base_api + 'stock', this.stockinout, {
@@ -205,7 +219,7 @@
 			                  })
 			                  .catch(e => {
 			                    
-			                    this.$swal('Tidak bisa menambah data', 'hubungi pengembanya', 'danger')
+			                    this.$swal('Tidak bisa menambah data', 'hubungi pengembanya', 'error')
 			                    setTimeout(() => {
 			                      this.$swal.close()
 			                    }, 2000)
@@ -214,11 +228,20 @@
 	         			}
 	         			else {
 	         				this.label = 'Tambah Barang'
-	         				console.error(e)	
-	         				this.$swal('Tidak bisa menambah data', 'hubungi pengembanya', 'danger')
-		                    setTimeout(() => {
-		                      this.$swal.close()
-		                    }, 2000)
+	         				if(e.response) 
+	         					console.error(e.response.data.message)	
+		         				this.$swal(e.response.data.message, 'hubungi pengembanya', 'error')
+			                    setTimeout(() => {
+			                      this.$swal.close()
+			                    }, 2000)
+			                    this.stockinout = {
+									id_barang:null,
+									nama_barang:null,
+									type:null,
+									qty:0,
+									tanggal:null,
+									alasan:null
+								}
 	         				return false
 	         			}
 	         			return false

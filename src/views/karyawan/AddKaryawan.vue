@@ -35,7 +35,7 @@
 		                        v-model="karyawan.nama_karyawan"
 		                      />
 		                    <CSelect
-		                    	placeholder="Pilih Jenis Kelamin"
+		                    	
 				                label="Jenis Kelamin"
 				                horizontal
 				                v-model="karyawan.jk"
@@ -129,7 +129,7 @@
 		                      <CSelect
 				                label="Jabatan"
 				                horizontal
-				                v-model="jabatanselected"
+				                v-model="karyawan.id_jabatan"
 				                :options="jabatan"
 				                @update:value="assignJabatan"
 				              />  
@@ -153,7 +153,7 @@
 		data() {
 			return {
 				label: 'Tambah Karyawan',
-				jkselected: 1,
+				jkselected: null,
 				jabatanselected:6,
 				validator: {
 					no_karyawan_msg:'',
@@ -180,18 +180,22 @@
 					no_karyawan:null,
 					nama:null,
 					ktp:null,
-					jk:1,
+					jk:null,
 					email:null,
 					wa_hp:null,
 					alamat:null,
 					tgl_masuk_kerja:null,
 					npwp:null,
 					no_rekening:null,
-					id_jabatan:1		
+					id_jabatan:null		
 				},
 				validMsg:false,
 				errors:[],
 				jk: [
+					{
+					  value: '000',
+					  label: 'Pilih Jenis Kelamin'	
+					},
 			        { 
 			          value: 1,
 			          label: 'Laki-laki' 
@@ -225,6 +229,7 @@
 	         }
 	      },
 	      	getJabatan() {
+	      		this.jabatan.push({value:'000', label:'Pilih Jabatan'})
 	      		getDatas(this, localStorage.base_api + 'jabatan', {
 	      			method: 'get',
 	      			headers: {
@@ -232,6 +237,7 @@
 	      		}}, 'get')
 	      		.then(res => {
 	      			// console.log(res.data)
+	      			
 	      			for(let i = 0;i < res.length;i++) {
 	      				let obj = {}
 	      				obj.value = res[i].id
@@ -300,6 +306,16 @@
 					this.validator.no_rekening = false
 		            this.validator.no_rekening_msg = 'Harap isi nomer rekening konsumen'
 		            this.errors.push('no_rekening konsumen kosong')
+				}
+				if(!this.karyawan.jk || this.karyawan.jk == '000') {
+					this.errors.push('Harap pilih jenis kelamin')
+					this.$swal('Harap pilih jenis kelamin', '', 'warning')
+					setTimeout(() => this.$swal.close(), 1500)
+				}
+				if(!this.karyawan.id_jabatan || this.karyawan.id_jabatan == '000') {
+					this.errors.push('Harap pilih jabatan')
+					this.$swal('Harap pilih jabatan', '', 'warning')
+					setTimeout(() => this.$swal.close(), 1500)
 				}
 				if(!this.errors.length) {
 					this.label = 'Loading...'

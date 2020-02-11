@@ -8,24 +8,26 @@
 				<CCardBody>
 					<CRow>
 						<CCol sm="12" md="12">
-							<div v-if="datas != null">
+							<div v-if="datas.length > 0">
 							<table class="table table-borderless w-100">
 
 								<tr v-for="(d,i) in datas" class="d-flex">
-									<td class="m-4" style="font-size: 20px;"><i class="fa fa-file text-secondary"></i></td>
+									<td class="m-4" style="font-size: 50px;"><i class="fa fa-file text-secondary"></i></td>
 									<td class="flex-grow-1">
 										<span class="badge badge-warning mt-2 mb-3 p-1">H-2 Pengiriman Barang</span>
-										<p class="p-0"><b>Pengiriman PO dengan kode 001 dua hari lagi</b></p>
+										<p class="p-0"><b>Pengiriman PO dengan kode {{d.data.no}}</b></p>
+										<p>Pengiriman barang akan dilakukan pada tanggal {{d.data.date_line}}</p>
 										<a href="#">
 										<b class="mt-3">
 											
-											<span @click.prevent="processNotif(i, d.data.data.id)" style="color:#e74c3c;" >Lihat</span>
+											<!-- <span @click.prevent="processNotif(i, d.data.data.id)" style="color:#e74c3c;" >Lihat</span> -->
+											<router-link :to="d.link">Lihat</router-link>
 										</b>
+
 										</a>
 									</td>
 									<td class="flex-shrink-2">
-										<i class="fa fa-"></i>
-										{{d.data.data.date_line}}
+										<b>{{d.date}}</b>
 									</td>
 
 								</tr>
@@ -46,7 +48,7 @@
 		name: 'Notification',
 		data() {
 			return {
-				datas:null
+				datas:JSON.parse(localStorage.notif)
 			}
 		},
 		methods: {
@@ -57,14 +59,15 @@
 			}
 		},
 		created() {
-
-			if(JSON.parse(localStorage.notif).length != 0) {
-				this.datas = JSON.parse(localStorage.notif)
-				console.log(this.datas)
-			}
-			else {
-				this.datas = null
-			}
+			console.warn(this.datas[0].data.no)
+			if(this.datas.length > 0)
+				this.datas.forEach((item, i) => {
+					let date = item.date.split('T'),
+					real_date = date[0].split('-'),
+					date_line = item.data.date_line.split('-')
+					item.date = `${real_date[2]} - ${real_date[1]} - ${real_date[0]}` 
+					item.data.date_line = `${date_line[2]} - ${date_line[1]} - ${date_line[0]}`
+				})
 		}
 	}
 </script>

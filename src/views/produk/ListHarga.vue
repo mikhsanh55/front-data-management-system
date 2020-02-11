@@ -10,7 +10,7 @@
 					<CCol sm="12">
 
 						<button v-if="data.level == 5 || data.level == 2 || data.level == 1 || data.level == 3" @click="storeExcel" class="float-right mb-4 ml-2 btn btn-light"><small> <i class="fa fa fa-file-excel-o mr-1"></i> Export .xlsx</small></button>		
-						<router-link v-if="data.level != 5" to="/barang/add" class="float-right mb-4 btn btn-light"><small> <i class="fa fa-plus mr-1"></i> Tambah Barang</small></router-link>			
+						<router-link v-if="data.level != 7 && data.level != 6 && data.level != 4 && data.level != 5" to="/barang/add" class="float-right mb-4 btn btn-light"><small> <i class="fa fa-plus mr-1"></i> Tambah Barang</small></router-link>			
 						
 							<v-client-table
 							v-if="data.level != 6 && data.level !=4"
@@ -19,15 +19,15 @@
 							:options="tableOptions"
 							id="barang_table"
 							>
-							<div slot="foto" slot-scope="props">
+							<!-- <div slot="foto" slot-scope="props">
 									<img :src="uri + props.row.foto"  height="50" width="70" />
 								
-							</div>
+							</div> -->
 							<div slot="aksi" slot-scope="props" class="d-flex justify-content-center">
 								<router-link :to="'/barang/detail/' + props.row.id" class="text-dark btn btn-secondary btn-sm mr-2">
 									<i class="fa fa-eye"></i>
 								</router-link>
-								<router-link  v-if="data.level != 2 && data.level != 6 && data.level != 4" :to="'/barang/edit/' + props.row.id" class="btn btn-secondary btn-sm mr-2 text-primary">
+								<router-link  v-if="data.level != 2 && data.level != 6 && data.level != 4 && data.level != 7" :to="'/barang/edit/' + props.row.id" class="btn btn-secondary btn-sm mr-2 text-primary">
 									<i class="fa fa-edit"></i>
 								</router-link>
 								<button v-if="data.level != 2 && data.level != 7 && data.level != 6" title="hapus data karyawan" class="text-danger btn btn-secondary btn-sm" @click="deleteBarang(props.row.id)"><i class="fa fa-trash" ref="id" :id="props.row.id"></i></button>
@@ -114,17 +114,16 @@
 				products:[],
 				tableItem:[],
 				spvFields: [
-					'no', 'foto', 'kode_barang', 'nama_barang', 'spesifikasi', 'aksi'
+					'no', 'kode_barang', 'nama_barang', 'spesifikasi', 'aksi'
 				],
 				tableFields: [
-					'no', 'foto', 'kode_barang', 'nama_barang', 'spesifikasi', 'harga_jual', 'aksi'
+					'no',  'kode_barang', 'nama_barang', 'spesifikasi', 'harga_jual', 'aksi'
 			    ],
 			    spvOptions: {
 			    	perPage:10,
 					pagination:{chunk:10, dropdown:false, edge:true, nav:'fixed'},
 			    	headings: {
 			    		no:'No',
-			    		foto:'Foto',
 			    		kode_barang:'Kode Barang',
 			    		nama_barang:'Nama Barang',
 			    		spesifikasi:'Spesifikasi Barang',
@@ -134,7 +133,6 @@
 			    	filterable:['nama_barang', 'kode_barang', 'spesifikasi', 'no'],
 			    	columnsClasses: {
 			    		no:'text-center align-middle',
-			    		foto:'text-center align-middle m-auto',
 			    		kode_barang:'align-middle',
 			    		nama_barang:'align-middle',
 			    		spesifikasi:'align-middle',
@@ -147,7 +145,6 @@
 					pagination:{chunk:10, dropdown:false, edge:true, nav:'fixed'},
 			    	headings: {
 			    		no:'No',
-			    		foto:'Foto',
 			    		kode_barang:'Kode Barang',
 			    		nama_barang:'Nama Barang',
 			    		spesifikasi:'Spesifikasi Barang',

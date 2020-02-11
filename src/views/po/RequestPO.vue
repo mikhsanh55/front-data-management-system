@@ -75,7 +75,7 @@
 			return {
 				exportLabel: 'Mulai Export',
 				modal:false,
-				data:'',
+				data:JSON.parse(localStorage.user),
 				date:{from:null, to:null},
 				tableFields: ['no', 'date', 'nama_barang', 'qty', 'keterangan', 'status', 'aksi'],
 				tableOptions: {
@@ -91,7 +91,7 @@
 						aksi: 'Aksi'
 					},
 					sortable: ['no', 'nama_barang', 'jumlah'],
-					filterable: ['no'],
+					filterable: ['no', 'nama_barang', 'qty', 'keterangan', 'status'],
 					columnsClasses: {
 						no: 'text-center align-middle',
 						qty: 'text-center align-middle',
@@ -118,63 +118,15 @@
 				}
 				getDatas(this, localStorage.base_api + 'request/barang', options)
 				.then(res => {
-
-					if(res.status_code == 500) {
-						alert('Ada sedikit kendala di server, mohon hubungi pengembangnya yah :)')
-						return false
-					}
-						
-					if(res.errcode == 40001) {
-						alert('Sesi Login kamu sudah habis!')
-						this.$store.dispatch('logout')
-		                  .then(() => {
-		                    let path = window.location.href
-		                    path = path.split('/')
-		                    localStorage.setItem('prevPath', path[path.length - 1])
-		                    alert('Session Login kamu sudah habis! silahkan login kembali')
-		                    
-		                  })
-		                  .then(() => {
-		                    this.$router.replace({path: '/login'})
-		                  })
-		                  .catch(e => {
-		                    alert('An error occured when get data :(')
-		                    return false
-		                  })
-						return false
-					}	
-
-					if(res.length > 0)
-						this.request_po = res
-						res.forEach((item, i) => {
-							item.no = ++i
-						})
+					this.request_po = res
+					res.forEach((item, i) => {
+						let dates = item.date.split('-')
+						item.no = ++i
+						item.date = `${dates[2]}-${dates[1]}-${dates[0]}`
+					})
+					this.getData()
 				})
 				.catch(e => {
-					// if(e.response.status == 401 || e.errcode == 40001) {
-					// 	this.$store.dispatch('logout')
-					// 	.then(() => {
-					// 		let path = window.location.href
-					// 		path = path.split('/')
-					// 		localStorage.setItem('prevPath', path[path.length - 1])
-					// 		alert('Session Login kamu sudah habis! silahkan login kembali')
-									
-					// 	})
-					// 	.then(() => {
-					// 		this.$router.replace({path: '/login'})
-					// 	})
-					// 	.catch(e => {
-					// 		alert('An error occured when get data :(')
-					// 		return false
-					// 	})
-	
-					// }
-					// else if(e.response.status == 500) {
-					// 	alert('Ada sedikit kendala di server, mohon hubungi pengembangnya yah :)')
-					// }
-					// else {
-					// 	alert('Maaf ada sedikit error')
-					// }
 					console.error(e)
 					return false
 				})
@@ -239,7 +191,9 @@
 		},
 		created() {
 			this.getData()
-			this.data = JSON.parse(localStorage.user)
+			
+			
+			
 		}
 	}
 </script>

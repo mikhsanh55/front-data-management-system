@@ -183,13 +183,12 @@
 					})
 					.catch(e => {
 						this.label_btn = 'Tambah Vendor'
-						console.log(e)
-						if(e.response.status == 401 || e.response.status == 500) {
-							this.$swal('Tidak bisa ambil data', 'hubungi pengembangnya...', 'danger')
-		                    setTimeout(() => {
-		                    	this.$swal.close()
-		                    }, 1500)
-						}
+						if(e.response)
+							console.log(e)
+								this.$swal(e.response.data.message, 'hubungi pengembangnya...', 'danger')
+			                    setTimeout(() => {
+			                    	this.$swal.close()
+			                    }, 1500)
 						return false
 					})
 				}

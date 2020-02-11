@@ -19,14 +19,14 @@
 								<small v-else-if="props.row.type == 2" class="badge badge-primary">Out</small>
 								<small v-if="props.row.type == 3" class="badge badge-danger">Habis</small>
 							</div>
-							<div slot="aksi" slot-scope="props">
+							<!-- <div slot="aksi" slot-scope="props">
 								<router-link :to="'/stock-in-out/edit/' + props.row.id" class="text-primary btn btn-secondary btn-sm mr-2">
 									<i class="fa fa-edit"></i>
 								</router-link>
 								<button class="text-danger btn btn-secondary btn-sm" @click="deleteStockInOut(props.row.id)">
 									<i class="fa fa-trash"></i>
 								</button>
-							</div>
+							</div> -->
 						</v-client-table>
 					</CCol>
 				</CRow>
@@ -46,7 +46,7 @@
 				// tableFields: [
 				// 	'no', 'kode_barang', 'nama_barang', 'spesifikasi', 'jumlah', 'tanggal', 'keterangan', 'status', 'aksi'
 				// ],
-				tableFields: ['no','nama_barang', 'type', 'qty', 'tanggal', 'alasan', 'aksi'],
+				tableFields: ['no','nama_barang', 'type', 'qty', 'tanggal', 'alasan'],
 				tableOptions: {
 					perPage:10,
 					pagination:{chunk:10, dropdown:false, edge:true, nav:'fixed'},
@@ -57,17 +57,16 @@
 						type: 'Tipe',
 						qty: 'Quantity',
 						alasan: 'Alasan',
-						aksi: 'Aksi'
 					},
 					sortable: ['no', 'nama_barang'],
+					filterable: ['no', 'nama_barang', 'qty'],
 					columnsClasses: {
 						no:'text-center align-middle',
 						type:'align-middle',
 						nama_barang:'align-middle',
 						qty:'text-center align-middle',
 						tanggal:'text-center align-middle',
-						alasan:'text-center align-middle',
-						aksi:'text-center align-middle'
+						alasan:'text-center align-middle'
 					}
 				},
 			}

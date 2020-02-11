@@ -9,10 +9,10 @@
 					<CRow class="mx-auto d-flex justify-content-center">
 						<CCol sm="8">
 							<CSelect
-								placeholder="Pilih Vendor"
 				                label="Vendor"
 				                horizontal
 				                :options="vendor"
+				                v-model="barang.id_vendor"
 				                @update:value="assignVendor"
 				              />  
 							<CInput
@@ -146,7 +146,7 @@
 					harga_jual_msg:null
 				},
 				barang: {
-					id_vendor:1,
+					id_vendor:null,
 					kode_barang:null,
 					nama_barang:null,
 					foto:null,
@@ -163,12 +163,14 @@
 		},
 		methods: {
 			getVendor() {
+				this.vendor.push({value: '000', label: 'Pilih Vendor'})
 				this.$http.get(localStorage.base_api + 'vendor', {
 					headers: {
 						'Authorization': 'bearer ' + localStorage.token
 					}
 				})
 				.then(res => {
+					
 					for(let i = 0;i < res.data.length;i++) {
 						let obj = {}
 						obj.value = res.data[i].id
@@ -271,6 +273,11 @@
 		            this.errors.push('exp karyawan kosong')
 	         	}
 
+	         	if(!this.barang.id_vendor || this.barang.id_vendor == '000') {
+	         		this.errors.push('Pilih vendor!')
+	         		this.$swal('Harap pilih vendor', '', 'warning')
+					setTimeout(() => this.$swal.close(), 1500)
+	         	}
 	         	if(!this.errors.length) {
 	         		this.label = 'Loading...'
 	         		this.$http.post(localStorage.base_api + 'barang', this.barang, {

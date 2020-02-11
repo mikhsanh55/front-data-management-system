@@ -84,7 +84,7 @@
 						aksi: 'Aksi'
 					},
 					sortable: ['no', 'nama_barang', 'qty'],
-					filterable: ['no'],
+					filterable: ['nama_barang',  'qty','kode_barang', 'spesifikasi_barang', 'keterangan'],
 					columnsClasses: {
 						no: 'text-center align-middle',
 						kode_barang: 'align-middle',

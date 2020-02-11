@@ -180,12 +180,11 @@
 					})
 					.then(res => {
 						this.label = 'Simpan Perubahan'
-						console.log(res)
-						this.$swal('Update data berhasil', 'Mohon tunggu sebentar...', 'success')
+						this.$swal(res.data.message, 'Mohon tunggu sebentar...', 'success')
 	                    setTimeout(() => {
 	                    	this.$swal.close()
 	                    	this.$router.push('/data-request-barang')
-	                    })
+	                    }, 1500)
 						
 					})
 					.catch(e => {
@@ -209,6 +208,7 @@
 			}
 		},
 		created() {
+
 			if(localStorage.level != 1 && localStorage.level != 2 && localStorage.level != 6 && localStorage.level != 5) {
 				this.$router.push('/')
 			}
@@ -227,7 +227,7 @@
 			})
 			.then(() => {
 				// this.getData()
-				console.warn(this.$route.params.id)
+				// this.$swal('NGETEH ASW', '', 'info')
 				fetch(localStorage.base_api + 'request/barang/' + this.$route.params.id, {
 					method:'post',
 					headers: {

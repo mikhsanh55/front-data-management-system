@@ -120,7 +120,7 @@
 						>
 							<div slot="foto" slot-scope="props">
 								<div class="mx-auto d-flex justify-content-center">
-									<img :src="'https://young-temple-67589.herokuapp.com/' + props.row.foto" style="border-radius:50%;" />
+									<img :src="'https://api.sabalkes.com/' + props.row.foto" style="border-radius:50%;" />
 								</div>
 							</div>
 						</v-client-table>
@@ -192,7 +192,9 @@
 					tgl_po_masuk: null,
 					sub_total:0,
 					sales_tax_rate:0,
-					disc:1
+					disc:0,
+					tax:0,
+					grand_total:0
 				}	
 			}
 		},
@@ -234,6 +236,11 @@
 				.then(res => {
 					console.log(res)
 					this.po = res
+					this.po.sub_total = 0
+					this.po.sales_tax_rate = 0
+					this.po.disc = 0
+					this.po.tax = 0
+					this.po.grand_total = 0
 					this.detailpo.status = res.status
 				})
 				.catch(e => {
@@ -258,8 +265,8 @@
 							getDatas(this,localStorage.base_api + 'barang/' + item.id_barang, { method:'POST', headers:{'Authorization': 'bearer ' + localStorage.token}}, 'POST')
 							.then(res => {
 								let total = item.qty * res.harga_jual, 
-								disc = Math.round((total - item.disc) / 100) - (item.tax / 100),
-								tax = ((total + item.tax) / 100 - disc).toFixed(2)
+								disc = Math.round(total - (item.disc / 100)) - (item.tax / 100),
+								tax = (total + (item.tax / 100)  - disc).toFixed(2)
 								arr.push({
 									no:++i,
 									total:total,
@@ -278,7 +285,7 @@
 								this.po.tax = 0
 								this.po.tax += tax
 								this.po.sales_tax_rate = 0
-								this.po.grand_total = Math.round(( (this.po.sub_total - this.po.disc) + this.po.tax_rate) - this.po.sales_fee)
+								this.po.grand_total =  (this.po.sub_total - parseInt(this.po.disc)+ this.po.tax_rate) - (this.po.sales_fee + this.po.other)
 							})
 							
 						})
@@ -337,6 +344,7 @@
 				this.status = [
 					{label: 'Request', value: 1},
 					{label: 'Proses', value: 2},
+					{label: 'Batal', value: 5},
 				]
 				this.detailpo.level = 6
 			}

@@ -112,8 +112,17 @@ export default {
     }
   },
   created() {
+    checkPO(this)
+    .then(notif => {
+      this.jumlahNotif = notif.length
+    })
+    .catch(e => {
+      if(e.response)
+        console.error(e.response)
+    })
 
     let user = JSON.parse(localStorage.user)
+    this.data = JSON.parse(localStorage.user)
     getDatas(this, localStorage.base_api + 'karyawan/' + user.id_karyawan, {
         method:'post',
         headers: {
