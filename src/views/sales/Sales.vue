@@ -70,8 +70,8 @@
 					redirect:'follow'
 				})
 				.then(response => {
-					console.log(response.data)
-					this.sales = response.data
+					console.log(response)
+					this.sales = response
 					for(let i = 0;i < this.sales.length;i++) {
 						this.sales[i].no = i+1;
 					}

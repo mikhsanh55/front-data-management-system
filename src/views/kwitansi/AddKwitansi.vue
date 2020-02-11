@@ -88,7 +88,7 @@
 			assignGunaPembayaran(val) {
 				this.po.forEach((item) => {
 					if(item.id == val) {
-						this.kwitansi.guna_pembayaran = item.no
+						this.kwitansi.guna_pembayaran = item.id
 						this.kwitansi.no = item.no_invoice
 						this.kwitansi.terima_dari = item.konsumen
 						return
@@ -152,6 +152,11 @@
 					obj.label = item.no
 					this.guna_pembayaran.push(obj)
 				})
+			})
+			.then(() => {
+				this.kwitansi.guna_pembayaran = this.po[0].id
+				this.kwitansi.no = this.po[0].no_invoice
+				this.kwitansi.terima_dari = this.po[0].konsumen
 			})
 			.catch(e => {
 				if(e.response.status == 401) {

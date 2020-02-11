@@ -209,7 +209,7 @@
 		                    
 		                  })
 		                  .catch(e => {
-		                    this.$swal('Tidak bisa ambil data', 'hubungi pengembangnya...', 'danger')
+		                    this.$swal('Tidak bisa ambil data', 'hubungi pengembangnya...', 'error')
 		                    setTimeout(() => {
 		                    	this.$swal.close()
 		                    }, 1500)
@@ -217,7 +217,7 @@
 		                  })
 		                }
 		                else if(e.response.status == 500) {
-							this.$swal('Tidak bisa ambil data', 'hubungi pengembangnya...', 'danger')
+							this.$swal('Tidak bisa ambil data', 'hubungi pengembangnya...', 'error')
 		                    setTimeout(() => {
 		                    	this.$swal.close()
 		                    }, 1500)

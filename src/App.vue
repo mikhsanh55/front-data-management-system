@@ -27,7 +27,7 @@ export default {
   			}
   		})
   		.catch(e => console.error(e))
-  	}, 180000)
+  	}, 60000)
   }
 }
 </script>

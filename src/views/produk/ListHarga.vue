@@ -10,7 +10,7 @@
 					<CCol sm="12">
 
 						<button v-if="data.level == 5 || data.level == 2 || data.level == 1 || data.level == 3" @click="storeExcel" class="float-right mb-4 ml-2 btn btn-light"><small> <i class="fa fa fa-file-excel-o mr-1"></i> Export .xlsx</small></button>		
-						<router-link v-if="data.level == 5" to="/barang/add" class="float-right mb-4 btn btn-light"><small> <i class="fa fa-plus mr-1"></i> Tambah Barang</small></router-link>			
+						<router-link v-if="data.level != 5" to="/barang/add" class="float-right mb-4 btn btn-light"><small> <i class="fa fa-plus mr-1"></i> Tambah Barang</small></router-link>			
 						
 							<v-client-table
 							v-if="data.level != 6 && data.level !=4"
@@ -27,7 +27,7 @@
 								<router-link :to="'/barang/detail/' + props.row.id" class="text-dark btn btn-secondary btn-sm mr-2">
 									<i class="fa fa-eye"></i>
 								</router-link>
-								<router-link v-if="data.level != 2 && data.level != 7 && data.level != 6" :to="'/barang/edit/' + props.row.id" class="btn btn-secondary btn-sm mr-2 text-primary">
+								<router-link  v-if="data.level != 2 && data.level != 6 && data.level != 4" :to="'/barang/edit/' + props.row.id" class="btn btn-secondary btn-sm mr-2 text-primary">
 									<i class="fa fa-edit"></i>
 								</router-link>
 								<button v-if="data.level != 2 && data.level != 7 && data.level != 6" title="hapus data karyawan" class="text-danger btn btn-secondary btn-sm" @click="deleteBarang(props.row.id)"><i class="fa fa-trash" ref="id" :id="props.row.id"></i></button>
@@ -57,10 +57,11 @@
 								<router-link :to="'/barang/detail/' + props.row.id" class="text-dark btn btn-secondary btn-sm mr-2">
 									<i class="fa fa-eye"></i>
 								</router-link>
-								<router-link v-if="data.level != 2 && data.level != 6 && data.level != 4" :to="'/barang/edit/' + props.row.id" class="btn btn-secondary btn-sm mr-2 text-primary">
+								<router-link  v-if="data.level != 2 && data.level != 6 && data.level != 4" :to="'/barang/edit/' + props.row.id" class="btn btn-secondary btn-sm mr-2 text-primary">
 									<i class="fa fa-edit"></i>
 								</router-link>
 								<button v-if="data.level != 2 && data.level != 6 && data.level != 4" title="hapus data karyawan" class="text-danger btn btn-secondary btn-sm" @click="deleteBarang(props.row.id)"><i class="fa fa-trash" ref="id" :id="props.row.id"></i></button>
+								
 
 							</div>
 							<div slot="harga" slot-scope="props">
@@ -109,7 +110,7 @@
 				exportLabel: 'Mulai Export',
 				id:0,
 				smallModal:false,
-				data:'',
+				data:JSON.parse(localStorage.user),
 				products:[],
 				tableItem:[],
 				spvFields: [
@@ -246,7 +247,8 @@
 				exportExcel(this, localStorage.base_api + 'excel/barang', {from:null, to:null}, {
 					responseType: 'blob',
 					headers: {
-						'Authorization' : 'bearer ' + localStorage.token
+						'Authorization' : 'bearer ' + localStorage.token,
+						'Access-Control-Allow-Origin': '*'
 					}
 				}, 'barang.xls')
 				.then(() => {
@@ -280,29 +282,6 @@
 				})    
 				.catch(e => {
 					console.log(e)
-					if(e.response.status == 401) {
-						this.$store.dispatch('logout')
-		                  .then(() => {
-		                    let path = window.location.href
-		                    path = path.split('/')
-		                    localStorage.setItem('prevPath', path[path.length - 1])
-		                    this.$swal('Sesi login kamu habis :(', 'login lagi yah :)', 'warning')
-		                    setTimeout(() => {
-		                      this.$swal.close()
-		                      this.$router.replace({path: '/login'})
-		                    }, 2000)
-		                    
-		                  })
-		                  .catch(e => {
-		                    alert('An error occured when get data :(')
-		                    return false
-		                  })
-
-					}
-					else if(e.response.status == 500) {
-						alert('Ada sedikit masalah disisi server, Mohon hubungi pengembangnya yah :)')
-					}
-					console.log(e.response)
 					return false
 				})
 			}
@@ -329,9 +308,6 @@
 		},
 		created() {
 			this.getData()
-		},
-		mounted() {
-			this.data = this.$store.getters.userData
 		}
 	}
 </script>
@@ -352,6 +328,9 @@
 		display: flex;
 		width: 100%;
 		justify-content: flex-start;
+	}
+	#barang_table select {
+		margin-bottom:20px;
 	}
 	.VuePagination {
 		margin-top: 20px;	

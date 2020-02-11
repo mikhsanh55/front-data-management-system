@@ -36,9 +36,10 @@
 		                    <CSelect
 				                label="Karyawan"
 				                horizontal
-				                v-model="asset.id"
+				                
 				                :options="karyawan"
 				                @update:value="assignKaryawan"
+				                v-model="asset.id_karyawan"
 				              />  
     	                    <!-- <CSelect
 				                label="Jabatan"
@@ -103,6 +104,7 @@
 				asset: {
 					kode:null,
 					deskripsi_barang:null,
+					id_karyawan:null,
 					id:null,
 					tanggal_beli:"0000-00-00",
 					tanggal_expired:"0000-00-00"
@@ -134,7 +136,7 @@
 					this.getData()
 				})
 				.catch(e => {
-					this.$swal('Tidak bisa ambil data', 'hubungi pengembangnya...', 'danger')
+					this.$swal('Tidak bisa ambil data', 'hubungi pengembangnya...', 'error')
                     setTimeout(() => {
                     	this.$swal.close()
                     }, 1500)
@@ -179,7 +181,7 @@
 	                    
 	                  })
 	                  .catch(e => {
-	                    this.$swal('Tidak bisa ambil data', 'hubungi pengembangnya...', 'danger')
+	                    this.$swal('Tidak bisa mengambil data', 'hubungi pengembangnya...', 'error')
 	                    setTimeout(() => {
 	                    	this.$swal.close()
 	                    }, 1500)
@@ -187,7 +189,7 @@
 	                  })
 	                }
 	                else if(e.response.status == 500) {
-						this.$swal('Tidak bisa ambil data', 'hubungi pengembangnya...', 'danger')
+						this.$swal('Tidak bisa mengambil data', 'hubungi pengembangnya...', 'error')
 	                    setTimeout(() => {
 	                    	this.$swal.close()
 	                    }, 1500)
@@ -252,7 +254,7 @@
 		                    
 		                  })
 		                  .catch(e => {
-		                    this.$swal('Tidak bisa ambil data', 'hubungi pengembangnya...', 'danger')
+		                    this.$swal('Gagal edit data', 'hubungi pengembangnya...', 'error')
 		                    setTimeout(() => {
 		                    	this.$swal.close()
 		                    }, 1500)
@@ -260,7 +262,7 @@
 		                  })
 		                }
 		                else {
-		                	this.$swal('Tidak bisa ambil data', 'hubungi pengembangnya...', 'danger')
+		                	this.$swal('Gagal edit data', 'hubungi pengembangnya...', 'error')
 		                    setTimeout(() => {
 		                    	this.$swal.close()
 		                    }, 1500)

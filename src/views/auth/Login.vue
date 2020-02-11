@@ -187,7 +187,7 @@ export default {
           setTimeout(() => {
             this.$swal.close()
           }, 1500)
-          console.log(error.status)
+          console.log(error)
           return false
         });
     }

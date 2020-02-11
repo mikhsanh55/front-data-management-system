@@ -93,7 +93,7 @@
 						                :is-valid="validator.tax_rate"
 						                @input="po.tax_rate.length < 1 ? validator.tax_rate = false : validator.tax_rate = true"
 						                autocomplete="tax_rate"
-						                label="Tax Rate"
+						                label="Tax Rate %"
 						                horizontal
 						                placeholder="Masukan Tax Rate"
 						                v-model="po.tax_rate"

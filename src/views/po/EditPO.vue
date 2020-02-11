@@ -71,17 +71,6 @@
                             placeholder="Masukan Nomer no_Invoice"
                             v-model="po.no_invoice"
                           />
-                          <CInput
-                            type="date"
-                            :description="validator.tgl_po_masuk_msg"
-                            :is-valid="validator.tgl_po_masuk"
-                            @input="po.tgl_po_masuk.length < 1 ? validator.tgl_po_masuk = false : validator.tgl_po_masuk = true"
-                            autocomplete="date"
-                            label="Tanggal PO Masuk"
-                            horizontal
-                            placeholder="Masukan Tanggal PO Masuk"
-                            v-model="po.tgl_po_masuk"
-                          />
 
                           <CInput
                             type="date"
@@ -178,7 +167,7 @@
   </div>
 </template>
 <script>
-  import {getDatas} from '@/containers/global-function.js'
+  import {getDatas, postData} from '@/containers/global-function.js'
   export default {
     name: 'EditPO',
     data() {
@@ -339,22 +328,9 @@
                 this.validator.jatuh_tempo_msg = 'Harap isi tanggal jatuh tempo'
                 this.errors.push('jatuh_tempo kosong')
         }
-
-        if(!this.po.tax_rate) {
-          this.validator.tax_rate = false
-                this.validator.tax_rate_msg = 'Harap isi Tax Rate'
-                this.errors.push('tax_rate kosong')
-        }
-
-        if(!this.po.sales_fee) {
-          this.validator.sales_fee = false
-                this.validator.sales_fee_msg = 'Harap isi sales fee'
-                this.errors.push('sales_fee kosong')
-        }
         if(!this.errors.length) {
           this.label = 'Loading...'
-          postData(this, localStorage.base_api + 'po/edit/' + this.$route.params.id, this.po, {
-            method: 'post',
+          this.$http.post(localStorage.base_api + 'po/edit/' + this.$route.params.id, this.po, {
             headers: {
               'Authorization': 'bearer ' + localStorage.token
             },
@@ -363,7 +339,7 @@
           .then(res => {
             console.log(res)
             this.label = 'Simpan Perubahan'
-            this.$swal('Data berhasil diupdate', 'Mohon tunggu sebentar...', 'success')
+            this.$swal(res.data.message, 'Mohon tunggu sebentar...', 'success')
             setTimeout(() => {
               this.$swal.close()
               this.$router.push('/po')
@@ -404,6 +380,7 @@
           })
         }
         else {
+          console.error(this.errors)
           window.scrollBy({ 
             top: -500, // could be negative value
             left: 0, 

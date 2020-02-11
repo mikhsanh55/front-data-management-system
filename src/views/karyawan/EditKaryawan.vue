@@ -287,44 +287,24 @@
 			},
 			getData() {
 				let headers = new Headers()
-				headers.append('Authorization', 'bearer ' + localStorage.getItem('token'))
+				headers.append('Authorization', 'bearer ' + localStorage.token)
 				let options = {
 					method:'POST',
 					headers,
 					redirect:'follow'
 				}
-				getDatas(localStorage.base_api + 'karyawan/' + this.$route.params.id, options)
+				getDatas(this, localStorage.base_api + 'karyawan/' + this.$route.params.id, options)
 				.then(res => {
-					this.jkselected = res.jk
+					console.log(res)	
+					
 					this.karyawan = res
-					console.log(this.karyawan)
+					this.jkselected = res.jk
+					this.karyawan.foto = localStorage.base_uri + res.foto
 				})
 				.catch(e => {
-					if(e.response.status == 401) {
-	                  this.$store.dispatch('logout')
-	                  .then(() => {
-	                    let path = window.location.href
-	                    path = path.split('/')
-	                    localStorage.setItem('prevPath', path[path.length - 1])
-	                    this.$swal('Sesi login kamu habis :(', 'login lagi yah :)', 'warning')
-	                    setTimeout(() => {
-	                      this.$swal.close()
-	                      this.$router.replace({path: '/login'})
-	                    }, 2000)
-	                    
-	                  })
-	                  .catch(e => {
-	                    alert('An error occured when get data :(')
-	                    return false
-	                  })
-	                }
-	                else if(e.response.status == 500) {
-						this.$swal('Maaf tidak bisa hapus data :(', 'hubungi pengembangnya yah :)', 'danger')
-	                    setTimeout(() => {
-	                      this.$swal.close()
-	                    }, 2000)
-					}
-					console.log(e.response)
+					this.$swal('Tidak bisa mengambil data!', 'Mohon hubungi pengembangnya', 'error')
+					setTimeout(() => this.$swal.close())
+					console.error(e)
 					return false
 				})
 			},

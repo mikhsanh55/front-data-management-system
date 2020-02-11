@@ -48,7 +48,9 @@ let app = new Vue({
   created() {
   	let token = localStorage.getItem('token'),
   		exp = localStorage.getItem('exp')
-
+      
+    localStorage.setItem('base_api', 'https://young-temple-67589.herokuapp.com/api/')
+    localStorage.setItem('base_uri', 'https://young-temple-67589.herokuapp.com/')
   	if(localStorage.getItem('token') == '' || localStorage.getItem('token') == undefined || localStorage.getItem('token-xx') < new Date()) {
       localStorage.removeItem('token')
       localStorage.removeItem('token-xx')

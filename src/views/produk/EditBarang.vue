@@ -48,6 +48,17 @@
 		                        placeholder="Masukan Spesifikasi Barang"
 		                        v-model="barang.spesifikasi"
 		                      />  
+		                      <CInput
+		                        type="number"
+		                        :description="validator.harga_dasar_msg"
+		                        :is-valid="validator.harga_dasar"
+		                        @input="barang.harga_dasar.length < 1 ? validator.harga_dasar = false : validator.harga_dasar = true"
+		                        autocomplete="harga_dasar"
+		                        label="Harga Dasar Barang"
+		                        horizontal
+		                        placeholder="Masukan Harga Dasar Barang"
+		                        v-model="barang.harga_dasar"
+		                      />  
 		                    <CInput
 		                        type="number"
 		                        :description="validator.harga_jual_msg"
@@ -237,7 +248,7 @@
 	         			},
 	         		})
 	         		.then(res => {
-	         			this.label = 'Simpan Perubahan Hilih'
+	         			this.label = 'Simpan Perubahan'
 	         			this.$swal('Data berhasil diupdate', 'Mohon tunggu sebentar...', 'success')
 	                    setTimeout(() => {
 	                      this.$swal.close()
@@ -300,7 +311,7 @@
 					for(let i = 0;i < res.data.length;i++) {
 						let obj = {}
 						obj.value = res.data[i].id
-						obj.label = res.data[i].nama + ' - ' + res.data[i].nama_instansi
+						obj.label = res.data[i].nama_instansi
 						this.vendor.push(obj)
 					}
 					console.log(this.vendor)

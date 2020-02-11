@@ -358,7 +358,9 @@ let store = new Vuex.Store({
 			            		console.error(e.response)
 			            		return false
 			            	})
-			            }).catch(e => reject(e))
+			            }).catch(function (e) {
+							reject(e.response)
+			            } )
 					
 				})
 				.catch(err => {

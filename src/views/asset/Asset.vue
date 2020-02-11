@@ -108,7 +108,9 @@
 							redirect:'follow'
 						})
 						.then(res => {
-							this.$swal.close()
+							this.$swal('Data berhasil dihapus', '', 'success')
+							setTimeout(() => this.$swal.close(), 1500)
+							
 							this.getData()
 						})
 						.catch(e => {

@@ -190,4 +190,8 @@
 		display: flex;
 		justify-content: center;
 	}
+	#user_table select {
+		margin-top: 15px;
+		margin-bottom:20px;
+	}
 </style>

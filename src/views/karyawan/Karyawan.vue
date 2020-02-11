@@ -103,7 +103,7 @@
 		methods: {
 			storeExcel() {
 				this.$swal('Mohon tunggu...', '', 'info')
-				exportExcel(this, this.base_api + 'excel/karyawan', {from:null, to:null}, {
+				exportExcel(this, localStorage.base_api + 'excel/karyawan', {from:null, to:null}, {
 					responseType: 'blob',
 					headers: {
 						'Authorization' : 'bearer ' + localStorage.token,
@@ -226,5 +226,8 @@
 		margin-top: 20px;	
 		display: flex;
 		justify-content: center;
+	}
+	#karyawan_table select {
+		margin-bottom:20px;
 	}
 </style>

@@ -266,9 +266,6 @@
 			    	})
 			    	.then((res) => {
 			    		this.order_barang = []
-			    		if(res.data.message)
-			    			this.$swal(res.data.message, '', 'success')
-			    			setTimeout(() => this.$swal.close(), 2500)
 			    		this.rpo = {
 							id_po:null,
 							id_barang:1,
@@ -286,6 +283,11 @@
 						}		
 			    		this.label = 'Tambah'
 			    		this.getDataTable()
+			    		window.scrollBy({ 
+				            top: 1000, // could be negative value
+				            left: 0, 
+				            behavior: 'smooth' 
+				          })
 			    	})
 			    	.catch(e => {
 			    		this.label = 'Tambah'

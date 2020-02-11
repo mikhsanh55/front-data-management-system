@@ -42,7 +42,7 @@
 							<CSelect
 								label="Status"
 								horizontal
-								v-model="statusselected"
+								v-model="request_po.status"
 								:options="status"
 								@update:value="assignStatus"
 							/>
@@ -125,35 +125,10 @@
 					redirect:'follow'
 				}
 
-				getDatas(localStorage.base_api + 'request/barang/' + this.$route.params.id, options)
+				getDatas(localStorage.base_api + 'request/barang/detail/' + this.$route.params.id, options)
 				.then(res => {
-					if(res.errcode == 40001) {
-						
-						this.$store.dispatch('logout')
-		                  .then(() => {
-		                    let path = window.location.href
-		                    path = path.split('/')
-		                    localStorage.setItem('prevPath', path[path.length - 1])
-		                    // alert('Session Login kamu sudah habis! silahkan login kembali')
-		                    this.$swal('Sesi login kamu sudah habis', 'Login lagi yah...', 'warning')
-		                    setTimeout(() => {
-		                    	this.$swal.close()
-		                    	this.$router.replace('/login')
-		                    })
-		                    
-		                  })
-		                  .catch(e => {
-		                    this.$swal('Mohon maaf tidak bisa meng-update data', 'Mohon hubungi pengembang...', 'error')
-		                    setTimeout(() => {
-		                    	this.$swal.close()
-		                    	return false
-		                    })
-		                    
-		                  })
-						return false
-					}
-					console.log(res.status)
-					this.statusselected = Number(res.status)
+					
+					console.log(res)
 					this.request_po = res
 					
 				})
@@ -170,6 +145,9 @@
 			assignStatus(val) {
 				this.request_po.status = val
 				console.log(this.request_po.status)
+			},
+			assignBarang(val) {
+				this.request_po.id_barang = val
 			},
 			updateRequestPO() {
 				this.label = 'Loading...'
@@ -246,9 +224,51 @@
       			}
 			})
 			.then(() => {
-				this.getData()
+				// this.getData()
+				console.warn(this.$route.params.id)
+				fetch(localStorage.base_api + 'request/barang/' + this.$route.params.id, {
+					method:'post',
+					headers: {
+						'Authorization': 'bearer ' + localStorage.token
+					}
+				})
+				.then(res => res.json())
+				.then(res => {
+					this.request_po = res
+					console.warn(res.status)
+				})
+				.catch(e => {
+					console.error('DUDE ' + e)
+					return false
+				})
+				// let headers = new Headers()
+				// headers.append('Authorization', 'bearer ' + localStorage.token)
+				// let options = {
+				// 	method:'POST',
+				// 	headers,
+				// 	redirect:'follow'
+				// }
+
+				// getDatas(localStorage.base_api + 'request/barang/' + this.$route.params.id, options)
+				// .then(res => {
+					
+				// 	console.log(res)
+				// 	this.request_po = res
+					
+				// })
+				// .catch(e => {
+				// 	this.$swal('Mohon maaf tidak bisa meng-update data', 'Mohon hubungi pengembang...', 'error')
+	   //              setTimeout(() => {
+	   //              	this.$swal.close()
+	   //              	return false
+	   //              })
+				// 	console.error(e)
+				// 	return false
+				// })
+				
 			})
 			.catch(e => {
+				console.error(e)
 				this.$swal('Tidak bisa mengambil data barang', 'Mohon hubungi pengembangnya...', 'error')
 				setTimeout(() => {this.$swal.close()}, 1500)
 				return false

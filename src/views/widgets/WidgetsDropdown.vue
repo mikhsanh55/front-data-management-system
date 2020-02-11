@@ -73,7 +73,7 @@
 
       <CRow>
         <CCol sm="6" lg="3">
-          <CWidgetDropdown color="secondary" :header="data.pengadaan == 0 ? '0' : admin.pengadaan" text="Pengadaan">
+          <CWidgetDropdown color="secondary" :header="data.pengadaan == 0 ? '0' : data.pengadaan" text="Pengadaan">
             <template #footer>
               <CChartLineSimple
                 pointed

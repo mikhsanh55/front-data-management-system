@@ -14,6 +14,11 @@
 							:options="tableOptions"
 							id="stockinout-table"
 						>
+							<div slot="type" slot-scope="props">
+								<small v-if="props.row.type == 1" class="badge badge-success">In</small>
+								<small v-else-if="props.row.type == 2" class="badge badge-primary">Out</small>
+								<small v-if="props.row.type == 3" class="badge badge-danger">Habis</small>
+							</div>
 							<div slot="aksi" slot-scope="props">
 								<router-link :to="'/stock-in-out/edit/' + props.row.id" class="text-primary btn btn-secondary btn-sm mr-2">
 									<i class="fa fa-edit"></i>

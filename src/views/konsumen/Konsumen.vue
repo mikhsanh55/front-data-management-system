@@ -74,7 +74,7 @@
 			    		karakteristik_perusahaan:'align-middle',
 			    		alamat:'align-middle',
 			    		aksi:'text-center align-middle'
-			    	}
+			    	},
 			    }
 			}
 		},
@@ -122,7 +122,6 @@
 						.then(res => {	
 
 							if(res.data.status == true)
-								alert(res.data.message)
 								this.$swal(res.data.message, '', 'success')
 								setTimeout(() => {
 									this.$swal.close()	
@@ -213,6 +212,9 @@
 		margin-top: 20px;	
 		display: flex;
 		justify-content: center;
+	}
+	#konsumen_table select {
+		margin-bottom:20px;
 	}
 </style>
 
