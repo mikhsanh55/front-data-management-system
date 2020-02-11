@@ -9,6 +9,7 @@
 					<CRow class="mx-auto d-flex justify-content-center">
 						<CCol sm="8">
 							<CSelect
+								placeholder="Pilih Barang"
 								label="Barang"
 								horizontal
 								v-model="request_po.id_barang"
@@ -41,6 +42,7 @@
 								v-model="request_po.keterangan"
 							/>
 							<CSelect
+								placeholder="Pilih Status"
 								label="Status"
 								horizontal
 								v-model="request_po.status"
@@ -181,6 +183,9 @@
 			}
 		},
 		created() {
+			if(localStorage.level != 1 && localStorage.level != 2 && localStorage.level != 6 && localStorage.level != 5) {
+				this.$router.push('/')
+			}
 			this.$http.get(localStorage.base_api + 'barang', {
 				headers: {
 					'Authorization': 'bearer ' + localStorage.token

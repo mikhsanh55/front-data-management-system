@@ -262,6 +262,9 @@
 	         }
 		},
 		created() {
+			if(localStorage.level != 1 && localStorage.level != 2 && localStorage.level != 4 ) {
+				this.$router.push('/')
+			}
 			this.getBarang()
 			getDatas(this, localStorage.base_api + 'stock/' + this.$route.params.id, {
 				method:'POST',

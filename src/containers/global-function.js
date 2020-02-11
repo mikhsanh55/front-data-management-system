@@ -63,7 +63,7 @@ export function exportPDF(self, url, options, filename, method = 'get') {
 }
 export function checkPO(self) {
 	return new Promise((resolve, reject) => {
-		self.$http.get('https://young-temple-67589.herokuapp.com/api/po', {
+		self.$http.get(localStorage.base_api + 'po', {
 			headers: {
 				'Authorization': 'bearer ' + localStorage.token
 			}
@@ -104,7 +104,7 @@ export function checkPO(self) {
 export function getOrderBarang() {
 	return new Promise((resolve, reject) => {
 		let arr = []
-		fetch('https://young-temple-67589.herokuapp.com/api/order/barang/po', {
+		fetch(localStorage.base_api + 'order/barang/po', {
 			
 			headers: {
 				'Authorization': 'bearer ' + localStorage.token
@@ -115,7 +115,7 @@ export function getOrderBarang() {
 			console.warn('ORDER BARANG')
 			console.log(res)
 			res.forEach((item, i) => {
-				fetch('https://young-temple-67589.herokuapp.com/api/po/' + item.id_po, {
+				fetch(localStorage.base_api + 'po/' + item.id_po, {
 					method:'post',
 					headers: {
 						'Authorization': 'bearer ' + localStorage.token

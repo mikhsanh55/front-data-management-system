@@ -183,6 +183,9 @@
 		},
 		created() {
 			this.getData()
+			if(localStorage.level != 1 && localStorage.level != 2 && localStorage.level != 7) {
+				this.$router.push('/')
+			}
 		},
 		mounted() {
 			this.data = this.$store.getters.userData

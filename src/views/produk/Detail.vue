@@ -98,6 +98,9 @@
 			}
 		},
 		created() {
+			if(localStorage.level == 3 ) {
+				this.$router.push('/')
+			}
 			this.getData()
 			this.data = JSON.parse(localStorage.user)
 		}

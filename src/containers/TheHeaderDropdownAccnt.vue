@@ -9,7 +9,7 @@
       <CHeaderNavLink>
         <div class="c-avatar">
           <img
-            :src="'https://young-temple-67589.herokuapp.com/' + user.foto"
+            :src="'https://api.sabalkes.com/' + '' + user.foto"
             class="c-avatar-img "
             width="70"
             height="70"
@@ -112,14 +112,9 @@ export default {
     }
   },
   created() {
-    checkPO(this)
-    .then(res => {
-      this.jumlahNotif = res.length
-    })
-    .catch(e => console.error('Notif error ' + e))
 
     let user = JSON.parse(localStorage.user)
-    getDatas(this, 'https://young-temple-67589.herokuapp.com/api/karyawan/' + user.id, {
+    getDatas(this, localStorage.base_api + 'karyawan/' + user.id_karyawan, {
         method:'post',
         headers: {
           'Authorization' : 'bearer ' + localStorage.token

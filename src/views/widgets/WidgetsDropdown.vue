@@ -418,9 +418,9 @@ export default {
     
     if(this.level == 1 || this.level == 2) {
       fetchAll([
-        'https://young-temple-67589.herokuapp.com/api/dashboard/grafik',
-        'https://young-temple-67589.herokuapp.com/api/dashboard/kj',
-        'https://young-temple-67589.herokuapp.com/api/dashboard/vk'
+        localStorage.base_api + 'dashboard/grafik',
+        localStorage.base_api + 'dashboard/kj',
+        localStorage.base_api + 'dashboard/vk'
       ], [
         {headers:{'Authorization': 'bearer ' + localStorage.token}},
         {headers:{'Authorization': 'bearer ' + localStorage.token}},
@@ -435,9 +435,9 @@ export default {
     }
     else if(this.level == 7) {
       fetchAll([
-        'https://young-temple-67589.herokuapp.com/api/dashboard/psb',
-        'https://young-temple-67589.herokuapp.com/api/dashboard/pk',
-        'https://young-temple-67589.herokuapp.com/api/dashboard/k'
+        localStorage.base_api + 'dashboard/psb',
+        localStorage.base_api + 'dashboard/pk',
+        localStorage.base_api + 'dashboard/k'
       ], [
         {headers:{'Authorization': 'bearer ' + localStorage.token}},
         {headers:{'Authorization': 'bearer ' + localStorage.token}},
@@ -451,7 +451,7 @@ export default {
     }
     else if(this.level == 6) {
       fetchAll([
-        'https://young-temple-67589.herokuapp.com/api/dashboard/rbs'
+        localStorage.base_api + 'dashboard/rbs'
       ], [
         {headers:{'Authorization': 'bearer ' + localStorage.token}}
       ])
@@ -466,7 +466,7 @@ export default {
     }
     else if(this.level == 3) { // admin umum
       fetchAll([
-        'https://young-temple-67589.herokuapp.com/api/dashboard/sp'
+        localStorage.base_api + 'dashboard/sp'
       ], [
         {headers:{'Authorization': 'bearer ' + localStorage.token}}
       ])
@@ -482,7 +482,7 @@ export default {
     }  
     else if(this.level == 4) { // admin stok
       fetchAll([
-        'https://young-temple-67589.herokuapp.com/api/dashboard/tio'
+        localStorage.base_api + 'dashboard/tio'
       ], [
         {headers:{'Authorization': 'bearer ' + localStorage.token}}
       ])
@@ -498,7 +498,7 @@ export default {
 
     else if(this.level == 5) { // admin pengadaan
       fetchAll([
-        'https://young-temple-67589.herokuapp.com/api/dashboard/bp'
+        localStorage.base_api + 'dashboard/bp'
       ], [
         {headers:{'Authorization': 'bearer ' + localStorage.token}}
       ])

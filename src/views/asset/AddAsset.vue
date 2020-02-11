@@ -45,6 +45,7 @@
 		                        v-model="asset.nama_karyawan"
 		                      /> -->
 		                    <CSelect
+		                    	placeholder="Pilih Karyawan"
 				                label="Karyawan"
 				                horizontal
 				                v-model="karyawanselected"
@@ -237,6 +238,9 @@
 			}
 		},
 		created() {
+			if(localStorage.level != 1 && localStorage.level != 2 && localStorage.level != 7 && localStorage.level != 3) {
+				this.$router.push('/')
+			}
 			this.getKaryawan()
 		}
 	}

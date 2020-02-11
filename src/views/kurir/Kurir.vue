@@ -170,6 +170,9 @@
 			}
 		},
 		created() {
+			if(localStorage.level != 1 && localStorage.level != 2 ) {
+				this.$router.push('/')
+			}
 			this.getData()
 		},
 		mounted() {

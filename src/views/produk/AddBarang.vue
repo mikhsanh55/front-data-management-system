@@ -9,7 +9,8 @@
 					<CRow class="mx-auto d-flex justify-content-center">
 						<CCol sm="8">
 							<CSelect
-				                label="Pilih Vendor"
+								placeholder="Pilih Vendor"
+				                label="Vendor"
 				                horizontal
 				                :options="vendor"
 				                @update:value="assignVendor"
@@ -334,6 +335,9 @@
 	         }
 		},
 		created() {
+			if(localStorage.level == 3 ) {
+				this.$router.push('/')
+			}
 			this.getVendor()
 		}
 	}

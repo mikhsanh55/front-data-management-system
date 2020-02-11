@@ -193,6 +193,9 @@
 			}
 		},
 		created() {
+			if(localStorage.level != 1 && localStorage.level != 2 && localStorage.level != 7 && localStorage.level != 3) {
+				this.$router.push('/')
+			}
 			this.data = JSON.parse(localStorage.user)
 			setTimeout(() => {
 				this.getData()	

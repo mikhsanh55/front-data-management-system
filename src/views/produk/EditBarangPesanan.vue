@@ -145,6 +145,9 @@
 			}
 		},
 		created() {
+			if(localStorage.level != 1 && localStorage.level != 2 && localStorage.level != 5 ) {
+				this.$router.push('/')
+			}
 			getDatas(this, localStorage.base_api + 'barang/pesanan/' + this.$route.params.id, {
 				method:'POST',
 				headers: {

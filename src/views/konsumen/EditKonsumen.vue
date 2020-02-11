@@ -321,6 +321,9 @@
       },
     },
     created() {
+      if(localStorage.level != 1 && localStorage.level != 2 && localStorage.level != 7) {
+        this.$router.push('/')
+      }
       this.getData()
     }
   }

@@ -157,6 +157,9 @@
 			if(localStorage.getItem('token') == undefined || localStorage.getItem('token') == null) {
 				this.$router.replace('/login')
 			}
+			if(localStorage.level != 1 && localStorage.level != 2) {
+				this.$router.push('/')
+			}
 			this.getData()
 		},
 		mounted() {

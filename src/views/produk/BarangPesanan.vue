@@ -241,6 +241,9 @@
 			}
 		},
 		created() {
+			if(localStorage.level != 1 && localStorage.level != 2 && localStorage.level != 5 ) {
+				this.$router.push('/')
+			}
 			this.getData()
 			this.data = this.$store.getters.userData
 		}

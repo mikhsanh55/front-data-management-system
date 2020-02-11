@@ -115,6 +115,9 @@
 			}
 		},
 		created() {
+			if(localStorage.getItem('token') == undefined || localStorage.getItem('token') == null) {
+				this.$router.replace('/login')
+			}
 			let user = JSON.parse(localStorage.user)
 			getDatas(this, localStorage.base_api + 'karyawan/' + user.id_karyawan, {
 				method:'post',

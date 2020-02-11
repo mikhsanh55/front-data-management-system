@@ -13,6 +13,7 @@
 		                      </p>    
 
 		                    <CSelect
+		                    	placeholder="Pilih Karyawan"
 		                    	label="Nama Karyawan"
 		                    	horizontal
 		                    	:options="karyawan"
@@ -44,6 +45,7 @@
 		                        v-model="user.password"
 		                      /> 
 		                      <CSelect
+		                      placeholder="Pilih Jabatan"
 		                      label="Jabatan"
 		                      horizontal
 		                      :options="jabatan"
@@ -226,6 +228,9 @@
 			}
 		},
 		created() {
+			if(localStorage.level != 1 && localStorage.level != 2) {
+				this.$router.push('/')
+			}
 			this.getKaryawan()
 		}
 	}

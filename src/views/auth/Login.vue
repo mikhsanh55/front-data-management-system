@@ -206,7 +206,7 @@ body {
   padding:0;
 }
 #login-page {
-  background-image: url('http://alkes.icommits.co.id/dokter.jpg');
+  background-image: url('/dokter.jpg');
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;

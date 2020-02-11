@@ -377,6 +377,9 @@
 					
 		},
 		created() {
+			if(localStorage.level == 5 || localStorage.level == 4) {
+				this.$router.push('/')
+			}
 			this.fetchAll()
 			this.getDataTable()
 		}

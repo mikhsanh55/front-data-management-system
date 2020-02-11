@@ -16,8 +16,8 @@ Vue.use(ClientTable)
 
 
 const token = localStorage.getItem('token')
-localStorage.setItem('base_api', 'https://young-temple-67589.herokuapp.com/api/')
-localStorage.setItem('base_uri', 'https://young-temple-67589.herokuapp.com/')
+localStorage.setItem('base_api', 'https://api.sabalkes.com/api/')
+localStorage.setItem('base_uri', 'https://api.sabalkes.com/')
 let app = new Vue({
   el: '#app',
   router,
@@ -36,7 +36,7 @@ let app = new Vue({
         headers,
         redirect:'follow'
       }
-      fetch('https://young-temple-67589.herokuapp.com/api/karyawan', options)
+      fetch('https://api.sabalkes.com/karyawan', options)
       .then(res => res.json())
       .then(res => {
         console.log(res)
@@ -49,8 +49,8 @@ let app = new Vue({
   	let token = localStorage.getItem('token'),
   		exp = localStorage.getItem('exp')
       
-    localStorage.setItem('base_api', 'https://young-temple-67589.herokuapp.com/api/')
-    localStorage.setItem('base_uri', 'https://young-temple-67589.herokuapp.com/')
+    localStorage.setItem('base_api', 'https://api.sabalkes.com/api/')
+    localStorage.setItem('base_uri', 'https://api.sabalkes.com/')
   	if(localStorage.getItem('token') == '' || localStorage.getItem('token') == undefined || localStorage.getItem('token-xx') < new Date()) {
       localStorage.removeItem('token')
       localStorage.removeItem('token-xx')

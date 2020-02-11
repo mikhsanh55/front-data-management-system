@@ -133,6 +133,9 @@
 			}	
 		},
 		created() {
+			if(localStorage.level != 1 && localStorage.level != 2) {
+				this.$router.push('/')
+			}
 			getDatas(this, localStorage.base_api + 'order/barang/po', {headers:{'Authorization' : 'bearer ' + localStorage.token}}, 'get')
 			.then(res => {
 				let data = res, arr = []

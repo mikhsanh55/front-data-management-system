@@ -17,6 +17,7 @@
 		                        </p>
 		                      </div>  
 		                    <CSelect
+		                    	placeholder="Pilih Guna Pembayaran"
 				                label="Guna Pembayaran"
 				                horizontal
 				                :options="guna_pembayaran"
@@ -142,6 +143,9 @@
 			}
 		},
 		created() {
+			if(localStorage.level != 1 && localStorage.level != 2 && localStorage.level != 3) {
+				this.$router.push('/')
+			}
 			getDatas(this, localStorage.base_api + 'po', {headers:{'Authorization': 'bearer ' + localStorage.token}}, 'get')
 			.then(res => {
 				console.log(res)

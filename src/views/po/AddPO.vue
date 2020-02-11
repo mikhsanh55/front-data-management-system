@@ -15,14 +15,16 @@
 									<p v-show="validMsg == true" class="alert alert-success">
 				            		  	<small>Penambahan PO berhasil!</small>
 				            		  </p>
-									<CSelect
-						                label="Sales"
+									<CSelect						                
+										placeholder="Pilih Sales"
+										label="Sales"
 						                horizontal
 						                v-model="po.id_sales"
 						                :options="sales"
 						                @update:value="assignSales"
 						              />  
 						              <CSelect
+						              	placeholder="Pilih Konsumen"
 						                label="Konsumen"
 						                horizontal
 						                v-model="po.id_konsumen"
@@ -30,6 +32,7 @@
 						                @update:value="assignKonsumen"
 						              />  
 						              <CSelect
+						              	placeholder="Pilih Kurir"
 						                label="Kurir"
 						                horizontal
 						                v-model="po.id_kurir"
@@ -356,6 +359,9 @@
 	      	}
 		},
 		created() {
+			if(localStorage.level == 5 || localStorage.level == 4) {
+				this.$router.push('/')
+			}
 			this.fetchAll()
 		}
 	}

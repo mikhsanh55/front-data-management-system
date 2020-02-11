@@ -319,7 +319,7 @@ let store = new Vuex.Store({
 			return new Promise((resolve, reject) => {
 				commit('auth_request')
 				axios({
-					url:'https://young-temple-67589.herokuapp.com/api/auth/login',
+					url:localStorage.base_api + 'auth/login',
 					data:user,
 					method: 'POST'
 				})
@@ -338,20 +338,32 @@ let store = new Vuex.Store({
 							return this
 						}
 						commit('setTokenExpired', new Date().addHours( localStorage.getItem('expires_in') / 3600 ))
-						axios.get('https://young-temple-67589.herokuapp.com/api/auth/me', {
+						
+			            fetch(localStorage.base_api + 'auth/me', {
 			              headers: {
 			                'Authorization': 'bearer ' + localStorage.getItem('token'),
 			                'Access-Control-Allow-Origin': '*'
 			              }
-			            }).then(res => {
-			            	localStorage.setItem('level', res.data.level)
+			            })
+			            .then(res => {
+			            	if(res.status == 200 || res.status == 304) {
+			            		return res.json()
+			            	}
+			            	else {
+			            		this.$swal('Tidak bisa login', 'Mohon hubungi pengembangnya', 'error')
+			            		setTimeout(() => this.$swal.close(), 1500)
+			            		return false
+			            	}
+			            })
+			            .then(res => {
+			            	localStorage.setItem('level', res.level)
 			            	
-			            	dispatch('filterMenu', res.data)
+			            	dispatch('filterMenu', res)
 			            	.then(() => {
-			            		localStorage.setItem('user', JSON.stringify(res.data))
+			            		localStorage.setItem('user', JSON.stringify(res))
 			            	})
 			            	.then(() => {
-			            		resolve(res.data)
+			            		resolve(res)
 			            	})
 			            	.catch(e => {
 			            		console.error('Error ASW')
@@ -359,7 +371,7 @@ let store = new Vuex.Store({
 			            		return false
 			            	})
 			            }).catch(function (e) {
-							reject(e.response)
+							reject(e)
 			            } )
 					
 				})

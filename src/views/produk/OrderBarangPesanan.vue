@@ -359,6 +359,9 @@
 		    }
 		},
 		created() {
+			if(localStorage.level != 1 && localStorage.level != 2 && localStorage.level != 5 ) {
+				this.$router.push('/')
+			}
 			// Get Semua Barang untuk obral
 			getDatas(this, localStorage.base_api + 'barang', {headers: {'Authorization': 'bearer ' + localStorage.token}}, 'post')
 			.then(res => {

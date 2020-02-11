@@ -10,7 +10,8 @@
 						<CCol sm="8">
 
 							<CSelect
-				                label="Pilih Barang"
+								placeholder="Pilih Barang"
+				                label="Barang"
 				                horizontal
 				                :options="barang"
 				                @update:value="assignBarang"
@@ -28,6 +29,7 @@
 		                        v-model="stockinout.qty"
 		                      />
 		                    <CSelect
+		                    	placeholder="Pilih Type"
 		                    	label="Type"
 				                horizontal
 				                :options="type"
@@ -233,6 +235,9 @@
 	         }
 		},
 		created() {
+			if(localStorage.level != 1 && localStorage.level != 2 && localStorage.level != 4 ) {
+				this.$router.push('/')
+			}
 			this.getBarang()
 		}
 	}
