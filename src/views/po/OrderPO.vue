@@ -94,6 +94,35 @@
 										<button class="btn btn-secondary text-danger m-1"  @click="deleteFromTable(props.row.id)"><i class="fa fa-trash"></i></button>				
 									</div>
 								</v-client-table>
+								<div class="d-flex justify-content-end">
+								<div></div>	
+								<table class="table table-bordered table-striped m-2 mr-3 justify-content-end w-50">
+									<tr>
+										<th class="w-50 text-right">Sub Total</th>
+										<td>{{rpo.sub_total}}</td>
+									</tr>
+									<tr>
+										<th class="w-50 text-right" >Discount</th>
+										<td>{{rpo.disc}}</td>
+									</tr>
+									<tr>
+										<th class="w-50 text-right">Tax Rate (%)</th>
+										<td>{{rpo.tax}}</td>
+									</tr>
+									<tr>
+										<th class="w-50 text-right">Sales Fee</th>
+										<td>{{rpo.sales_fee}}</td>
+									</tr>
+									<tr>
+										<th class="w-50 text-right">Other Cost</th>
+										<td>{{rpo.other}}</td>
+									</tr>
+									<tr>
+										<th class="w-50 text-right" >Grand Total</th>
+										<td>{{rpo.sub_total - rpo.disc + rpo.tax + rpo.sales_fee + rpo.other}}</td>
+									</tr>
+								</table>
+								</div>
 							</CCol>
 						</CRow>
 					</CCardBody>
@@ -172,7 +201,9 @@
 					tax:null,
 					disc:null,
 					total:null,
-					sub_total:0
+					sub_total:0,
+					sales_fee:0,
+					other:0
 				},
 				order_barang:[]
 			}
@@ -279,7 +310,9 @@
 							tax:null,
 							disc:null,
 							total:null,
-							sub_total:0
+							sub_total:0,
+							sales_fee:0,
+							other:0
 						}		
 			    		this.label = 'Tambah'
 			    		this.getDataTable()
@@ -355,9 +388,12 @@
 								nama_barang:res.nama_barang,
 								spesifikasi_barang:res.spesifikasi,
 								harga_jual: res.harga_jual,
-								total: ((res.harga_jual * item.qty) + item.tax) - (item.disc * (res.harga_jual * item.qty))
+								total: ((res.harga_jual * item.qty) + (item.tax/100)) - ((item.disc/100) * (res.harga_jual * item.qty))
 							}	
 							this.order_barang.push(obj)
+							this.rpo.sub_total += parseInt(((res.harga_jual * item.qty) + (item.tax/100)) - ((item.disc/100) * (res.harga_jual * item.qty)))
+							this.rpo.disc += parseInt(res.harga_jual * (item.disc/100))
+							this.rpo.tax += parseInt(res.harga_jual * (item.tax/100))
 						})
 						.catch(e => {
 							console.error(e)

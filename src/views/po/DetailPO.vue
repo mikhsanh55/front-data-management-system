@@ -44,18 +44,7 @@
 								<th class="w-50">Keterangan</th>
 								<td>{{po.keterangan}}</td>
 							</tr>
-							<tr>
-								<th class="w-50">Tax Rate (%)</th>
-								<td>{{po.tax_rate}}</td>
-							</tr>
-							<tr>
-								<th class="w-50">Sales Fee</th>
-								<td>{{po.sales_fee}}</td>
-							</tr>
-							<tr>
-								<th class="w-50">Other Cost</th>
-								<td>{{po.other}}</td>
-							</tr>
+							
 							<tr>
 								<th class="w-50">No Surat Jalan</th>
 								<td>{{po.no_surat_jalan}}</td>
@@ -82,22 +71,7 @@
 									Sukses
 								</td>
 							</tr>
-							<tr>
-								<th class="w-50">Sub Total</th>
-								<td>{{po.sub_total}}</td>
-							</tr>
-							<tr>
-								<th class="w-50">Discount</th>
-								<td>{{po.disc}}</td>
-							</tr>
-							<tr>
-								<th class="w-50">Sales Tax Rate</th>
-								<td> {{po.sales_tax_rate}} </td>
-							</tr>
-							<tr>
-								<th class="w-50">Grand Total</th>
-								<td>{{po.grand_total}}</td>
-							</tr>
+							
 						</table>
 					</CCol>
 				</CRow>
@@ -124,6 +98,35 @@
 								</div>
 							</div>
 						</v-client-table>
+						<div class="d-flex justify-content-end">
+						<div></div>	
+						<table class="table table-bordered table-striped m-2 mr-3 justify-content-end w-50">
+							<tr>
+								<th class="w-50 text-right">Sub Total</th>
+								<td>{{po.sub_total}}</td>
+							</tr>
+							<tr>
+								<th class="w-50 text-right" >Discount</th>
+								<td>{{po.disc}}</td>
+							</tr>
+							<tr>
+								<th class="w-50 text-right">Tax Rate (%)</th>
+								<td>{{po.tax_rate}}</td>
+							</tr>
+							<tr>
+								<th class="w-50 text-right">Sales Fee</th>
+								<td>{{po.sales_fee}}</td>
+							</tr>
+							<tr>
+								<th class="w-50 text-right">Other Cost</th>
+								<td>{{po.other}}</td>
+							</tr>
+							<tr>
+								<th class="w-50 text-right" >Grand Total</th>
+								<td>{{po.sub_total - po.disc + po.tax_rate + po.sales_fee + po.other}}</td>
+							</tr>
+						</table>
+						</div>
 					</CCol>
 				</CRow>
 			</CCardBody>
@@ -259,14 +262,18 @@
 					.then(res => {
 						let arr = []
 						console.warn('Order Barang')
-						console.log(res)
 						this.info_po = res
+						this.po.sub_total = 0
+						this.po.disc = 0
+						this.po.tax = 0
+						this.po.sales_tax_rate = 0
+						this.po.grand_total = 0
 						this.info_po.forEach((item, i) => {
 							getDatas(this,localStorage.base_api + 'barang/' + item.id_barang, { method:'POST', headers:{'Authorization': 'bearer ' + localStorage.token}}, 'POST')
 							.then(res => {
 								let total = item.qty * res.harga_jual, 
-								disc = Math.round(total - (item.disc / 100)) - (item.tax / 100),
-								tax = (total + (item.tax / 100)  - disc).toFixed(2)
+								disc = item.disc,
+								tax = item.tax
 								arr.push({
 									no:++i,
 									total:total,
@@ -277,17 +284,11 @@
 									nama_barang: res.nama_barang,
 									spesifikasi: res.spesifikasi,
 								})
-								console.warn(this.po.sub_total)
-								this.po.sub_total = 0
-								this.po.sub_total += total
-								this.po.disc = 0
-								this.po.disc += disc
-								this.po.tax = 0
-								this.po.tax += tax
-								this.po.sales_tax_rate = 0
-								this.po.grand_total =  (this.po.sub_total - parseInt(this.po.disc)+ this.po.tax_rate) - (this.po.sales_fee + this.po.other)
+								this.po.sub_total += parseInt(total) 
+								this.po.disc += parseInt(res.harga_jual * item.qty * (disc/100))
+								this.po.tax_rate += parseInt(res.harga_jual * item.qty * (tax/100))
 							})
-							
+
 						})
 
 						resolve(arr)
@@ -331,6 +332,7 @@
 			if(localStorage.level == 5 || localStorage.level == 4) {
 				this.$router.push('/')
 			}
+
 			this.getData()
 			this.getDataTable()
 			.then(res => {
