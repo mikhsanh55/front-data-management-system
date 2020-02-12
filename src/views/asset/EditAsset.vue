@@ -219,7 +219,7 @@
 					this.label = 'Loading...'
 					let formData = new FormData()
 					formData.append('kode', this.asset.kode)
-					formData.append('id_karyawan', this.asset.id)
+					formData.append('id_karyawan', this.asset.id_karyawan)
 					formData.append('deskripsi_barang', this.asset.deskripsi_barang)
 					formData.append('tanggal_beli', this.asset.tanggal_beli)
 					formData.append('tanggal_expired', this.asset.tanggal_expired)

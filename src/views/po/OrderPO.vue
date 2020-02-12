@@ -249,11 +249,6 @@
 		        
 		    },
 		    deleteFromTable(i) {
-		    	// console.log(e.index - 1)
-		    	// this.order_barang.splice(e.index-1, 1)
-		    	// let order_barang = JSON.parse(localStorage.getItem('order_barang'))
-		    	// order_barang.splice(e.index)
-		    	// localStorage.setItem('order_barang', JSON.stringify(this.order_barang))
 		    	this.$swal('Mohon tunggu', '', 'info')
 		    	this.$http.delete(localStorage.base_api + 'order/barang/po/' + i, {
 		    		headers: {
@@ -388,7 +383,7 @@
 								nama_barang:res.nama_barang,
 								spesifikasi_barang:res.spesifikasi,
 								harga_jual: res.harga_jual,
-								total: ((res.harga_jual * item.qty) + (item.tax/100)) - ((item.disc/100) * (res.harga_jual * item.qty))
+								total: (res.harga_jual * item.qty)
 							}	
 							this.order_barang.push(obj)
 							this.rpo.sub_total += parseInt(((res.harga_jual * item.qty) + (item.tax/100)) - ((item.disc/100) * (res.harga_jual * item.qty)))
