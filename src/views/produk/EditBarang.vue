@@ -111,8 +111,8 @@
 				              />
 
 				            <div v-if="barang.foto != null">
-		                        <img :src="'https://young-temple-67589.herokuapp.com/' + barang.foto" width="80" height="80" />
-		                      </div>    
+		                        <img :src="barang.foto" width="80" height="80" />
+		                    </div>    
 
 						</CCol>
 					</CRow>
@@ -172,6 +172,7 @@
 		        getDatas(this, localStorage.base_api + "barang/" + this.$route.params.id, options)
 		        .then(result => {
 		          this.barang = result
+		          this.barang.foto = localStorage.base_uri + this.barang.foto
 		        })
 		        .catch(error => {
 		        	this.$swal('Tidak bisa mengambil data', 'hubungi pengembanya', 'danger')
@@ -183,19 +184,18 @@
 			handleFile(file, e) {
 	         file = file[0]
 	         let extension = file.name.substring(file.name.lastIndexOf('.')+1),
-	         valid_extension = ['gif', 'png', 'jpg', 'jpeg'],
-	         f = file
+	         valid_extension = ['gif', 'png', 'jpg', 'jpeg']
 	         if(valid_extension.includes(extension) == false) {
-		          this.$swal('File tidak valid', 'harap upload gambar yah', 'danger')
-	                setTimeout(() => {
-	                  this.$swal.close()
-	                }, 2000)
+		          this.$swal('File tidak valid', 'harap upload gambar yah :)', 'warning')
+		          setTimeout(() => {
+		            this.$swal.close()
+		          }, 2000)
 		          e.target.value = ''
 		          return false
 		         }
 		         else {
-		          console.log(f)
-		          this.barang.foto = f
+		         	console.log(file)
+		          this.barang.foto = file
 		         }
 		     },
 	         assignVendor(val) {
@@ -240,9 +240,21 @@
 	         	}
 
 	         	if(!this.errors.length) {
-	         		
+	         		let formData = new FormData()
+	         		formData.append('id_vendor', this.barang.id_vendor)
+	         		formData.append('kode_barang', this.barang.kode_barang)
+	         		formData.append('nama_barang', this.barang.nama_barang)
+	         		formData.append('spesifikasi', this.barang.spesifikasi)
+	         		formData.append('harga_jual', this.barang.harga_jual)
+	         		formData.append('harga_dasar', this.barang.harga_dasar)
+	         		formData.append('satuan', this.barang.satuan)
+	         		formData.append('exp', this.barang.exp)
+	         		formData.append('keterangan', this.barang.keterangan)
+	         		if(this.barang.foto != null) {
+	         			formData.append('foto', this.barang.foto)
+	         		}
 	         		this.barang.harga_dasar = this.barang.harga_jual
-	         		this.$http.post(localStorage.base_api + 'barang/edit/' + this.$route.params.id, this.barang, {
+	         		this.$http.post(localStorage.base_api + 'barang/edit/' + this.$route.params.id, formData, {
 	         			headers: {
 	         				'Authorization':'bearer ' + localStorage.token
 	         			},
@@ -252,11 +264,7 @@
 	         			this.$swal('Data berhasil diupdate', 'Mohon tunggu sebentar...', 'success')
 	                    setTimeout(() => {
 	                      this.$swal.close()
-	                      setTimeout(() => {
-	                      	this.$swal.close()
-	                      	this.$router.push({path: '/barang'})
-	                      }, 1500)
-	                      
+	                      this.$router.push({path: '/barang'})
 	                    }, 2000)
 	         		})
 	         		.catch(e => {

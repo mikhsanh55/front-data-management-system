@@ -105,7 +105,6 @@
 				              	class="mt-4 mb-4"
 				                label="Foto Barang"
 				                horizontal
-				                v-model="barang.foto"
 				                @change="handleFile"
 				                id="file"
 				                ref="file"
@@ -208,20 +207,19 @@
 			handleFile(file, e) {
 	         file = file[0]
 	         let extension = file.name.substring(file.name.lastIndexOf('.')+1),
-	         valid_extension = ['gif', 'png', 'jpg', 'jpeg'],
-	         f = file
-		         if(valid_extension.includes(extension) == false) {
-		          this.$swal('Maaf tidak bisa ambil data :(', 'hubungi pengembanya', 'danger')
-                    setTimeout(() => {
-                      this.$swal.close()
-                    }, 2000)
+	         valid_extension = ['gif', 'png', 'jpg', 'jpeg']
+		        if(valid_extension.includes(extension) == false) {
+		          this.$swal('File tidak valid', 'harap upload gambar yah :)', 'warning')
+		          setTimeout(() => {
+		            this.$swal.close()
+		          }, 2000)
 		          e.target.value = ''
 		          return false
 		         }
-			         else {
-			          console.log(f)
-			          this.barang.foto = f
-			      }
+		         else {
+		         	console.log(file)
+		          this.barang.foto = file
+		         }
 	         },
 	         assignVendor(val) {
 	         	this.barang.id_vendor = val
@@ -279,8 +277,21 @@
 					setTimeout(() => this.$swal.close(), 1500)
 	         	}
 	         	if(!this.errors.length) {
+	         		let formData = new FormData()
+	         		formData.append('id_vendor', this.barang.id_vendor)
+	         		formData.append('kode_barang', this.barang.kode_barang)
+	         		formData.append('nama_barang', this.barang.nama_barang)
+	         		formData.append('spesifikasi', this.barang.spesifikasi)
+	         		formData.append('harga_jual', this.barang.harga_jual)
+	         		formData.append('harga_dasar', this.barang.harga_dasar)
+	         		formData.append('satuan', this.barang.satuan)
+	         		formData.append('exp', this.barang.exp)
+	         		formData.append('keterangan', this.barang.keterangan)
+	         		if(this.barang.foto != null) {
+	         			formData.append('foto', this.barang.foto)
+	         		}
 	         		this.label = 'Loading...'
-	         		this.$http.post(localStorage.base_api + 'barang', this.barang, {
+	         		this.$http.post(localStorage.base_api + 'barang', formData, {
 	         			headers: {
 	         				'Authorization':'bearer ' + localStorage.token
 	         			},
