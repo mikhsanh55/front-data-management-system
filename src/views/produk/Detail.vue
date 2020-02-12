@@ -7,7 +7,7 @@
 			<CCardBody>
 				<CRow class="mx-auto d-flex justify-content-center">
 					<CCol sm="12" class="mt-4 d-flex justify-content-center">
-						<img :src="product.foto" style="border-radius:50%;width:70px;height: 70px;" />
+						<img :src="base_uri + product.foto" style="border-radius:50%;width:70px;height: 70px;" />
 					</CCol>
 				</CRow>
 				<br>
@@ -70,7 +70,8 @@
 		data() {
 			return {
 				data:'',
-				product:[]	
+				product:[],
+				base_uri:localStorage.base_uri	
 			}
 		},
 		methods: {

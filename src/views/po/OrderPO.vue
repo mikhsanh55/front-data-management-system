@@ -107,7 +107,7 @@
 									</tr>
 									<tr>
 										<th class="w-50 text-right">Tax Rate (%)</th>
-										<td>{{rpo.tax}}</td>
+										<td>{{rpo.tax_rate}}</td>
 									</tr>
 									<tr>
 										<th class="w-50 text-right">Sales Fee</th>
@@ -119,7 +119,7 @@
 									</tr>
 									<tr>
 										<th class="w-50 text-right" >Grand Total</th>
-										<td>{{rpo.sub_total - rpo.disc + rpo.tax + rpo.sales_fee + rpo.other}}</td>
+										<td>{{rpo.sub_total - rpo.disc + rpo.tax_rate + rpo.sales_fee + rpo.other}}</td>
 									</tr>
 								</table>
 								</div>
@@ -198,12 +198,17 @@
 					harga_jual:null,
 					status:1,
 					kode_barang: null,
-					tax:null,
-					disc:null,
-					total:null,
+					tax_rate:0,
+					total:0,
 					sub_total:0,
 					sales_fee:0,
-					other:0
+					other:0,
+					sub_total:0,
+					sales_tax_rate:0,
+					disc:0,
+					tax:0,
+					grand_total:0
+					
 				},
 				order_barang:[]
 			}
@@ -302,12 +307,16 @@
 							harga_jual:null,
 							status:1,
 							kode_barang: null,
-							tax:null,
-							disc:null,
-							total:null,
+							tax_rate:0,
+							total:0,
 							sub_total:0,
 							sales_fee:0,
-							other:0
+							other:0,
+							sub_total:0,
+							sales_tax_rate:0,
+							disc:0,
+							tax:0,
+							grand_total:0
 						}		
 			    		this.label = 'Tambah'
 			    		this.getDataTable()
@@ -386,9 +395,9 @@
 								total: (res.harga_jual * item.qty)
 							}	
 							this.order_barang.push(obj)
-							this.rpo.sub_total += parseInt(((res.harga_jual * item.qty) + (item.tax/100)) - ((item.disc/100) * (res.harga_jual * item.qty)))
-							this.rpo.disc += parseInt(res.harga_jual * (item.disc/100))
-							this.rpo.tax += parseInt(res.harga_jual * (item.tax/100))
+							this.rpo.sub_total += parseInt(res.harga_jual * item.qty)
+							this.rpo.disc += parseInt(res.harga_jual * item.qty * (item.disc/100))
+							this.rpo.tax_rate += parseInt(res.harga_jual * item.qty * (item.tax/100))
 						})
 						.catch(e => {
 							console.error(e)
