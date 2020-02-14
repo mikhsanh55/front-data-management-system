@@ -30,14 +30,17 @@
                             v-model="po.id_konsumen"
                             :options="konsumen"
                             @update:value="assignKonsumen"
-                          />  
-                          <!-- <CSelect
-                            label="Kurir"
-                            horizontal
-                            v-model="po.id_kurir"
-                            :options="kurir"
-                            @update:value="assignKurir"
-                          />   -->
+                          />
+                          <div v-if="level != 7">
+                            <CSelect
+                              
+                              label="Kurir"
+                              horizontal
+                              v-model="po.id_kurir"
+                              :options="kurir"
+                              @update:value="assignKurir"
+                            />  
+                          </div>
                           <CInput
                             type="text"
                             :description="validator.no_po_msg"
@@ -49,7 +52,9 @@
                             placeholder="Masukan Nomer PO"
                             v-model="po.no_po"
                           />
-                          <!-- <CInput
+                          <div v-if="level != 7">
+                          <CInput
+                            
                             type="text"
                             :description="validator.no_surat_jalan_msg"
                             :is-valid="validator.no_surat_jalan"
@@ -70,7 +75,8 @@
                             horizontal
                             placeholder="Masukan Nomer no_Invoice"
                             v-model="po.no_invoice"
-                          /> -->
+                          />
+                          </div>
 
                           <CInput
                             type="date"
@@ -173,6 +179,7 @@
     name: 'EditPO',
     data() {
       return {
+        level:localStorage.level,
         label: 'Simpan Perubahan',
         validMsg:false,
         salesselected:1,
@@ -420,6 +427,7 @@
       if(localStorage.level == 5 || localStorage.level == 4) {
         this.$router.push('/')
       }
+      this.level = localStorage.level
       this.fetchAll()
     }
   }

@@ -92,7 +92,6 @@
 						this.kwitansi.guna_pembayaran = item.no
 						this.kwitansi.no = item.no_invoice
 						this.kwitansi.terima_dari = item.konsumen
-						return
 					}
 				})
 			},
@@ -166,16 +165,19 @@
 			if(localStorage.level != 1 && localStorage.level != 2 && localStorage.level != 3) {
 				this.$router.push('/')
 			}
-			getDatas(this, 'https://young-temple-67589.herokuapp.com/api/po', {headers:{'Authorization': 'bearer ' + localStorage.token}}, 'get')
+			getDatas(this, localStorage.base_api + 'po', {headers:{'Authorization': 'bearer ' + localStorage.token}}, 'get')
 			.then(res => {
 				console.log(res)
 				this.po = res
-				res.forEach((item, i) => {
+				this.po.forEach((item, i) => {
 					let obj = {}
 					obj.value = item.id
 					obj.label = item.no
 					this.guna_pembayaran.push(obj)
 				})
+				
+			})
+			.then(() => {
 				this.getData()
 			})
 			.catch(e => {

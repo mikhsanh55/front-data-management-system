@@ -20,7 +20,7 @@ let store = new Vuex.Store({
 			state.status = 'success'
 			state.user = data
 			console.log(data)
-			if(data.level == 1 || data.level == 2) {
+			if(localStorage.level == 1) {
 
 				state.menu = [
 					{
@@ -120,7 +120,107 @@ let store = new Vuex.Store({
 				]
 				localStorage.setItem('menu', JSON.stringify(state.menu))
 			}
-			else if(data.level == 7) {
+			else if(localStorage.level == 2) {
+				
+				state.menu = [
+					{
+			        _name: 'CSidebarNavItem',
+			        name: 'Dashboard',
+			        to: '/dashboard',
+			        icon: 'cil-speedometer',
+			        badge: {
+			          color: 'primary',
+			          text: 'NEW'
+			        }
+			        },
+			        {
+			          _name: 'CSidebarNavItem',
+			          name: 'Konsumen',
+			          to: '/konsumen',
+			          icon: 'cil-user'
+			        },
+			        {
+			          _name: 'CSidebarNavItem',
+			          name: 'Karyawan',
+			          to: '/karyawan',
+			          icon: 'cil-user'
+			        },
+			        {
+			          _name: 'CSidebarNavItem',
+			          name: 'Barang',
+			          to: '/barang',
+			          icon: 'cil-drop'
+			        },
+			        {
+			        	  _name: 'CSidebarNavItem',
+				          name: 'Request Barang',
+				          to: '/data-request-barang',
+				          icon: 'cil-pencil'
+			        },	
+			        {
+			        	_name:'CSidebarNavItem',
+			        	name:'Barang Pesanan',
+			        	to:'/barang-pesanan',
+			        	icon: 'cil-pencil'
+			        },
+			        {
+			          _name: 'CSidebarNavItem',
+			          name: 'Purchase Order',
+			          to: '/po',
+			          icon: 'cil-pencil'
+			        },
+			        {
+			        	_name: 'CSidebarNavItem',
+				          name: 'Order Barang',
+				          to: '/po/data-order-barang',
+				          icon: 'cil-pencil'
+			        },
+			        {
+			        	_name:'CSidebarNavItem',
+			        	name:'Stock In Out',
+			        	to:'/stock-in-out',
+			        	icon: 'cil-pencil'
+			        },
+			        {
+			          _name: 'CSidebarNavItem',
+			          name: 'User',
+			          to: '/user',
+			          icon: 'cil-puzzle'
+			        },
+			        {
+			          _name: 'CSidebarNavItem',
+			          name: 'Sales',
+			          to: '/sales',
+			          icon: 'cil-chart-pie'
+			        },
+			        {
+			          _name: 'CSidebarNavItem',
+			          name: 'Kwitansi',
+			          to:'/kwitansi',
+			          icon: 'cil-pencil'
+			        },
+			        {
+			          _name: 'CSidebarNavItem',
+			          name: 'Vendor',
+			          to: '/vendor',
+			          icon: 'cil-chart-pie'
+			        },
+			        {
+			          _name: 'CSidebarNavItem',
+			          name: 'Asset',
+			          to: '/asset',
+			          icon: 'cil-chart-pie'
+			        },
+			        {
+			          _name: 'CSidebarNavItem',
+			          name: 'Kurir',
+			          to: '/kurir',
+			          icon: 'cil-puzzle'
+			        }
+				]
+				localStorage.setItem('menu', JSON.stringify(state.menu))	
+			}
+			else if(localStorage.level == 7) {
 				state.menu = [
 
 					{
@@ -160,7 +260,7 @@ let store = new Vuex.Store({
 				]
 				localStorage.setItem('menu', JSON.stringify(state.menu))
 			}
-			else if(data.level == 6) {
+			else if(localStorage.level == 6) {
 				state.menu = [
 
 			        {
@@ -184,7 +284,7 @@ let store = new Vuex.Store({
 				]
 				localStorage.setItem('menu', JSON.stringify(state.menu))	
 			}
-			else if(data.level == 5) {
+			else if(localStorage.level == 5) {
 				state.menu = [
 
 			        {
@@ -214,7 +314,7 @@ let store = new Vuex.Store({
 				]
 				localStorage.setItem('menu', JSON.stringify(state.menu))	
 			}
-			else if(data.level == 4) {
+			else if(localStorage.level == 4) {
 				state.menu = [
 					{
 			          _name: 'CSidebarNavItem',
@@ -231,7 +331,7 @@ let store = new Vuex.Store({
 				]
 				localStorage.setItem('menu', JSON.stringify(state.menu))	
 			}
-			else if(data.level == 3) {
+			else if(localStorage.level == 3) {
 				state.menu = [
 
 			        {
@@ -267,6 +367,13 @@ let store = new Vuex.Store({
 			state.status = 'error'
 		},
 		logout(state) {
+			var cookies = document.cookie.split(";");
+		    for (var i = 0; i < cookies.length; i++) {
+		        var cookie = cookies[i];
+		        var eqPos = cookie.indexOf("=");
+		        var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+		        document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+		    }
 			state.status = ''
 			state.token = ''
 			localStorage.removeItem('token')
@@ -274,6 +381,8 @@ let store = new Vuex.Store({
 			localStorage.removeItem('expires_in')
 			localStorage.removeItem('menu')
 			localStorage.removeItem('user')
+			localStorage.removeItem('level')
+			localStorage.removeItem('notif')
 		},
 		assign(state, data) {
 			state.data = data
@@ -346,7 +455,8 @@ let store = new Vuex.Store({
 			              }
 			            })
 			            .then(res => {
-			            	if(res.status == 200 || res.status == 304) {
+			            	if(res.status == 200) {
+			            		console.log(res)
 			            		return res.json()
 			            	}
 			            	else {
@@ -384,8 +494,12 @@ let store = new Vuex.Store({
 		},
 		logout({commit}) {
 			return new Promise((resolve, reject) => {
+				
 				commit('logout')
-				resolve()
+				setTimeout(() => {
+					resolve()	
+				}, 1500)
+				
 			})
 		},
 		fetchUser({commit}) {

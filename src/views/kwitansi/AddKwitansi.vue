@@ -86,18 +86,12 @@
 		},
 		methods: {
 			assignGunaPembayaran(val) {
-
+				console.log(val)
 				this.po.forEach((item) => {
 					if(item.id == val) {
 						this.kwitansi.guna_pembayaran = item.id
 						this.kwitansi.no = item.no_invoice
 						this.kwitansi.terima_dari = item.konsumen
-						return
-					}
-					else {
-						this.kwitansi.guna_pembayaran = null
-						this.kwitansi.no = null
-						this.kwitansi.terima_dari = null
 					}
 				})
 			},
@@ -155,10 +149,10 @@
 			}
 			getDatas(this, localStorage.base_api + 'po', {headers:{'Authorization': 'bearer ' + localStorage.token}}, 'get')
 			.then(res => {
+				this.po = res
 				this.guna_pembayaran.push({value: '000', label:'Pilih Guna Pembayaran'})
 				console.log(res)
-				this.po = res
-				res.forEach((item, i) => {
+				this.po.forEach((item, i) => {
 					let obj = {}
 					obj.value = item.id
 					obj.label = item.no
