@@ -367,6 +367,14 @@ let store = new Vuex.Store({
 			state.status = 'error'
 		},
 		logout(state) {
+
+			localStorage.removeItem('token')
+			localStorage.removeItem('token-xx')
+			localStorage.removeItem('expires_in')
+			localStorage.removeItem('menu')
+			localStorage.removeItem('user')
+			localStorage.removeItem('level')
+			localStorage.removeItem('notif')
 			var cookies = document.cookie.split(";");
 		    for (var i = 0; i < cookies.length; i++) {
 		        var cookie = cookies[i];
@@ -376,13 +384,6 @@ let store = new Vuex.Store({
 		    }
 			state.status = ''
 			state.token = ''
-			localStorage.removeItem('token')
-			localStorage.removeItem('token-xx')
-			localStorage.removeItem('expires_in')
-			localStorage.removeItem('menu')
-			localStorage.removeItem('user')
-			localStorage.removeItem('level')
-			localStorage.removeItem('notif')
 		},
 		assign(state, data) {
 			state.data = data
@@ -436,10 +437,7 @@ let store = new Vuex.Store({
 					res = res.data
 					const exp = res.expires_in
 					const t = res.access_token
-
 					localStorage.setItem('token', t)
-					
-
 					localStorage.setItem('expires_in', exp)
 					if(localStorage.getItem('expires_in') != '')
 						Date.prototype.addHours = function(h) {

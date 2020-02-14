@@ -9,7 +9,8 @@ export default {
   created() {
 
   	let user = JSON.parse(localStorage.user), currentPath = this.$router.currentRoute.path
-    if(currentPath != '/login' && currentPath != '/forgot-password')
+
+    if(currentPath != '/login' && currentPath != '/forgot-password') {
       	setInterval(() => {
       		fetch(localStorage.base_api + 'karyawan/' + user.id_karyawan, {
       			method:'POST',
@@ -19,21 +20,13 @@ export default {
       		} )
       		.then(res => {
       			if(res.status == 401) {
-      				this.$swal('Maaf sesi login kamu sudah habis', 'silahkan login lagi yah...', 'warning')
-    				setTimeout(() => {
-    					this.$swal.close()
-    					this.$store.dispatch('logout')
-    					.then(() => {
-                if(currentPath != '/login')
-                  this.$router.replace('/login')
-              
-              })
-    				}, 1500)
+                  this.$router.replace('/login')              
     				return false
       			}
       		})
       		.catch(e => console.error(e))
       	}, 60000)
+    }
   }
 }
 </script>

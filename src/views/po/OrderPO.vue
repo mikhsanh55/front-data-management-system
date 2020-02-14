@@ -328,7 +328,13 @@
 			    	})
 			    	.catch(e => {
 			    		this.label = 'Tambah'
-			    		
+			    		if(e.response) {
+			    			console.error(e)
+			    			this.$swal(e.response.data.message, '', 'warning')
+			    			setTimeout(() => {
+			    				this.$swal.close()
+			    			}, 1500)
+			    		}
 			    		console.error(e)
 			    		return false
 			    	})	
