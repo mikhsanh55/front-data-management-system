@@ -133,7 +133,7 @@
 				                @update:value="assignJabatan"
 				              />
 				              <div v-if="karyawan.foto != null">
-		                        <img :src="uri + karyawan.foto" width="80" height="80" />
+		                        <img :src="karyawan.foto" width="80" height="80" />
 		                      </div>  
 						</CCol>
 					</CRow>

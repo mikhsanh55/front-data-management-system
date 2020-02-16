@@ -41,6 +41,7 @@
 				                horizontal
 				                id="file"
 				                ref="file"
+				                @change="handleFile"
 				              />
 				            <CInput
 		                        type="text"
@@ -124,6 +125,24 @@
 			}
 		},
 		methods: {
+			handleFile(file, e) {
+				file = file[0]
+		         let extension = file.name.substring(file.name.lastIndexOf('.')+1),
+		         valid_extension = ['gif', 'png', 'jpg', 'jpeg'],
+		         f = file
+		         if(valid_extension.includes(extension) == false) {
+		          this.$swal('File tidak valid', 'harap upload gambar yah :)', 'warning')
+		          setTimeout(() => {
+		            this.$swal.close()
+		          }, 2000)
+		          e.target.value = ''
+		          return false
+		         }
+		         else {
+		          console.log(f)
+		          this.vendor.foto = f
+		         }
+			},
 			checkImage(src) {
 				let image = new Image()
 				image.onload = () => {
