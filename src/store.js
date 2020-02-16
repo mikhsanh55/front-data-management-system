@@ -367,23 +367,44 @@ let store = new Vuex.Store({
 			state.status = 'error'
 		},
 		logout(state) {
-
-			localStorage.removeItem('token')
-			localStorage.removeItem('token-xx')
-			localStorage.removeItem('expires_in')
-			localStorage.removeItem('menu')
-			localStorage.removeItem('user')
-			localStorage.removeItem('level')
-			localStorage.removeItem('notif')
-			var cookies = document.cookie.split(";");
-		    for (var i = 0; i < cookies.length; i++) {
-		        var cookie = cookies[i];
-		        var eqPos = cookie.indexOf("=");
-		        var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
-		        document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
-		    }
-			state.status = ''
-			state.token = ''
+			fetch(localStorage.base_api + 'auth/logout', {
+				method:'post',
+				headers: {
+					'Authorization':'bearer ' + localStorage.token
+				},
+				redirect:'follow'
+			})
+			.then(res => {
+				if(res.status == 200) {
+					return res.json()		
+				}
+				else {
+					console.error('Cannot logout')
+					return false
+				}
+			})
+			.then(res => {
+				localStorage.removeItem('token')
+				localStorage.removeItem('token-xx')
+				localStorage.removeItem('expires_in')
+				localStorage.removeItem('menu')
+				localStorage.removeItem('user')
+				localStorage.removeItem('level')
+				localStorage.removeItem('notif')
+				var cookies = document.cookie.split(";");
+			    for (var i = 0; i < cookies.length; i++) {
+			        var cookie = cookies[i];
+			        var eqPos = cookie.indexOf("=");
+			        var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+			        document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+			    }
+				state.status = ''
+				state.token = ''
+			}).catch(e => {
+				if(e.response) {
+					console.error(e.response.data.message)
+				}
+			})
 		},
 		assign(state, data) {
 			state.data = data

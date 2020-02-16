@@ -32,7 +32,6 @@
 		                        horizontal
 		                        placeholder="Masukan Nomer Kwitansi"
 		                        v-model="kwitansi.no"
-		                        readonly
 		                      />
 				            <CInput
 		                        type="text"

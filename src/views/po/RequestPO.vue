@@ -124,7 +124,6 @@
 						item.no = ++i
 						item.date = `${dates[2]}-${dates[1]}-${dates[0]}`
 					})
-					this.getData()
 				})
 				.catch(e => {
 					console.error(e)
@@ -191,9 +190,6 @@
 		},
 		created() {
 			this.getData()
-			
-			
-			
 		}
 	}
 </script>

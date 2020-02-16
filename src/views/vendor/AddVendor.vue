@@ -39,7 +39,6 @@
 				              	class="mt-4 mb-4"
 				                label="Foto Vendor"
 				                horizontal
-				                v-model="vendor.foto"
 				                @change="handleFile"
 				                id="file"
 				                ref="file"
@@ -165,8 +164,19 @@
 				}
 
 				if(!this.errors.length) {
+					let formData = new FormData()
+					formData.append('nama', this.vendor.nama)
+					formData.append('email', this.vendor.email)
+					formData.append('wa_hp', this.vendor.wa_hp)
+					formData.append('alamat', this.vendor.alamat)
+					formData.append('no_rekening', this.vendor.no_rekening)
+					formData.append('nama_instansi', this.vendor.nama_instansi)
+					formData.append('karakteristik_perusahaan', this.vendor.karakteristik_perusahaan)
+					if(this.vendor.foto != null) {
+						formData.append('foto', this.vendor.foto)
+					}
 					this.label_btn = 'Loading...'
-					this.$http.post(localStorage.base_api + 'vendor', this.vendor, {
+					this.$http.post(localStorage.base_api + 'vendor', formData, {
 						headers: {
 							'Authorization': 'bearer ' + localStorage.getItem('token')
 						},

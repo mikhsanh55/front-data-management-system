@@ -196,6 +196,20 @@ export default {
     if(localStorage.getItem('token') != undefined) {
       this.$router.replace({path:'/'})
     }
+
+    (function()
+    {
+      if( window.localStorage )
+      {
+        if( !localStorage.getItem('firstLoad') )
+        {
+          localStorage['firstLoad'] = true;
+          window.location.reload(true);
+        }  
+        else
+          localStorage.removeItem('firstLoad');
+      }
+    })();
   }
 }
 </script>
