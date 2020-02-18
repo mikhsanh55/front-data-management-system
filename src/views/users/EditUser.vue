@@ -37,7 +37,8 @@
 		                      horizontal
 		                      v-model="user.id_level"
 		                      :options="jabatan"
-		                      @update:value="assignJabatan"  
+		                      @update:value="assignJabatan"
+		                      readonly  
 		                      />
 	                        
 						</CCol>
@@ -69,7 +70,7 @@
 					nama:null,
 					email:null,
 					username:null,
-					id_level:6
+					id_level:null
 				},
 				jabatan: [],
 				karyawan: [],
@@ -165,8 +166,17 @@
 				this.data_karyawan.forEach((item, i) => {
 					if(val == item.id) {
 						this.user.email = item.email
-						this.user.level = item.id_jabatan
-						return
+						fetch(localStorage.base_api + 'karyawan/' + val, {
+							method:'POST',
+							headers: {
+								'Authorization': 'bearer ' + localStorage.token
+							}
+						})
+						.then(res => res.json())
+						.then(res => {
+							console.warn(res)
+							this.user.id_level = res.id_jabatan
+						})
 					}
 				})
 			},

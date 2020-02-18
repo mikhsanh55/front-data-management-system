@@ -49,6 +49,8 @@
 		                      horizontal
 		                      :options="jabatan"
 		                      @update:value="assignJabatan"
+		                      v-model="user.level"
+		                      readonly
 		                      />
 	                        
 						</CCol>
@@ -64,6 +66,7 @@
 	</div>
 </template>
 <script type="text/javascript">
+	import {getDatas} from '@/containers/global-function.js'
 	export default {
 		name:"AddUser",
 		data() {
@@ -147,8 +150,17 @@
 				this.data_karyawan.forEach((item, i) => {
 					if(val == item.id) {
 						this.user.email = item.email
-						this.user.level = item.id_jabatan
-						return
+						fetch(localStorage.base_api + 'karyawan/' + val, {
+							method:'POST',
+							headers: {
+								'Authorization': 'bearer ' + localStorage.token
+							}
+						})
+						.then(res => res.json())
+						.then(res => {
+							console.warn(res)
+							this.user.level = res.id_jabatan
+						})
 					}
 
 				})
