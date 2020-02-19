@@ -20,13 +20,39 @@ export function exportExcel(self, url, data, options, filename) {
 	})
 		
 }
+function createCORSRequest() {
+	let xhr 
+	if(window.XMLHttpsRequest) {
+		xhr = new XMLHttpsRequest()
+	}
+	else {
+		xhr = new ActiveXObject('Microsoft.XMLHTTP')
+	}
+	return xhr
 
-export function exportExcel2(self, url, options, filename) {
+}
+export function exportExcel2(url, data, filename) {
 	return new Promise((resolve, reject) => {
-		fetch(url, options)
-		.then(res => res.json())
-		.then(res => {
-			const url = URL.createObjectURL(new Blob([res], {
+		let xhr = createCORSRequest()
+		xhr.responseType = 'json'
+		xhr.setRequestHeader("Authorization", 'bearer ' + localStorage.token)
+		if("withCredentials" in xhr) {
+			xhr.open('POST', url, true)
+		}
+		else if(typeof XDomainRequest != "undefined") {
+			xhr = new XDomainRequest()
+			xhr.open('POST', url)
+		}
+		else {
+			xhr = null
+		}
+
+		if(!xhr) {
+			reject()
+		}
+
+		xhr.onload = function() {
+			const url = URL.createObjectURL(new Blob([xhr.response], {
 			    type: 'application/vnd.ms-excel'
 			}))
 			const link = document.createElement('a')
@@ -34,13 +60,32 @@ export function exportExcel2(self, url, options, filename) {
 			link.setAttribute('download', filename)
 			document.body.appendChild(link)
 			link.click()
-		})
-		.then(() => {
 			resolve()
-		})
-		.catch(e => {
-			reject(e)
-		})
+		}
+
+		xhr.onerror = function() {
+			reject()
+		}
+
+		xhr.send(data)
+		// fetch(url, options)
+		// .then(res => res.json())
+		// .then(res => {
+			// const url = URL.createObjectURL(new Blob([res], {
+			//     type: 'application/vnd.ms-excel'
+			// }))
+			// const link = document.createElement('a')
+			// link.href = url
+			// link.setAttribute('download', filename)
+			// document.body.appendChild(link)
+			// link.click()
+		// })
+		// .then(() => {
+		// 	resolve()
+		// })
+		// .catch(e => {
+		// 	reject(e)
+		// })
 	})
 		
 }

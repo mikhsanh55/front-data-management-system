@@ -103,12 +103,13 @@
 		methods: {
 			storeExcel() {
 				this.$swal('Mohon tunggu...', '', 'info')
-				exportExcel(this, localStorage.base_api + 'excel/karyawan', {from:null, to:null}, {
-					responseType: 'blob',
-					headers: {
-						'Authorization' : 'bearer ' + localStorage.token
-					}
-				}, 'karyawan.xls')
+				// exportExcel(this, localStorage.base_api + 'excel/karyawan', {from:null, to:null}, {
+				// 	responseType: 'blob',
+				// 	headers: {
+				// 		'Authorization' : 'bearer ' + localStorage.token
+				// 	}
+				// }, 'karyawan.xls')
+				exportExcel2(localStorage.base_api + 'excel/karyawan', {from:null, to:null}, 'karyawan.xls')
 				.then(() => {
 					this.modal = false
 					this.$swal.close()

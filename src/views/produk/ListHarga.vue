@@ -10,7 +10,7 @@
 					<CCol sm="12">
 
 						<button v-if="data.level == 5 || data.level == 2 || data.level == 1 || data.level == 3" @click="storeExcel" class="float-right mb-4 ml-2 btn btn-light"><small> <i class="fa fa fa-file-excel-o mr-1"></i> Export .xlsx</small></button>		
-						<router-link v-if="data.level != 7 && data.level != 6 && data.level != 4 && data.level != 5" to="/barang/add" class="float-right mb-4 btn btn-light"><small> <i class="fa fa-plus mr-1"></i> Tambah Barang</small></router-link>			
+						<router-link v-if="data.level != 7 && data.level != 6 && data.level != 4 " to="/barang/add" class="float-right mb-4 btn btn-light"><small> <i class="fa fa-plus mr-1"></i> Tambah Barang</small></router-link>			
 						
 							<v-client-table
 							v-if="data.level != 6 && data.level !=4"
