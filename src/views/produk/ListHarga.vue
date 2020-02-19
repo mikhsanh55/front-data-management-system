@@ -114,7 +114,7 @@
 				products:[],
 				tableItem:[],
 				spvFields: [
-					'no', 'kode_barang', 'nama_barang', 'spesifikasi', 'aksi'
+					'no', 'kode_barang', 'nama_barang', 'spesifikasi', 'stock', 'aksi'
 				],
 				tableFields: [
 					'no',  'kode_barang', 'nama_barang', 'spesifikasi', 'stock', 'harga_jual', 'aksi'
@@ -127,6 +127,7 @@
 			    		kode_barang:'Kode Barang',
 			    		nama_barang:'Nama Barang',
 			    		spesifikasi:'Spesifikasi Barang',
+			    		stock: 'Stok',
 			    		aksi:'Aksi'
 			    	},
 			    	sortable:['nama_barang'],
