@@ -182,12 +182,6 @@
 		            this.errors.push('password karyawan kosong')
 				}
 
-				if(!this.user.id_jabatan || this.user.id_jabatan == '000') {
-					this.errors.push('Harap pilih jabatan')
-					this.$swal('Harap pilih jabatan', '', 'warning')
-					setTimeout(() => this.$swal.close(), 1500)
-				}
-
 
 				if(!this.user.id_karyawan || this.user.id_karyawan == '000') {
 					this.errors.push('Harap pilih karyawan')
