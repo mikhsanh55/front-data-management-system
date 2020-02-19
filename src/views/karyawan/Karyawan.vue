@@ -60,7 +60,7 @@
 	</div>
 </template>
 <script type="text/javascript">
-	import {exportExcel, getDatas, deleteData} from '@/containers/global-function.js'
+	import {exportExcel, getDatas, deleteData, exportExcel2} from '@/containers/global-function.js'
 	export default {
 		name:"Karyawan",
 		data() {
@@ -106,8 +106,7 @@
 				exportExcel(this, localStorage.base_api + 'excel/karyawan', {from:null, to:null}, {
 					responseType: 'blob',
 					headers: {
-						'Authorization' : 'bearer ' + localStorage.token,
-						'Access-Control-Allow-Origin': '*'
+						'Authorization' : 'bearer ' + localStorage.token
 					}
 				}, 'karyawan.xls')
 				.then(() => {

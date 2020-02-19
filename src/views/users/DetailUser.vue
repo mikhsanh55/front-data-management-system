@@ -10,9 +10,6 @@
 							<div v-if="user.foto" class="mx-auto d-flex justify-content-center">
 								<img :src="user.foto" style="border-radius:50%;width:70px;height: 70px;" />
 							</div>
-							<div v-else class="mx-auto d-flex justify-content-center">
-								<img class="img-thumbnail" src="./../../assets/img/avatar/default.svg" style="border-radius:50%;width:70px;height: 70px;" />
-							</div>
 					</CCol>
 				</CRow>
 				<CRow class="mx-auto d-flex justify-content-center">

@@ -200,7 +200,6 @@
 					})
 					.then(res => {
 						this.label = 'Tambah User'
-						alert(res.data.message)
 						this.$swal(res.data.message, 'Mohon tunggu sebentar...', 'success')
 						setTimeout(() => {
 							this.$swal.close()

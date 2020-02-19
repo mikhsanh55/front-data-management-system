@@ -46,7 +46,6 @@
 				              	class="mt-4 mb-4"
 				                label="Foto Karyawan"
 				                horizontal
-				                v-model="karyawan.foto"
 				                @change="handleFile"
 				                id="file"
 				                ref="file"

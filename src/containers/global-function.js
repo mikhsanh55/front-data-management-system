@@ -21,6 +21,30 @@ export function exportExcel(self, url, data, options, filename) {
 		
 }
 
+export function exportExcel2(self, url, options, filename) {
+	return new Promise((resolve, reject) => {
+		fetch(url, options)
+		.then(res => res.json())
+		.then(res => {
+			const url = URL.createObjectURL(new Blob([res], {
+			    type: 'application/vnd.ms-excel'
+			}))
+			const link = document.createElement('a')
+			link.href = url
+			link.setAttribute('download', filename)
+			document.body.appendChild(link)
+			link.click()
+		})
+		.then(() => {
+			resolve()
+		})
+		.catch(e => {
+			reject(e)
+		})
+	})
+		
+}
+
 export function exportPDF(self, url, options, filename, method = 'get') {
 	return new Promise((resolve, reject) => {
 		if(method == 'get')

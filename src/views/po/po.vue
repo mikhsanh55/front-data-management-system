@@ -231,11 +231,14 @@
 				})
 				.catch(e => {
 					console.log(e)
-					this.$swal('Tidak bisa mengambil data', '', 'error')
-					setTimeout(() => {
-						this.$swal.close()
-						this.modal = false
-					}, 2000)
+					if(e.response) {
+						this.$swal(e.response.data.message, '', 'error')
+						setTimeout(() => {
+							this.$swal.close()
+							this.modal = false
+						}, 2000)	
+					}
+					
 					return false
 				})
 			},

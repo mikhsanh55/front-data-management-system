@@ -117,7 +117,7 @@
 					'no', 'kode_barang', 'nama_barang', 'spesifikasi', 'aksi'
 				],
 				tableFields: [
-					'no',  'kode_barang', 'nama_barang', 'spesifikasi', 'harga_jual', 'aksi'
+					'no',  'kode_barang', 'nama_barang', 'spesifikasi', 'stock', 'harga_jual', 'aksi'
 			    ],
 			    spvOptions: {
 			    	perPage:10,
@@ -148,6 +148,7 @@
 			    		kode_barang:'Kode Barang',
 			    		nama_barang:'Nama Barang',
 			    		spesifikasi:'Spesifikasi Barang',
+			    		stock:'Stok',
 			    		harga_jual:'Harga Jual',
 			    		aksi:'Aksi'
 			    	},
@@ -158,6 +159,7 @@
 			    		kode_barang:'align-middle',
 			    		nama_barang:'align-middle',
 			    		spesifikasi:'align-middle',
+			    		stock:'text-center align-middle',
 			    		harga_jual:'text-center align-middle',
 			    		stock:'text-center align-middle',
 			    		aksi:'text-center align-middle'
