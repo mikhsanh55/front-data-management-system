@@ -20,18 +20,34 @@ let store = new Vuex.Store({
 			state.status = 'success'
 			state.user = data
 			console.log(data)
-			if(localStorage.level == 1) {
+			if(localStorage.level == 1 || localStorage.level == 2) {
 
 				state.menu = [
 					{
-			        _name: 'CSidebarNavItem',
-			        name: 'Dashboard',
-			        to: '/dashboard',
-			        icon: 'cil-speedometer',
-			        badge: {
-			          color: 'primary',
-			          text: 'NEW'
-			        }
+				        _name: 'CSidebarNavItem',
+				        name: 'Dashboard',
+				        to: '/dashboard',
+				        icon: 'cil-speedometer',
+				        badge: {
+				          color: 'info',
+				          text: 'INFO'
+				  	   }
+			        },
+					{ // Menu Marketing
+					_name: 'CSidebarNavTitle', 
+					_children:['Marketing']
+					},
+					{
+			          _name: 'CSidebarNavItem',
+			          name: 'Purchase Order',
+			          to: '/po',
+			          icon: 'cil-dollar'
+			        },
+			        {
+			          _name: 'CSidebarNavItem',
+			          name: 'Sales',
+			          to: '/sales',
+			          icon: 'cil-user'
 			        },
 			        {
 			          _name: 'CSidebarNavItem',
@@ -41,184 +57,119 @@ let store = new Vuex.Store({
 			        },
 			        {
 			          _name: 'CSidebarNavItem',
-			          name: 'Karyawan',
-			          to: '/karyawan',
-			          icon: 'cil-user'
-			        },
-			        {
-			          _name: 'CSidebarNavItem',
-			          name: 'Barang',
+			          name: 'Data Stok Barang',
 			          to: '/barang',
-			          icon: 'cil-drop'
+			          icon: 'cil-layers'
 			        },
-			        {
+			        { // Menu Gudang Logistik
+			        	_name: 'CSidebarNavTitle', 
+						_children:['Gudang Logistik']
+			        },
+				        {
+				          _name:'CSidebarNavItem',
+				          name:'Stock In Out',
+				          to:'/stock-in-out',
+				          icon: 'cil-pencil'
+				        },
+			         //    {
+			        	//   _name: 'CSidebarNavItem',
+				        //   name: 'Request Barang',
+				        //   to: '/data-request-barang',
+				        //   icon: 'cil-pencil'
+				        // },
+				        {
+				          _name: 'CSidebarNavItem',
+				          name: 'Data Stok Barang',
+				          to: '/barang',
+				          icon: 'cil-layers'
+				        },	
+				        {
+				          _name: 'CSidebarNavItem',
+				          name: 'Purchase Order',
+				          to: '/po',
+				          icon: 'cil-dollar'
+				        },
+			        { // Menu Pengadaan/Pembeliaan
+			          _name: 'CSidebarNavTitle', 
+					  _children:['Pengadaan/Pembeliaan']
+			        },
+				        {
+				          _name: 'CSidebarNavItem',
+				          name: 'Data Stok Barang',
+				          to: '/barang',
+				          icon: 'cil-layers'
+				        },
+				        {
+				          _name: 'CSidebarNavItem',
+					      name: 'Order Barang',
+					      to: '/po/data-order-barang',
+					      icon: 'cil-pencil'
+				        },
+				        {
+				          _name:'CSidebarNavItem',
+				          name:'Barang Pesanan',
+				          to:'/barang-pesanan',
+				          icon: 'cil-pencil'
+				        },
+				        {
+				          _name: 'CSidebarNavItem',
+				          name: 'Vendor',
+				          to: '/vendor',
+				          icon: 'cil-puzzle'
+				        },
+				        {
 			        	  _name: 'CSidebarNavItem',
 				          name: 'Request Barang',
 				          to: '/data-request-barang',
 				          icon: 'cil-pencil'
-			        },	
+				        },
 			        {
-			        	_name:'CSidebarNavItem',
-			        	name:'Barang Pesanan',
-			        	to:'/barang-pesanan',
-			        	icon: 'cil-pencil'
+			          _name: 'CSidebarNavTitle',
+			          _children:['Admin Umum']
 			        },
+				        {
+				          _name: 'CSidebarNavItem',
+				          name: 'Purchase Order',
+				          to: '/po',
+				          icon: 'cil-dollar'
+				        },
+				        {
+				          _name: 'CSidebarNavItem',
+				          name: 'Kwitansi',
+				          to: '/kwitansi',
+				          icon: 'cil-file'
+				        },
+				        {
+				          _name: 'CSidebarNavItem',
+				          name: 'Kurir',
+				          to: '/kurir',
+				          icon: 'cil-cursor'
+				        },
 			        {
-			          _name: 'CSidebarNavItem',
-			          name: 'Purchase Order',
-			          to: '/po',
-			          icon: 'cil-pencil'
+			          _name: 'CSidebarNavTitle',
+			          _children: ['Management Office']
 			        },
-			        {
-			        	_name: 'CSidebarNavItem',
-				          name: 'Order Barang',
-				          to: '/po/data-order-barang',
-				          icon: 'cil-pencil'
-			        },
-			        {
-			        	_name:'CSidebarNavItem',
-			        	name:'Stock In Out',
-			        	to:'/stock-in-out',
-			        	icon: 'cil-pencil'
-			        },
-			        {
-			          _name: 'CSidebarNavItem',
-			          name: 'User',
-			          to: '/user',
-			          icon: 'cil-puzzle'
-			        },
-			        {
-			          _name: 'CSidebarNavItem',
-			          name: 'Sales',
-			          to: '/sales',
-			          icon: 'cil-chart-pie'
-			        },
-			        {
-			          _name: 'CSidebarNavItem',
-			          name: 'Kwitansi',
-			          to:'/kwitansi',
-			          icon: 'cil-pencil'
-			        },
-			        {
-			          _name: 'CSidebarNavItem',
-			          name: 'Vendor',
-			          to: '/vendor',
-			          icon: 'cil-chart-pie'
-			        },
-			        {
-			          _name: 'CSidebarNavItem',
-			          name: 'Asset',
-			          to: '/asset',
-			          icon: 'cil-chart-pie'
-			        },
-			        {
-			          _name: 'CSidebarNavItem',
-			          name: 'Kurir',
-			          to: '/kurir',
-			          icon: 'cil-puzzle'
-			        }
+				        {
+				          _name: 'CSidebarNavItem',
+				          name: 'Karyawan',
+				          to: '/karyawan',
+				          icon: 'cil-user'
+				        },
+				        {
+				          _name: 'CSidebarNavItem',
+				          name: 'User',
+				          to: '/user',
+				          icon: 'cil-people'
+				        },
+				        {
+				          _name: 'CSidebarNavItem',
+				          name: 'Asset',
+				          to: '/asset',
+				          icon: 'cil-file'
+				        }
+			        
 				]
 				localStorage.setItem('menu', JSON.stringify(state.menu))
-			}
-			else if(localStorage.level == 2) {
-				
-				state.menu = [
-					{
-			        _name: 'CSidebarNavItem',
-			        name: 'Dashboard',
-			        to: '/dashboard',
-			        icon: 'cil-speedometer',
-			        badge: {
-			          color: 'primary',
-			          text: 'NEW'
-			        }
-			        },
-			        {
-			          _name: 'CSidebarNavItem',
-			          name: 'Konsumen',
-			          to: '/konsumen',
-			          icon: 'cil-user'
-			        },
-			        {
-			          _name: 'CSidebarNavItem',
-			          name: 'Karyawan',
-			          to: '/karyawan',
-			          icon: 'cil-user'
-			        },
-			        {
-			          _name: 'CSidebarNavItem',
-			          name: 'Barang',
-			          to: '/barang',
-			          icon: 'cil-drop'
-			        },
-			        {
-			        	  _name: 'CSidebarNavItem',
-				          name: 'Request Barang',
-				          to: '/data-request-barang',
-				          icon: 'cil-pencil'
-			        },	
-			        {
-			        	_name:'CSidebarNavItem',
-			        	name:'Barang Pesanan',
-			        	to:'/barang-pesanan',
-			        	icon: 'cil-pencil'
-			        },
-			        {
-			          _name: 'CSidebarNavItem',
-			          name: 'Purchase Order',
-			          to: '/po',
-			          icon: 'cil-pencil'
-			        },
-			        {
-			        	_name: 'CSidebarNavItem',
-				          name: 'Order Barang',
-				          to: '/po/data-order-barang',
-				          icon: 'cil-pencil'
-			        },
-			        {
-			        	_name:'CSidebarNavItem',
-			        	name:'Stock In Out',
-			        	to:'/stock-in-out',
-			        	icon: 'cil-pencil'
-			        },
-			        {
-			          _name: 'CSidebarNavItem',
-			          name: 'User',
-			          to: '/user',
-			          icon: 'cil-puzzle'
-			        },
-			        {
-			          _name: 'CSidebarNavItem',
-			          name: 'Sales',
-			          to: '/sales',
-			          icon: 'cil-chart-pie'
-			        },
-			        {
-			          _name: 'CSidebarNavItem',
-			          name: 'Kwitansi',
-			          to:'/kwitansi',
-			          icon: 'cil-pencil'
-			        },
-			        {
-			          _name: 'CSidebarNavItem',
-			          name: 'Vendor',
-			          to: '/vendor',
-			          icon: 'cil-chart-pie'
-			        },
-			        {
-			          _name: 'CSidebarNavItem',
-			          name: 'Asset',
-			          to: '/asset',
-			          icon: 'cil-chart-pie'
-			        },
-			        {
-			          _name: 'CSidebarNavItem',
-			          name: 'Kurir',
-			          to: '/kurir',
-			          icon: 'cil-puzzle'
-			        }
-				]
-				localStorage.setItem('menu', JSON.stringify(state.menu))	
 			}
 			else if(localStorage.level == 7) {
 				state.menu = [
@@ -247,15 +198,15 @@ let store = new Vuex.Store({
 			        },
 			        {
 				          _name: 'CSidebarNavItem',
-				          name: 'Barang',
+				          name: 'Data Stok Barang',
 				          to: '/barang',
-				          icon: 'cil-drop'
+				          icon: 'cil-layers'
 			        },
 			        {
 				          _name: 'CSidebarNavItem',
 				          name: 'Purchase Order',
 				          to: '/po',
-				          icon: 'cil-pencil'
+				          icon: 'cil-dollar'
 			        }
 				]
 				localStorage.setItem('menu', JSON.stringify(state.menu))
@@ -267,7 +218,7 @@ let store = new Vuex.Store({
 				          _name: 'CSidebarNavItem',
 				          name: 'Purchase Order',
 				          to: '/po',
-				          icon: 'cil-pencil'
+				          icon: 'cil-dollar'
 			        },
 			        {
 			        	  _name: 'CSidebarNavItem',
@@ -277,9 +228,9 @@ let store = new Vuex.Store({
 			        },
 			        {
 				          _name: 'CSidebarNavItem',
-				          name: 'Barang',
+				          name: 'Data Stok Barang',
 				          to: '/barang',
-				          icon: 'cil-drop'
+				          icon: 'cil-layers'
 			        },
 				]
 				localStorage.setItem('menu', JSON.stringify(state.menu))	
@@ -295,9 +246,9 @@ let store = new Vuex.Store({
 			        },
 			        {
 				          _name: 'CSidebarNavItem',
-				          name: 'Barang',
+				          name: 'Data Stok Barang',
 				          to: '/barang',
-				          icon: 'cil-drop'
+				          icon: 'cil-layers'
 			        },
 			        {
 			        	_name:'CSidebarNavItem',
@@ -309,7 +260,7 @@ let store = new Vuex.Store({
 				          _name: 'CSidebarNavItem',
 				          name: 'Vendor',
 				          to: '/vendor',
-				          icon: 'cil-pencil'
+				          icon: 'cil-puzzle'
 			        }
 				]
 				localStorage.setItem('menu', JSON.stringify(state.menu))	
@@ -323,10 +274,10 @@ let store = new Vuex.Store({
 			          icon: 'cil-puzzle'
 			        },
 			        {
-				          _name: 'CSidebarNavItem',
-				          name: 'Barang',
-				          to: '/barang',
-				          icon: 'cil-drop'
+			          _name: 'CSidebarNavItem',
+			          name: 'Data Stok Barang',
+			          to: '/barang',
+			          icon: 'cil-layers'
 			        }
 				]
 				localStorage.setItem('menu', JSON.stringify(state.menu))	
@@ -338,7 +289,7 @@ let store = new Vuex.Store({
 			        	  _name: 'CSidebarNavItem',
 				          name: 'Purchase Order',
 				          to: '/po',
-				          icon: 'cil-pencil'
+				          icon: 'cil-dollar'
 			        },
 			        {
 				          _name: 'CSidebarNavItem',
@@ -350,13 +301,13 @@ let store = new Vuex.Store({
 				          _name: 'CSidebarNavItem',
 				          name: 'Asset',
 				          to: '/asset',
-				          icon: 'cil-drop'
+				          icon: 'cil-library'
 			        },
 			        {
 			        	  _name: 'CSidebarNavItem',
 				          name: 'Kwitansi',
 				          to: '/kwitansi',
-				          icon: 'cil-drop'		
+				          icon: 'cil-file'		
 			        }
 				]
 				localStorage.setItem('menu', JSON.stringify(state.menu))	

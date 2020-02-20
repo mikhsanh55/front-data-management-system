@@ -9,7 +9,7 @@
       <CHeaderNavLink>
         <div class="c-avatar">
           <img
-            :src="'https://api.sabalkes.com/' + '' + user.foto"
+            :src="uri + '' + user.foto"
             class="c-avatar-img "
             width="70"
             height="70"
@@ -85,6 +85,7 @@ export default {
   name: 'TheHeaderDropdownAccnt',
   data () {
     return { 
+      uri:localStorage.base_uri,
       jumlahNotif: 0,
       data:'',
       user:''

@@ -22,8 +22,8 @@ export function exportExcel(self, url, data, options, filename) {
 }
 function createCORSRequest() {
 	let xhr 
-	if(window.XMLHttpsRequest) {
-		xhr = new XMLHttpsRequest()
+	if(window.XMLHttpRequest) {
+		xhr = new XMLHttpRequest()
 	}
 	else {
 		xhr = new ActiveXObject('Microsoft.XMLHTTP')
@@ -35,7 +35,7 @@ export function exportExcel2(url, data, filename) {
 	return new Promise((resolve, reject) => {
 		let xhr = createCORSRequest()
 		xhr.responseType = 'json'
-		xhr.setRequestHeader("Authorization", 'bearer ' + localStorage.token)
+		
 		if("withCredentials" in xhr) {
 			xhr.open('POST', url, true)
 		}
@@ -50,7 +50,7 @@ export function exportExcel2(url, data, filename) {
 		if(!xhr) {
 			reject()
 		}
-
+		xhr.setRequestHeader("Authorization", 'bearer ' + localStorage.token)
 		xhr.onload = function() {
 			const url = URL.createObjectURL(new Blob([xhr.response], {
 			    type: 'application/vnd.ms-excel'

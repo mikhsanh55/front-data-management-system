@@ -17,13 +17,13 @@
       height="36"
       alt="ALKES Logo"
     />
-    <!-- <CHeaderNav class="d-md-down-none mr-auto">
+    <CHeaderNav class="d-md-down-none mr-auto">
       <CHeaderNavItem class="px-3">
         <CHeaderNavLink to="/dashboard">
           Dashboard
         </CHeaderNavLink>
       </CHeaderNavItem>
-      <CHeaderNavItem class="px-3">
+      <!-- <CHeaderNavItem class="px-3">
         <CHeaderNavLink to="/users" exact>
           Users
         </CHeaderNavLink>
@@ -32,15 +32,23 @@
         <CHeaderNavLink>
           Settings
         </CHeaderNavLink>
-      </CHeaderNavItem>
-    </CHeaderNav> -->
+      </CHeaderNavItem> -->
+    </CHeaderNav>
     <CHeaderNav class="mr-4" >
-      <!-- <CHeaderNavItem class="d-md-down-none mx-2">
-        <CHeaderNavLink>
+      <!-- <CHeaderNavItem class="px-3">
+        <CHeaderNavLink to="/dashboard">
+          Dashboard
+        </CHeaderNavLink>
+        
+      </CHeaderNavItem> -->
+      
+      <CHeaderNavItem class="d-md-down-none mx-2" v-if="data.level == 7">
+        <CHeaderNavLink to="/notification">
           <CIcon name="cil-bell"/>
         </CHeaderNavLink>
       </CHeaderNavItem>
-      <CHeaderNavItem class="d-md-down-none mx-2">
+      <TheHeaderDropdownAccnt/>
+      <!--<CHeaderNavItem class="d-md-down-none mx-2">
         <CHeaderNavLink>
           <CIcon name="cil-list"/>
         </CHeaderNavLink>
@@ -50,8 +58,6 @@
           <CIcon name="cil-envelope-open"/>
         </CHeaderNavLink>
       </CHeaderNavItem> -->
-      
-      <TheHeaderDropdownAccnt/>
     </CHeaderNav>
     <CSubheader class="px-3">
       <CBreadcrumbRouter class="border-0"/>
@@ -64,9 +70,14 @@ import TheHeaderDropdownAccnt from './TheHeaderDropdownAccnt'
 
 export default {
   name: 'TheHeader',
+  data() {
+    return {
+      data: JSON.parse(localStorage.user)
+    }
+  },
   components: {
     TheHeaderDropdownAccnt
-  }
+  },
 }
 </script>
 <style type="text/css" scoped>
