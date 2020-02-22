@@ -136,7 +136,7 @@
 					</CCardBody>
 
 		          <CCardFooter class="d-flex justify-content-center mt-4">
-		            <CButton type="submit" @click.prevent="addPO" color="light" class="mr-2">
+		            <CButton type="submit" @click.prevent="addPO" color="primary" class="mr-2">
 		            	<i class="fa fa-plus mr-1"></i>{{label}}
 		            </CButton>
 		          </CCardFooter>

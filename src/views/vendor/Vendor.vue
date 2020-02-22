@@ -7,8 +7,8 @@
 			<CCardBody>
 				<CRow>
 					<CCol sm="12">
-						<button @click="storeExcel" class="float-right mb-4 ml-2 btn btn-light"><small> <i class="fa fa fa-file-excel-o mr-1"></i> Export .xlsx</small></button>		
-						<router-link v-if="data.level != 2" to="/vendor/add" class="float-right mb-4 btn btn-light"><small> <i class="fa fa-plus mr-1"></i> Tambah Vendor</small></router-link>	
+						<button @click="storeExcel" class="float-right mb-4 ml-2 btn btn-success"><small> <i class="fa fa fa-file-excel-o mr-1"></i> Export .xlsx</small></button>		
+						<router-link v-if="data.level != 2" to="/vendor/add" class="float-right mb-4 btn btn-primary"><small> <i class="fa fa-plus mr-1"></i> Tambah Vendor</small></router-link>	
 						<v-client-table
 						:data="vendor"
 						:columns="tableFields"
@@ -19,13 +19,13 @@
 								<img :src="props.row.foto" />
 							</div>
 							<div slot="aksi" slot-scope="props" class="d-flex justify-content-center">
-								<router-link :to="'/vendor/detail/' + props.row.id" class="text-dark btn btn-secondary btn-sm mr-2" title="edit user">
-									<i class="fa fa-eye"></i>
+								<router-link :to="'/vendor/detail/' + props.row.id" class="btn btn-dark btn-sm mr-2" title="edit user">
+									Detail
 								</router-link>
-								<router-link v-if="data.level != 2" :to="'/vendor/edit/' + props.row.id" class="text-primary btn btn-secondary btn-sm mr-2" title="edit asset">
-									<i class="fa fa-edit"></i>
+								<router-link v-if="data.level != 2" :to="'/vendor/edit/' + props.row.id" class="btn btn-primary btn-sm mr-2" title="edit asset">
+									Edit
 								</router-link>
-								<button v-if="data.level != 2" title="hapus data vendor" class="text-danger btn btn-secondary btn-sm" @click="deleteVendor(props.row.id)"><i class="fa fa-trash" ref="id" :id="props.row.id"></i></button>
+								<button v-if="data.level != 2" title="hapus data vendor" class="btn btn-danger btn-sm" @click="deleteVendor(props.row.id)">Hapus</button>
 							</div>
 						</v-client-table>
 					</CCol>

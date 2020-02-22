@@ -8,7 +8,7 @@
 				<CCardBody>
 					<CRow>
 						<CCol sm="12">
-							<button @click="modal = true" class="float-right mb-4 ml-2 btn btn-light"><small> <i class="fa fa fa-file-excel-o mr-1"></i> Export .xlsx</small></button>		
+							<button @click="modal = true" class="float-right mb-4 ml-2 btn btn-success"><small> <i class="fa fa fa-file-excel-o mr-1"></i> Export .xlsx</small></button>		
 
 							<v-client-table
 							:data="dataOrder"
@@ -19,8 +19,8 @@
 							>
 								<div slot="aksi" slot-scope="props">
 									<div v-if="data.level != 2">
-										<router-link :to="'/po/data-order-barang/detail/'+props.row.id" class="text-dark btn btn-secondary btn-sm">
-											<i class="fa fa-eye"></i>
+										<router-link :to="'/po/data-order-barang/detail/'+props.row.id" class="btn btn-dark btn-sm">
+											Detail
 										</router-link>
 									</div>
 								</div>

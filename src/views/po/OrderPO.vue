@@ -74,7 +74,7 @@
 				                      />  
                     			</CCol>
                     			<CCol sm="8" class="d-flex justify-content-end mt-4">
-                    				<button class="btn btn-light text-primary" @click.prevent="addToTable"><i class="fa fa-plus mr-2"></i>{{label}}</button>
+                    				<button class="btn btn-primary" @click.prevent="addToTable"><i class="fa fa-plus mr-2"></i>{{label}}</button>
                     			</CCol>
                     		</CRow>
 						</CForm>
@@ -127,7 +127,7 @@
 						</CRow>
 					</CCardBody>
 					<CCardFooter class="m-4 d-flex justify-content-end">
-						<router-link to="/po" class="btn btn-light text-primary" :disabled="isEmpty" ><i class="fa fa-cart-plus mr-2"></i> Selesai </router-link>
+						<router-link to="/po" class="btn btn-primary" :disabled="isEmpty" ><i class="fa fa-cart-plus mr-2"></i> Selesai </router-link>
 					</CCardFooter>
 				</CCard>
 			</CCol>

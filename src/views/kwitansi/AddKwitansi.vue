@@ -57,7 +57,7 @@
 				</CForm>
 			</CCardBody>
 			<CCardFooter class="d-flex justify-content-center mt-4">
-				<CButton type="submit" size="md" color="light" @click.prevent="addKwitansi">
+				<CButton type="submit" size="md" color="primary" @click.prevent="addKwitansi">
 					<i class="fa fa-plus mr-1"></i>{{label}}
 				</CButton>
 			</CCardFooter>

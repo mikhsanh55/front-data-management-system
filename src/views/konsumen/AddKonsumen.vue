@@ -104,7 +104,7 @@
 		          </CCardBody>
 		          <CCardFooter class="d-flex justify-content-center mt-4">
 		          	<CButton v-show="is_edit == true" type="submit" size="sm" color="primary" class="mr-2"><i class="fa fa-edit"></i></CButton>
-		            <CButton type="submit" @click.prevent="addKonsumen" color="light" class="mr-2 mt-3 mb-3"><i class="fa fa-plus mr-1"></i>{{label}}</CButton>
+		            <CButton type="submit" @click.prevent="addKonsumen" color="primary" class="mr-2 mt-3 mb-3"><i class="fa fa-plus mr-1"></i>{{label}}</CButton>
 		            
 		          </CCardFooter>
 		        </CCard>

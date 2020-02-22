@@ -140,7 +140,7 @@
 				</CForm>
 			</CCardBody>
 			<CCardFooter class="d-flex justify-content-center mt-3">
-				<CButton type="submit" color="light" @click.prevent="editKaryawan">
+				<CButton type="submit" color="primary" @click.prevent="editKaryawan">
 					<i class="fa fa-edit mr-2"></i>{{label}}
 				</CButton>
 			</CCardFooter>

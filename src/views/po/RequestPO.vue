@@ -7,8 +7,9 @@
 			<CCardBody>
 				<CRow>
 					<CCol sm="12">
-						<router-link v-if="data.level == 1 || data.level == 2 || data.level == 6" to="/data-request-barang/add" class="float-right mb-4 ml-2 btn btn-light"><small> <i class="fa fa-plus mr-1"></i> Tambah Request Barang</small></router-link>	
-						<button @click="modal = true" class="float-right mb-4 ml-2 btn btn-light"><small> <i class="fa fa fa-file-excel-o mr-1"></i> Export .xlsx</small></button>	
+						<button @click="modal = true" class="float-right mb-4 ml-2 btn btn-success"><small> <i class="fa fa fa-file-excel-o mr-1"></i> Export .xlsx</small></button>	
+						<router-link v-if="data.level == 1 || data.level == 2 || data.level == 6" to="/data-request-barang/add" class="float-right mb-4 ml-2 btn btn-primary"><small> <i class="fa fa-plus mr-1"></i> Tambah Request Barang</small></router-link>	
+						
 						<v-client-table
 						:data="request_po"
 						:columns="tableFields"
@@ -16,21 +17,21 @@
 						id="table-request-barang"
 						>
 							<div slot="status" slot-scope="props">
-								<small class="btn btn-sm btn-primary" v-if="props.row.status == 1">Request</small>
-								<small class="btn btn-sm btn-warning" v-else-if="props.row.status == 2">Proses</small>
-								<small class="btn btn-sm btn-warning" v-else-if="props.row.status == 3">Dikirim</small>
-								<small class="btn btn-sm btn-success" v-else-if="props.row.status == 4">Selesai</small>
-								<small class="btn btn-sm btn-danger" v-else-if="props.row.status == 5">Batal</small>
+								<small class="badge badge-primary" v-if="props.row.status == 1">Request</small>
+								<small class="badge badge-warning" v-else-if="props.row.status == 2">Proses</small>
+								<small class="badge badge-warning" v-else-if="props.row.status == 3">Dikirim</small>
+								<small class="badge badge-success" v-else-if="props.row.status == 4">Selesai</small>
+								<small class="badge badge-danger" v-else-if="props.row.status == 5">Batal</small>
 							</div>
 							<div slot="aksi" slot-scope="props">
-								<router-link :to="'/data-request-barang/' + props.row.id" class="text-dark btn btn-secondary btn-sm m-1">
-									<i class="fa fa-eye"></i>
+								<router-link :to="'/data-request-barang/' + props.row.id" class="btn btn-dark btn-sm m-1">
+									Detail
 								</router-link>
-								<router-link :to="'/data-request-barang/edit/' + props.row.id" class="text-primary btn btn-secondary btn-sm m-1">
-									<i class="fa fa-edit"></i>
+								<router-link :to="'/data-request-barang/edit/' + props.row.id" class="btn btn-primary btn-sm m-1">
+									Edit
 								</router-link>
-								<button class="text-danger btn btn-secondary btn-sm m-1" @click="deleteRequestPO(props.row.id)">
-									<i class="fa fa-trash"></i>
+								<button class="btn btn-danger btn-sm m-1" @click="deleteRequestPO(props.row.id)">
+									Hapus
 								</button>
 							</div>
 						</v-client-table>

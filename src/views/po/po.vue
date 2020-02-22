@@ -8,8 +8,8 @@
 				<CCardBody>
 					<CRow>
 						<CCol sm="12">
-							<button @click="modal = true" class="float-right mb-4 ml-2 btn btn-light"><small> <i class="fa fa fa-file-excel-o mr-1"></i> Export PO</small></button>		
-							<router-link v-if="data.level != 2 && data.level != 6 && data.level != 3" to="/po/add" class="float-right mb-4 btn btn-light"><small> <i class="fa fa-plus mr-1"></i> Tambah PO</small></router-link>		
+							<button @click="modal = true" class="float-right mb-4 ml-2 btn btn-success"><small> <i class="fa fa fa-file-excel-o mr-1"></i> Export PO</small></button>		
+							<router-link v-if="data.level != 2 && data.level != 6 && data.level != 3" to="/po/add" class="float-right mb-4 btn btn-primary"><small> <i class="fa fa-plus mr-1"></i> Tambah PO</small></router-link>		
 
 								<v-client-table
 								:data="po"
@@ -30,13 +30,13 @@
 												<i class="fa fa-eye"></i>
 											</router-link>
 
-											<router-link title="order po" class="btn btn-secondary btn-sm mr-2" :to="'/po/order-barang/' + props.row.id">
-												<i class="fa fa-shopping-cart "></i>
+											<router-link title="order po" class="btn btn-warning btn-sm mr-2" :to="'/po/order-barang/' + props.row.id">
+												Order
 											</router-link>
-											<router-link v-if="data.level != 2" title="edit po" :to="'/po/edit/' + props.row.id" class="text-primary btn btn-secondary btn-sm mr-2"><i class="fa fa-edit"></i>
+											<router-link v-if="data.level != 2" title="edit po" :to="'/po/edit/' + props.row.id" class="btn btn-primary btn-sm mr-2">Edit
 											</router-link>
-											<button  v-if="data.level != 2" title="export pdf" class="text-danger btn btn-secondary btn-sm mr-2" @click="confirmPDF(props.row.id)"><i class="fa fa-file-pdf-o" ref="id" :id="props.row.id"></i></button>
-											<button v-if="data.level != 2 && data.level != 6 && data.level != 3" title="hapus po" class="text-danger btn btn-secondary btn-sm" @click="deletePO(props.row.id)"><i class="fa fa-trash" ref="id" :id="props.row.id"></i></button>
+											<button  v-if="data.level != 2" title="export pdf" class="btn btn-outline-danger btn-sm mr-2" @click="confirmPDF(props.row.id)">PDF</button>
+											<button v-if="data.level != 2 && data.level != 6 && data.level != 3" title="hapus po" class="btn btn-danger btn-sm" @click="deletePO(props.row.id)">Hapus</button>
 										
 									</td>
 								</v-client-table>

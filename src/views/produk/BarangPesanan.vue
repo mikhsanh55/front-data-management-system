@@ -7,8 +7,8 @@
 			<CCardBody>
 				<CRow>
 					<CCol sm="12">
-						<button @click="modal = true" class="float-right mb-4 ml-2 btn btn-light"><small> <i class="fa fa fa-file-excel-o mr-1"></i> Export .xlsx</small></button>		
-						<router-link v-if="data.level != 2" to="/barang-pesanan/add" class="float-right mb-4 btn btn-light"><small> <i class="fa fa-plus mr-1"></i> Tambah Barang Pesanan</small></router-link>	
+						<button @click="modal = true" class="float-right mb-4 ml-2 btn btn-success"><small> <i class="fa fa fa-file-excel-o mr-1"></i> Export .xlsx</small></button>		
+						<router-link v-if="data.level != 2" to="/barang-pesanan/add" class="float-right mb-4 btn btn-primary"><small> <i class="fa fa-plus mr-1"></i> Tambah Barang Pesanan</small></router-link>	
 						<v-client-table
 							:data="barangPesanan"
 							:columns="tableFields"
@@ -16,17 +16,17 @@
 							id="barang-pesanan-table"
 						>
 							<div slot="aksi" slot-scope="props">
-								<router-link title="Order Barang Pesanan" :to="'/barang-pesanan/order/' + props.row.id" class="btn btn-secondary text-dark btn-sm mr-2">
-									<i class="fa fa-shopping-cart"></i>
+								<router-link title="Order Barang Pesanan" :to="'/barang-pesanan/order/' + props.row.id" class="btn btn-warning text-dark btn-sm mr-2">
+									Order
 								</router-link>
-								<button title="Export PDF" class="btn btn-secondary text-danger btn-sm mr-2" @click="storePDF(props.row.id)">
-									<i class="fa fa-file-pdf-o"></i>
+								<button title="Export PDF" class="btn btn-outline-danger btn-sm mr-2" @click="storePDF(props.row.id)">
+									PDF
 								</button>
-								<router-link title="Edit Barang Pesanan" :to="'/barang-pesanan/edit/' + props.row.id" class="btn btn-secondary text-primary btn-sm mr-2">
-									<i class="fa fa-edit"></i>
+								<router-link title="Edit Barang Pesanan" :to="'/barang-pesanan/edit/' + props.row.id" class="btn btn-primary btn-sm mr-2">
+									Edit
 								</router-link>
-								<button title="Hapus Barang Pesanan" class="btn btn-secondary text-danger btn-sm mr-2" @click="deleteBarangPesanan(props.row.id)">
-									<i class="fa fa-trash"></i>
+								<button title="Hapus Barang Pesanan" class="btn btn-danger btn-sm mr-2" @click="deleteBarangPesanan(props.row.id)">
+									Hapus
 								</button>
 							</div>
 						</v-client-table>

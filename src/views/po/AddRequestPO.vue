@@ -54,7 +54,7 @@
 			</CCardBody>
 
 			<CCardFooter class="d-flex justify-content-center mt-4">
-				<CButton type="submit" color="light" @click.prevent="addRequestPO">
+				<CButton type="submit" color="primary" @click.prevent="addRequestPO">
 					<i class="fa fa-plus mr-2"></i>{{label}}
 				</CButton>
 			</CCardFooter>

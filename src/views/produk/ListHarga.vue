@@ -9,8 +9,8 @@
 				<CRow>
 					<CCol sm="12">
 
-						<button v-if="data.level == 5 || data.level == 2 || data.level == 1 || data.level == 3" @click="storeExcel" class="float-right mb-4 ml-2 btn btn-light"><small> <i class="fa fa fa-file-excel-o mr-1"></i> Export .xlsx</small></button>		
-						<router-link v-if="data.level != 7 && data.level != 6 && data.level != 4 " to="/barang/add" class="float-right mb-4 btn btn-light"><small> <i class="fa fa-plus mr-1"></i> Tambah Barang</small></router-link>			
+						<button v-if="data.level == 5 || data.level == 2 || data.level == 1 || data.level == 3" @click="storeExcel" class="float-right mb-4 ml-2 btn btn-success"><small> <i class="fa fa fa-file-excel-o mr-1"></i> Export .xlsx</small></button>		
+						<router-link v-if="data.level != 7 && data.level != 6 && data.level != 4 " to="/barang/add" class="float-right mb-4 btn btn-primary"><small> <i class="fa fa-plus mr-1"></i> Tambah Barang</small></router-link>			
 						
 							<v-client-table
 							v-if="data.level != 6 && data.level !=4"
@@ -24,13 +24,13 @@
 								
 							</div> -->
 							<div slot="aksi" slot-scope="props" class="d-flex justify-content-center">
-								<router-link :to="'/barang/detail/' + props.row.id" class="text-dark btn btn-secondary btn-sm mr-2">
-									<i class="fa fa-eye"></i>
+								<router-link :to="'/barang/detail/' + props.row.id" class="btn btn-dark btn-sm mr-2">
+									Detail
 								</router-link>
-								<router-link  v-if="data.level != 2 && data.level != 6 && data.level != 4 && data.level != 7" :to="'/barang/edit/' + props.row.id" class="btn btn-secondary btn-sm mr-2 text-primary">
-									<i class="fa fa-edit"></i>
+								<router-link  v-if="data.level != 2 && data.level != 6 && data.level != 4 && data.level != 7" :to="'/barang/edit/' + props.row.id" class="btn btn-primary btn-sm mr-2">
+									Edit
 								</router-link>
-								<button v-if="data.level != 2 && data.level != 7 && data.level != 6" title="hapus data karyawan" class="text-danger btn btn-secondary btn-sm" @click="deleteBarang(props.row.id)"><i class="fa fa-trash" ref="id" :id="props.row.id"></i></button>
+								<button v-if="data.level != 2 && data.level != 7 && data.level != 6" title="hapus data karyawan" class="btn btn-danger btn-sm" @click="deleteBarang(props.row.id)">Hapus</button>
 
 							</div>
 							<div slot="harga" slot-scope="props">
@@ -54,13 +54,13 @@
 								</div>
 							</div>
 							<div slot="aksi" slot-scope="props" class="d-flex justify-content-center">
-								<router-link :to="'/barang/detail/' + props.row.id" class="text-dark btn btn-secondary btn-sm mr-2">
-									<i class="fa fa-eye"></i>
+								<router-link :to="'/barang/detail/' + props.row.id" class="btn btn-dark btn-sm mr-2">
+									Detail
 								</router-link>
-								<router-link  v-if="data.level != 2 && data.level != 6 && data.level != 4" :to="'/barang/edit/' + props.row.id" class="btn btn-secondary btn-sm mr-2 text-primary">
-									<i class="fa fa-edit"></i>
+								<router-link  v-if="data.level != 2 && data.level != 6 && data.level != 4" :to="'/barang/edit/' + props.row.id" class="btn btn-primary btn-sm mr-2">
+									Edit
 								</router-link>
-								<button v-if="data.level != 2 && data.level != 6 && data.level != 4" title="hapus data karyawan" class="text-danger btn btn-secondary btn-sm" @click="deleteBarang(props.row.id)"><i class="fa fa-trash" ref="id" :id="props.row.id"></i></button>
+								<button v-if="data.level != 2 && data.level != 6 && data.level != 4" title="hapus data karyawan" class="btn btn-danger btn-sm" @click="deleteBarang(props.row.id)">Hapus</button>
 								
 
 							</div>

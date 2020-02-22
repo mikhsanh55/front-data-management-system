@@ -58,7 +58,7 @@
 				</CForm>
 			</CCardBody>
 			<CCardFooter class="d-flex justify-content-center mt-4">
-				<CButton type="submit" color="light" @click.prevent="updateKwitansi">
+				<CButton type="submit" color="primary" @click.prevent="updateKwitansi">
 					<i class="fa fa-edit mr-2"></i>{{label}}
 				</CButton>
 			</CCardFooter>

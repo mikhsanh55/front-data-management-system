@@ -71,12 +71,12 @@ let store = new Vuex.Store({
 				          to:'/stock-in-out',
 				          icon: 'cil-pencil'
 				        },
-			         //    {
-			        	//   _name: 'CSidebarNavItem',
-				        //   name: 'Request Barang',
-				        //   to: '/data-request-barang',
-				        //   icon: 'cil-pencil'
-				        // },
+			            {
+			        	  _name: 'CSidebarNavItem',
+				          name: 'Request Barang',
+				          to: '/data-request-barang',
+				          icon: 'cil-pencil'
+				        },
 				        {
 				          _name: 'CSidebarNavItem',
 				          name: 'Data Stok Barang',

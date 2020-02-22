@@ -7,8 +7,8 @@
 			<CCardBody>
 				<CRow>
 					<CCol sm="12">
-						<button v-if="data.level == 3  || data.level == 2 || data.level == 1 " @click="storeExcel" class="float-right mb-4 ml-2 btn btn-light"><small> <i class="fa fa fa-file-excel-o mr-1"></i> Export .xlsx</small></button>		
-						<router-link v-if="data.level != 7" to="/karyawan/add" class="float-right mb-4 btn btn-light"><small> <i class="fa fa-plus mr-1"></i> Tambah Karyawan</small></router-link>		
+						<button v-if="data.level == 3  || data.level == 2 || data.level == 1 " @click="storeExcel" class="float-right mb-4 ml-2 btn btn-success"><small> <i class="fa fa fa-file-excel-o mr-1"></i> Export .xlsx</small></button>		
+						<router-link v-if="data.level != 7" to="/karyawan/add" class="float-right mb-4 btn btn-primary"><small> <i class="fa fa-plus mr-1"></i> Tambah Karyawan</small></router-link>		
 						<v-client-table
 						:data="karyawan"
 						:columns="tableFields"
@@ -23,13 +23,13 @@
 								<p v-else >Perempuan</p>
 							</div>
 							<div slot="aksi" slot-scope="props" class="d-flex justify-content-center">
-								<router-link  :to="'/karyawan/detail/' + props.row.id" class="text-dark btn btn-secondary btn-sm mr-2" title="Detail karyawan">
-									<i class="fa fa-eye"></i>
+								<router-link  :to="'/karyawan/detail/' + props.row.id" class="btn btn-dark btn-sm mr-2" title="Detail karyawan">
+									Detail
 								</router-link>
-								<router-link v-if="data.level != 2 && data.level != 7" :to="'/karyawan/edit/' + props.row.id" class="text-primary btn btn-secondary btn-sm mr-2" title="Edit data karyawan">
-									<i class="fa fa-edit"></i>
+								<router-link v-if="data.level != 2 && data.level != 7" :to="'/karyawan/edit/' + props.row.id" class="btn btn-primary btn-sm mr-2" title="Edit data karyawan">
+									Edit
 								</router-link>
-								<button v-if="data.level != 2 && data.level != 7" title="hapus data karyawan" class="text-danger btn btn-secondary btn-sm" @click="deleteKaryawan(props.row.id)"><i class="fa fa-trash" ref="id" :id="props.row.id"></i></button>
+								<button v-if="data.level != 2 && data.level != 7" title="hapus data karyawan" class="btn btn-danger btn-sm" @click="deleteKaryawan(props.row.id)">Hapus</button>
 							</div>
 						</v-client-table>
 					</CCol>

@@ -7,7 +7,7 @@
 			<CCardBody>
 				<CRow>
 					<CCol sm="12">
-						<router-link v-if="data.level != 2" to="/kwitansi/add" class="float-right mb-4 btn btn-light"><small> <i class="fa fa-plus mr-1"></i> Tambah Kwitansi</small></router-link>	
+						<router-link v-if="data.level != 2" to="/kwitansi/add" class="float-right mb-4 btn btn-primary"><small> <i class="fa fa-plus mr-1"></i> Tambah Kwitansi</small></router-link>	
 						<v-client-table
 						:data="kwitansi"
 						:columns="tableFields"
@@ -21,11 +21,11 @@
 								<!-- <router-link :to="'/kwitansi/detail/' + props.row.id" class="btn btn-primary btn-sm mr-2" title="detail kwitansi">
 									<i class="fa fa-eye"></i>
 								</router-link> -->
-								<button v-if="data.level != 2" title="export pdf" class="text-danger btn btn-secondary btn-sm mr-2" @click="storePDF(props.row.id)"><i class="fa fa-file-pdf-o" ref="id" :id="props.row.id"></i></button>
-								<router-link v-if="data.level != 2" :to="'/kwitansi/edit/' + props.row.id" class="text-primary btn btn-secondary btn-sm mr-2" title="edit kwitansi">
-									<i class="fa fa-edit"></i>
+								<button v-if="data.level != 2" title="export pdf" class="btn btn-outline-danger btn-sm mr-2" @click="storePDF(props.row.id)">PDF</button>
+								<router-link v-if="data.level != 2" :to="'/kwitansi/edit/' + props.row.id" class="btn btn-primary btn-sm mr-2" title="edit kwitansi">
+									Edit
 								</router-link>
-								<button v-if="data.level != 2" title="hapus data kwitansi" class="text-danger btn btn-secondary btn-sm" @click="deleteKwitansi(props.row.id)"><i class="fa fa-trash" ref="id" :id="props.row.id"></i></button>
+								<button v-if="data.level != 2" title="hapus data kwitansi" class="btn btn-danger btn-sm" @click="deleteKwitansi(props.row.id)">Hapus</button>
 							</div>
 						</v-client-table>
 					</CCol>

@@ -18,13 +18,13 @@
 								<img :src="props.row.foto" />
 							</div>
 							<div slot="aksi" slot-scope="props" class="d-flex justify-content-center">
-								<router-link :to="'/user/detail/' + props.row.id" class="text-dark btn btn-secondary btn-sm mr-2" title="detail user">
-									<i class="fa fa-eye"></i>
+								<router-link :to="'/user/detail/' + props.row.id" class="btn btn-dark btn-sm mr-2" title="detail user">
+									Detail
 								</router-link>
-								<router-link v-if="data.level != 2" :to="'/user/edit/' + props.row.id" class="text-primary btn btn-secondary btn-sm mr-2" title="edit user">
-									<i class="fa fa-edit"></i>
+								<router-link v-if="data.level != 2" :to="'/user/edit/' + props.row.id" class="btn btn-primary btn-sm mr-2" title="edit user">
+									Edit
 								</router-link>
-								<button v-if="data.level != 2" title="hapus data kwitansi" class="text-danger btn btn-secondary btn-sm" @click="deleteUser(props.row.id)"><i class="fa fa-trash" ref="id" :id="props.row.id"></i></button>
+								<button v-if="data.level != 2" title="hapus data kwitansi" class="btn btn-danger btn-sm" @click="deleteUser(props.row.id)">Hapus</button>
 							</div>
 						</v-client-table>
 					</CCol>

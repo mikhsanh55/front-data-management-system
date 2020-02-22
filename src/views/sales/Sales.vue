@@ -20,7 +20,7 @@
 								<router-link v-if="data.level != 2" :to="'/sales/edit/' + props.row.id" class="text-primary btn btn-secondary btn-sm mr-2">
 									<i class="fa fa-edit"></i>
 								</router-link> -->
-								<button v-if="data.level != 2" class="text-danger btn btn-secondary btn-sm" ref="el" :id="props.row.id" @click="deleteSales(props.row.id)"><i class="fa fa-trash" ></i></button>
+								<button v-if="data.level != 2" class="btn btn-danger btn-sm" ref="el" :id="props.row.id" @click="deleteSales(props.row.id)">Hapus</button>
 							</div>
 						</v-client-table>
 					</CCol>

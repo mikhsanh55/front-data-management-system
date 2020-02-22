@@ -77,7 +77,7 @@
 				</CRow>
 				<CRow>
 					<CCol sm="10" class="d-flex justify-content-end mt-4 mb-4">
-						<button class="btn btn-light" @click="updateStatus"><i class="fa fa-edit mr-2"></i> {{label}} </button>
+						<button class="btn btn-primary" @click="updateStatus"><i class="fa fa-edit mr-2"></i> {{label}} </button>
 					</CCol>
 					
 				</CRow>

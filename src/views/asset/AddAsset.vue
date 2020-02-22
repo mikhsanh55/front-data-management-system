@@ -67,7 +67,7 @@
 				</CForm>
 			</CCardBody>
 			<CCardFooter class="d-flex justify-content-center mt-4">
-				<CButton type="submit" color="light" @click.prevent="addAsset">
+				<CButton type="submit" color="primary" @click.prevent="addAsset">
 					<i class="fa fa-plus mr-1"></i>{{label}}
 				</CButton>
 			</CCardFooter>

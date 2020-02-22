@@ -138,7 +138,7 @@
 				</CForm>
 			</CCardBody>
 			<CCardFooter class="d-flex justify-content-center mt-4">
-				<CButton type="submit" color="light" @click.prevent="addKaryawan">
+				<CButton type="submit" color="primary" @click.prevent="addKaryawan">
 					<i class="fa fa-plus mr-2"></i>{{label}}
 				</CButton>
 			</CCardFooter>

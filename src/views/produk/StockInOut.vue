@@ -7,7 +7,7 @@
 			<CCardBody>
 				<CRow>
 					<CCol sm="12">
-						<router-link to="/stock-in-out/add" class="float-right mb-4 btn btn-light"><small> <i class="fa fa-plus mr-1"></i> Tambah Stock In Out</small></router-link>			
+						<router-link to="/stock-in-out/add" class="float-right mb-4 btn btn-primary"><small> <i class="fa fa-plus mr-1"></i> Tambah Stock In Out</small></router-link>			
 						<v-client-table
 							:data="stockinout"
 							:columns="tableFields"

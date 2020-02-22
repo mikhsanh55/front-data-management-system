@@ -164,7 +164,7 @@
                 </CForm>
               </CCardBody>
               <CCardFooter class="d-flex justify-content-center mt-4">
-                <CButton type="submit" @click.prevent="updateData" color="light" class="mr-2">
+                <CButton type="submit" @click.prevent="updateData" color="primary" class="mr-2">
                   <i class="fa fa-edit mr-2"></i>{{label}}              
                 </CButton>
               </CCardFooter>

@@ -23,7 +23,7 @@
 								<router-link v-if="data.level != 2" :to="'/kurir/edit/' + props.row.id" class="btn btn-primary btn-sm mr-2" title="edit kurir">
 									<i class="fa fa-edit"></i>
 								</router-link> -->
-								<button v-if="data.level != 2" title="hapus data kurir" class="text-danger btn btn-secondary btn-sm" @click="deleteKurir(props.row.id)"><i class="fa fa-trash" ref="id" :id="props.row.id_karyawan"></i></button>
+								<button v-if="data.level != 2" title="hapus data kurir" class="btn btn-danger btn-sm" @click="deleteKurir(props.row.id)">Hapus</button>
 							</div>
 						</v-client-table>
 					</CCol>

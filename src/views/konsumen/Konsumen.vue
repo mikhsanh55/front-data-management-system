@@ -8,8 +8,8 @@
 				<CRow>
 					
 					<CCol sm="12">
-						<button @click="storeExcel" class="float-right mb-4 ml-2 btn btn-light"><small> <i class="fa fa fa-file-excel-o mr-1"></i> Export .xlsx</small></button>		
-						<router-link v-if="data.level != 2 || data.level == 5 || data.level == 1" to="/konsumen/add" class="float-right mb-4 btn btn-light"><small> <i class="fa fa-plus mr-1"></i> Tambah Konsumen</small></router-link>		
+						<button @click="storeExcel" class="float-right mb-4 ml-2 btn btn-success"><small> <i class="fa fa fa-file-excel-o mr-1"></i> Export .xlsx</small></button>		
+						<router-link v-if="data.level != 2 || data.level == 5 || data.level == 1" to="/konsumen/add" class="float-right mb-4 btn btn-primary"><small> <i class="fa fa-plus mr-1"></i> Tambah Konsumen</small></router-link>		
 						<v-client-table
 						:data="tableItem"
 						:columns="tableFields"
@@ -17,13 +17,13 @@
 						id="konsumen_table"
 						>
 						<div slot="aksi" slot-scope="props" class="d-flex justify-content-center">
-							<router-link :to="'/konsumen/detail/' + props.row.id" class="text-dark btn btn-secondary btn-sm mr-2" title="Detail Konsumen">
-									<i class="fa fa-eye"></i>
+							<router-link :to="'/konsumen/detail/' + props.row.id" class="btn btn-dark btn-sm mr-2" title="Detail Konsumen">
+									Detail
 								</router-link>
-							<router-link v-if="data.level != 2" :to="'/konsumen/edit/' + props.row.id" class="text-primary btn btn-secondary btn-sm mr-2">
-								<i class="fa fa-edit"></i>
+							<router-link v-if="data.level != 2" :to="'/konsumen/edit/' + props.row.id" class="btn btn-primary btn-sm mr-2">
+								Edit
 							</router-link>
-							<button v-if="data.level != 2" class="text-danger btn btn-secondary btn-sm" ref="el" :id="props.row.id" @click="deleteKonsumen(props.row.id)"><i class="fa fa-trash" ></i></button>
+							<button v-if="data.level != 2" class="btn btn-danger btn-sm" ref="el" :id="props.row.id" @click="deleteKonsumen(props.row.id)">Hapus</button>
 						</div>
 
 						</v-client-table>

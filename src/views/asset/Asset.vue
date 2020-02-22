@@ -7,7 +7,7 @@
 			<CCardBody>
 				<CRow>
 					<CCol sm="12">
-						<router-link v-if="data.level != 2" to="/asset/add" class="float-right mb-4 btn btn-light"><small> <i class="fa fa-plus mr-1"></i> Tambah Asset</small></router-link>	
+						<router-link v-if="data.level != 2" to="/asset/add" class="float-right mb-4 btn btn-primary"><small> <i class="fa fa-plus mr-1"></i> Tambah Asset</small></router-link>	
 						<v-client-table
 						:data="assets"
 						:columns="tableFields"
@@ -18,10 +18,10 @@
 								<!-- <router-link :to="'/asset/detail/' + props.row.id" class="btn btn-primary btn-sm mr-2" title="detail asset">
 									<i class="fa fa-eye"></i>
 								</router-link> -->
-								<router-link v-if="data.level != 2" :to="'/asset/edit/' + props.row.id" class="text-primary btn btn-secondary btn-sm mr-2" title="edit asset">
-									<i class="fa fa-edit"></i>
+								<router-link v-if="data.level != 2" :to="'/asset/edit/' + props.row.id" class="btn btn-primary btn-sm mr-2" title="edit asset">
+									Edit
 								</router-link>
-								<button v-if="data.level != 2" title="hapus asset" class="text-danger btn btn-secondary btn-sm" @click="deleteAsset(props.row.id)"><i class="fa fa-trash" ref="id" :id="props.row.id"></i></button>
+								<button v-if="data.level != 2" title="hapus asset" class="btn btn-danger btn-sm" @click="deleteAsset(props.row.id)">Hapus</button>
 							</div>
 						</v-client-table>
 					</CCol>

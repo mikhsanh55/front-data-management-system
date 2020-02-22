@@ -96,7 +96,7 @@
 				                      
                     			</CCol>
                     			<CCol sm="8" class="d-flex justify-content-end mt-4">
-                    				<button class="btn btn-light text-primary" @click.prevent="addToTable"><i class="fa fa-plus mr-2"></i>{{label}}</button>
+                    				<button class="btn btn-primary" @click.prevent="addToTable"><i class="fa fa-plus mr-2"></i>{{label}}</button>
                     			</CCol>
                     		</CRow>
 						</CForm>
@@ -113,14 +113,14 @@
 								 class="m-4"
 								>
 									<div slot="aksi" slot-scope="props">
-										<button class="btn btn-secondary text-danger m-1"  @click="deleteFromTable(props.row.id)"><i class="fa fa-trash"></i></button>				
+										<button class="btn btn-danger m-1"  @click="deleteFromTable(props.row.id)">Hapus</button>				
 									</div>
 								</v-client-table>
 							</CCol>
 						</CRow>
 					</CCardBody>
 					<CCardFooter class="m-4 d-flex justify-content-end">
-						<router-link to="/barang-pesanan" class="btn btn-light text-primary" ><i class="fa fa-cart-plus mr-2"></i> Selesai </router-link>
+						<router-link to="/barang-pesanan" class="btn btn-primary" ><i class="fa fa-cart-plus mr-2"></i> Selesai </router-link>
 					</CCardFooter>
 				</CCard>
 			</CCol>
