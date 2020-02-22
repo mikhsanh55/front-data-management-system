@@ -26,8 +26,8 @@
 											<span  v-else-if="props.row.status == 3" class="badge mr-2 align-middle ml-2 badge-warning">Pengiriman</span>
 											<span  v-else-if="props.row.status == 4" class="badge mr-2 align-middle ml-2 badge-success">Selesai</span>
 											<span  v-else-if="props.row.status == 5" class="badge mr-2 align-middle ml-2 badge-danger">Batal</span>
-											<router-link title="detail po" :to="'/po/detail/' + props.row.id" class="text-dark btn btn-secondary mr-2 btn-sm">
-												<i class="fa fa-eye"></i>
+											<router-link title="detail po" :to="'/po/detail/' + props.row.id" class="btn btn-dark mr-2 btn-sm">
+												Detail
 											</router-link>
 
 											<router-link title="order po" class="btn btn-warning btn-sm mr-2" :to="'/po/order-barang/' + props.row.id">
