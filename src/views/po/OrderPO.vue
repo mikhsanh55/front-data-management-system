@@ -40,12 +40,13 @@
 			                            v-model="rpo.qty"
 			                          />
 			                        <CInput
+			                        	type="text"
 			                        	label="Satuan"
 			                        	placeholder="Masukan Satuan"
 			                        	type="text"
 			                        	horizontal
 			                        	v-modal="rpo.satuan"
-			                        	readony
+			                        	readonly
 			                         />    
 			                        <CInput
 			                        	type="number"  
@@ -203,7 +204,7 @@
 					qty:0,
 					tanggal:null,
 					harga_jual:null,
-					satuan:null,
+					satuan:'',
 					status:1,
 					kode_barang: null,
 					tax_rate:0,
@@ -233,12 +234,14 @@
 
 				for(let i = 0;i < this.barangs.length;i++) {
 					if(this.barangs[i].id == val) {
+						console.warn(this.barangs[i])
+						console.log(this.barangs[i].satuan)
+						this.rpo.satuan = this.barangs[i].satuan
 						this.rpo.harga_jual = this.barangs[i].harga_jual
 						this.rpo.spesifikasi_barang = this.barangs[i].spesifikasi
 						this.rpo.kode_barang = this.barangs[i].kode_barang
 						this.rpo.tax = this.barangs[i].tax
-						this.rpo.satuan = this.barangs[i].satuan
-						return
+						
 					}
 				}
 			},
@@ -372,13 +375,12 @@
 		    		}
 		    		else {
 		    			this.barangs = data
+		    			console.log(data)
 			    		for(let i = 0;i < data.length;i++) {
 			    			let obj = {}
 			    			obj.value = data[i].id
 			    			obj.label = data[i].nama_barang
-
 			    			self.barang.push(obj)
-			    			
 			    		}	
 		    		}
 		    	}) 
