@@ -35,7 +35,7 @@
 								<td> {{konsumen.no_rekening}} </td>
 							</tr>
 							<tr>
-								<th>Nama Instansi</th>
+								<th>Pemesan</th>
 								<td> {{konsumen.nama_instansi}} </td>
 							</tr>
 							<tr>

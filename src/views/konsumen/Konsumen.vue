@@ -61,7 +61,7 @@
 			    		email:'Email',
 			    		wa_hp:'No HP/WA',
 			    		karakteristik_perusahaan:'Karakteristik Perusahaan',
-			    		alamat:'Alamat Instansi',
+			    		alamat:'Alamat Pemesan',
 			    		aksi:'Aksi'
 			    	},
 			    	sortable:['nama', 'no_rekening', 'email'],

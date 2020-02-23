@@ -7,7 +7,7 @@
 			<CCardBody>
 				<CRow>
 					<CCol sm="12">
-						<router-link v-if="data.level != 2" to="/user/add" class="float-right mb-4 btn btn-light"><small> <i class="fa fa-plus mr-1"></i> Tambah User</small></router-link>	
+						<router-link v-if="data.level != 2" to="/user/add" class="float-right mb-4 btn btn-primary"><small> <i class="fa fa-plus mr-1"></i> Tambah User</small></router-link>	
 						<v-client-table
 						:data="user"
 						:columns="tableFields"

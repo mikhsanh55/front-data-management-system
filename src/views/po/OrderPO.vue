@@ -38,7 +38,15 @@
 			                            horizontal
 			                            placeholder="Masukan Quantity"
 			                            v-model="rpo.qty"
-			                          />  
+			                          />
+			                        <CInput
+			                        	label="Satuan"
+			                        	placeholder="Masukan Satuan"
+			                        	type="text"
+			                        	horizontal
+			                        	v-modal="rpo.satuan"
+			                        	readony
+			                         />    
 			                        <CInput
 			                        	type="number"  
 			                        	:description="validator.harga_jual_msg"
@@ -48,7 +56,6 @@
 			                        	horizontal
 			                        	placeholder="Masukan Harga Jual Satuan"
 			                        	v-model="rpo.harga_jual"
-			                        	readonly
 			                          />
 			                        <CInput
 				                        type="number"
@@ -196,6 +203,7 @@
 					qty:0,
 					tanggal:null,
 					harga_jual:null,
+					satuan:null,
 					status:1,
 					kode_barang: null,
 					tax_rate:0,
@@ -229,6 +237,7 @@
 						this.rpo.spesifikasi_barang = this.barangs[i].spesifikasi
 						this.rpo.kode_barang = this.barangs[i].kode_barang
 						this.rpo.tax = this.barangs[i].tax
+						this.rpo.satuan = this.barangs[i].satuan
 						return
 					}
 				}
@@ -304,6 +313,7 @@
 							spesifikasi_barang:null,
 							qty:0,
 							tanggal:null,
+							satuan:null,
 							harga_jual:null,
 							status:1,
 							kode_barang: null,

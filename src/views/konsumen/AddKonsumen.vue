@@ -64,9 +64,9 @@
 				                @input="konsumen.nama_instansi.length < 1 ? validator.nama_instansi = false : validator.nama_instansi = true"
 				                type="text"
 				                autocomplete="nama_instansi"
-				                label="Nama Instansi"
+				                label="Pemesan"
 				                horizontal
-				                placeholder="Masukan Nama Instansi"
+				                placeholder="Masukan Pemesan"
 				                v-model="konsumen.nama_instansi"
 				              />
 				              <CInput
@@ -209,8 +209,8 @@
 				}
 				if(!this.konsumen.nama_instansi) {
 		            this.validator.nama_instansi = false
-		            this.validator.nama_instansi_msg = 'Harap isi nama instansi konsumen'
-		            this.errors.push('Nama Perusahaan Kosong')
+		            this.validator.nama_instansi_msg = 'Harap isi kolom Pemesan'
+		            this.errors.push('Nama Pemesan Kosong')
 		          }
 
 		          if(!this.konsumen.karakteristik_perusahaan) {

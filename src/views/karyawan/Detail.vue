@@ -35,7 +35,7 @@
 								</tr>
 								<tr>
 									<th width="50%">No Hp/WA</th>
-									<td>{{karyawan.whatsapp == null ? 'Belum ada' : karyawan.whatsapp}}</td>
+									<td>{{karyawan.wa_hp == null ? 'Belum ada' : karyawan.wa_hp}}</td>
 								</tr>
 								<tr>
 									<th width="50%">Jenis Kelamin</th>

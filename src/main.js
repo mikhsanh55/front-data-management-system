@@ -36,7 +36,7 @@ let app = new Vue({
         headers,
         redirect:'follow'
       }
-      fetch('https://api.sabalkes.com/karyawan', options)
+      fetch(localStorage.base_api + 'karyawan', options)
       .then(res => res.json())
       .then(res => {
         console.log(res)
