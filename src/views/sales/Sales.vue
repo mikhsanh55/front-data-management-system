@@ -70,7 +70,6 @@
 					redirect:'follow'
 				})
 				.then(response => {
-					console.log(response)
 					this.sales = response
 					for(let i = 0;i < this.sales.length;i++) {
 						this.sales[i].no = i+1;
@@ -131,7 +130,6 @@
 						.then(res => {
 
 							this.smallModal = false
-							alert(res.data.message)
 							this.getData()
 						})
 						.catch(e => {
@@ -176,7 +174,6 @@
 		},
 		mounted() {
 			this.data = JSON.parse(localStorage.user)
-			console.log(this.data)
 		}
 	}
 </script>

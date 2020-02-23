@@ -94,7 +94,6 @@
 	      				obj.label = res[i].nama
 	      				this.jabatan.push(obj)
 	      			}
-	      			console.log(this.jabatan)
 	      		})
 	      		.then(() => {
 	      			this.getData()
@@ -174,7 +173,6 @@
 						})
 						.then(res => res.json())
 						.then(res => {
-							console.warn(res)
 							this.user.id_level = res.id_jabatan
 						})
 					}
@@ -194,7 +192,6 @@
 				}
 				getDatas(this, localStorage.base_api + 'user/' + this.$route.params.id, options)
 				.then(res => {
-					console.warn(res)
 					this.user = res
 				})	
 				.catch(e => {

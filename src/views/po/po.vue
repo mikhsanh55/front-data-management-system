@@ -183,9 +183,7 @@
 						dateline = item.date_line.split('-'),
 						tgl_po_masuk = item.tgl_po_masuk.split(' ')
 						tgl_po_masuk = tgl_po_masuk[0]
-
 						tgl_po_masuk = tgl_po_masuk.split('-')
-						console.log(tgl_po_masuk)
 						item.nod = i + 1
 						item.date = `${dates[2]}-${dates[1]}-${dates[0]}`
 						item.date_line = `${dateline[2]}-${dateline[1]}-${dateline[0]}`

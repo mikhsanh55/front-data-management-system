@@ -547,7 +547,6 @@ export default {
     checkPO(this)
 
     getDatas(this, localStorage.base_api + 'karyawan/' + userData.id_karyawan, {method:'POST', headers:{'Authorization': 'bearer ' + localStorage.token}}, 'post')
-    .then(res => console.log('Youre still Login!'))
     .catch(e => {
       console.log(e.response)
       if(e.response.status == 401) {

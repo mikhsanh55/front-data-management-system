@@ -89,7 +89,6 @@
 				}
 
 				if(!this.errors.length) {
-					console.log(this.barang_pesanan)
 					
 					this.barang_pesanan.tanggal = this.barang_pesanan.tanggal_pesanan
 					this.label = 'Loading...'

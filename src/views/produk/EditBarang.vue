@@ -194,7 +194,6 @@
 		          return false
 		         }
 		         else {
-		         	console.log(file)
 		          this.barang.foto = file
 		         }
 		     },
@@ -322,8 +321,6 @@
 						obj.label = res.data[i].nama_instansi
 						this.vendor.push(obj)
 					}
-					console.log(this.vendor)
-					
 				})
 				.then(() => {
 					this.getData()

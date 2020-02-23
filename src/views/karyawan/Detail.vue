@@ -113,8 +113,6 @@
 				}
 				getDatas(this, localStorage.base_api + 'karyawan/' + this.$route.params.id, options)
 				.then(res => {
-					console.log(res)	
-					
 					this.karyawan = res
 					this.karyawan.foto = localStorage.base_uri + res.foto
 				})

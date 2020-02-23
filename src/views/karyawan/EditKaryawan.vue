@@ -222,36 +222,12 @@
 	      				obj.label = res[i].nama
 	      				this.jabatan.push(obj)
 	      			}
-	      			console.log(this.jabatan)
 	      		})
 	      		.then(() => {
 	      			this.getData()
 	      		})
 	      		.catch(e => {
-	      			console.error(e.response)
-	      			if(e.response.status == 401) {
-		                  this.$store.dispatch('logout')
-		                  .then(() => {
-		                    let path = window.location.href
-		                    path = path.split('/')
-		                    localStorage.setItem('prevPath', path[path.length - 1])
-		                    alert('Session Login kamu sudah habis! silahkan login kembali')
-		                    
-		                  })
-		                  .then(() => {
-		                    this.$router.replace({path: '/login'})
-		                  })
-		                  .catch(e => {
-		                    alert('An error occured when get data :(')
-		                    return false
-		                  })
-		                }
-		                else {
-		                	alert('Ada sedikit masalah di sisi server, harap hubungi pengembangnya :)')
-							this.label = 'Simpan Perubahan'
-							console.log(e)
-							return false
-						}
+	      			console.error(e)
 	      			return false
 	      		})
 	      	},
@@ -274,7 +250,6 @@
 		          return false
 		         }
 		         else {
-		         	console.log(file)
 		          this.karyawan.foto = file
 		         }
 		      },
@@ -283,7 +258,6 @@
 			},
 			assignJabatan(val) {
 				this.karyawan.id_jabatan = val
-				console.log(this.karyawan.id_jabatan)
 			},
 			getData() {
 				let headers = new Headers()
@@ -382,7 +356,6 @@
 						redirect:'follow'
 					})
 					.then(res => {
-						console.log(this.karyawan.id_jabatan)
 						this.label = 'Simpan Perubahan'
 						this.$swal(res.data.message, 'mohon tunggu sebentar...', 'success')
 		                  setTimeout(() => {

@@ -104,7 +104,6 @@
 				}
 				getDatas(this, localStorage.base_api + 'kwitansi/' + this.$route.params.id, options)
 				.then(res => {
-					console.log(res)
 					this.kwitansi = res
 				})
 				.catch(e => {

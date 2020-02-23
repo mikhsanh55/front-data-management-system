@@ -79,7 +79,6 @@
 					}
 				})
 				.then(res => {
-					console.log(res)
 						let index = 0
 						this.stockinout = res
 						this.stockinout.forEach((r) => {

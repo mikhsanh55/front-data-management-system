@@ -107,7 +107,6 @@
 	      				obj.label = res.data[i].nama
 	      				this.jabatan.push(obj)
 	      			}
-	      			console.log(this.jabatan)
 	      		})
 	      		.catch(e => {
 	      			alert('Maaf lagi ada error sedikit :D')

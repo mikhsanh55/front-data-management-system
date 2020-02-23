@@ -103,7 +103,6 @@
 					redirect:'follow'
 				})
 				.then(res => {
-					console.log(res)
 					if(res.length > 0)
 						this.kwitansi = res
 						for(let i = 0;i < this.kwitansi.length;i++) {

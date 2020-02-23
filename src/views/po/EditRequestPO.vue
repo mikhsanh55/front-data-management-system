@@ -127,10 +127,7 @@
 
 				getDatas(localStorage.base_api + 'request/barang/detail/' + this.$route.params.id, options)
 				.then(res => {
-					
-					console.log(res)
-					this.request_po = res
-					
+					this.request_po = res	
 				})
 				.catch(e => {
 					this.$swal('Mohon maaf tidak bisa meng-update data', 'Mohon hubungi pengembang...', 'error')
@@ -144,7 +141,6 @@
 			},
 			assignStatus(val) {
 				this.request_po.status = val
-				console.log(this.request_po.status)
 			},
 			assignBarang(val) {
 				this.request_po.id_barang = val
@@ -237,7 +233,6 @@
 				.then(res => res.json())
 				.then(res => {
 					this.request_po = res
-					console.warn(res.status)
 				})
 				.catch(e => {
 					console.error('DUDE ' + e)

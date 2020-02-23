@@ -248,7 +248,6 @@
 						}
 					})
 					.then(response => {
-						console.log(response.data)
 						this.validMsg = true
 						this.$swal('Tambah Konsumen berhasil', 'Tunggu sebentar yah...', 'success')
 						setTimeout(() => {

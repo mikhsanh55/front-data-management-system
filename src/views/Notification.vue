@@ -59,7 +59,6 @@
 			}
 		},
 		created() {
-			console.warn(this.datas[0].data.no)
 			if(this.datas.length > 0)
 				this.datas.forEach((item, i) => {
 					let date = item.date.split('T'),

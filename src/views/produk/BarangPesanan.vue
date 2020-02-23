@@ -136,7 +136,6 @@
 					redirect: 'follow'
 				})
 				.then(res => {
-					console.log(res)
 					if(res.length > 0)
 						this.barangPesanan = res
 						for(let i = 0;i < this.barangPesanan.length;i++) {

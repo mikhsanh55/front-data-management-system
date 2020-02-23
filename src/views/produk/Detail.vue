@@ -88,7 +88,6 @@
 				}
 				getDatas(this, localStorage.base_api + 'barang/' + this.$route.params.id, options)
 				.then(res => {
-					console.log(res)
 					this.product = res
 				})
 				.catch(e => {

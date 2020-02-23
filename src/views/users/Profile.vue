@@ -74,7 +74,6 @@
 				// })
 				getDatas(this, localStorage.base_api + 'karyawan/' + id, {method:'post', headers:{'Authorization':'bearer ' + localStorage.token}}, 'post')
 				.then(res => {
-					console.log(res)
 				})
 				.catch(e => {
 					console.error(e.response)
@@ -102,7 +101,6 @@
 						}
 					})
 					.then(res => {
-						console.log(res)
 						this.$swal('Password sudah dirubah!', 'Mohon tunggu...', 'success')
 						setTimeout(() => this.$swal.close(), 1500)
 					})

@@ -347,7 +347,6 @@
 					})
 					.then(res => {
 						this.label = 'Tambah Karyawan'
-						console.warn(res)
 						this.$swal('Data karyawan berhasil ditambah', 'mohon tunggu sebentar...', 'success')
 		                  setTimeout(() => {
 		                    this.$swal.close()

@@ -102,12 +102,10 @@
 						for(let i = 0;i <= this.user.length;i++) {
 							this.user[i].no = i+1
 						}
-						console.log(this.user.length)
 					}
 						
 				})
 				.catch(e => {
-					console.log('Si Doel')
 					console.log(e)
 					return false
 				})
@@ -164,7 +162,6 @@
 		},
 		mounted() {
 			this.data = JSON.parse(localStorage.user)
-			console.log(this.data)
 		}
 	}
 </script>

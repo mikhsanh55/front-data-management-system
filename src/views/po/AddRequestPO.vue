@@ -122,11 +122,9 @@
 		methods: {
 			assignBarang(val) {
 				this.request_po.id_barang = val
-				console.warn(val)
 			},
 			assignStatus(val) {
 				this.request_po.status = val
-				console.log(this.request_po.status)
 			},
 			addRequestPO() {
 				this.label = 'Loading...'
@@ -170,7 +168,6 @@
 					})
 					.then(res => {
 						this.label = 'Tambah Request Barang'
-						console.log(res)
 						this.$swal('Penambahan Request Barang berhasil', 'Mohon tunggu sebentar', 'success')
 						setTimeout(() => {
 							this.$swal.close()

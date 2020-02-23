@@ -61,8 +61,6 @@
 				getDatas(this, localStorage.base_api + 'barang/' + res.id_barang, {method: 'post', headers: {'Authorization' : 'bearer ' + localStorage.token}}, 'post')
 				.then(res => {
 					this.order_barang = res
-					console.warn('WARN')
-					console.log(this.order_barang)
 				})
 				.catch(e => console.error(e))
 			})

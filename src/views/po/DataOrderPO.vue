@@ -161,7 +161,6 @@
 			})
 			.then(res => {
 				this.dataOrder = res
-				console.log(this.dataOrder)
 			})
 			.catch(e => console.error(e))
 		},

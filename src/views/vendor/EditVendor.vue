@@ -139,19 +139,16 @@
 		          return false
 		         }
 		         else {
-		          console.log(f)
 		          this.vendor.foto = f
 		         }
 			},
 			checkImage(src) {
 				let image = new Image()
 				image.onload = () => {
-					console.log('ada')
 					this.image = 1
 					return true
 				}
 				image.onerror = () => {
-					console.log('tidak ada')
 				 return false}
 				image.src = src
 			},
@@ -165,7 +162,6 @@
 				}
 				getDatas(this, localStorage.base_api + 'vendor/' + this.$route.params.id, options)
 				.then(res => {
-					console.log(res)
 					this.vendor = res
 				})
 				.catch(e => {

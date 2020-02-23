@@ -128,11 +128,9 @@
 			getData() {
 				if(this.data.level == 7) {
 					this.api_url = this.base_api + 'sales'
-					console.log(this.data.level)
 				}
 				else {
 					this.api_url = this.base_api + 'karyawan'	
-					console.log(this.data.level)
 				}
 				let headers = new Headers()
 				headers.append('Authorization', 'bearer ' + localStorage.getItem('token'))
@@ -143,7 +141,6 @@
 				}
 				getDatas(this, this.api_url, options)
 				.then(res => {
-					console.log(res)
 					this.karyawan = res
 					for(let i = 0;i < this.karyawan.length;i++) {
 						this.karyawan[i].no = i+1

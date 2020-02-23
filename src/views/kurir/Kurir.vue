@@ -93,7 +93,6 @@
 					for(let i = 0;i < this.kurir.length;i++) {
 						this.kurir[i].no = i+1
 					}
-					console.log(res)
 				})
 				.catch(e => {
 					console.error(e)

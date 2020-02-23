@@ -237,7 +237,6 @@
 					redirect: 'follow'
 				}, 'post')
 				.then(res => {
-					console.log(res)
 					this.po = res
 					this.po.sub_total = 0
 					this.po.sales_tax_rate = 0
@@ -261,7 +260,6 @@
 					}, 'post')
 					.then(res => {
 						let arr = []
-						console.warn('Order Barang')
 						this.info_po = res
 						this.po.sub_total = 0
 						this.po.disc = 0

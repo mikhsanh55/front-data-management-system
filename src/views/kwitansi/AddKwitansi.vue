@@ -85,7 +85,6 @@
 		},
 		methods: {
 			assignGunaPembayaran(val) {
-				console.log(val)
 				this.po.forEach((item) => {
 					if(item.id == val) {
 						this.kwitansi.guna_pembayaran = item.id
@@ -150,7 +149,6 @@
 			.then(res => {
 				this.po = res
 				this.guna_pembayaran.push({value: '000', label:'Pilih Guna Pembayaran'})
-				console.log(res)
 				this.po.forEach((item, i) => {
 					let obj = {}
 					obj.value = item.id

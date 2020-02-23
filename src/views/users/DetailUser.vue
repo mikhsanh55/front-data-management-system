@@ -100,12 +100,10 @@
 			checkImage(src) {
 				let image = new Image()
 				image.onload = () => {
-					console.log('ada')
 					this.image = 1
 					return true
 				}
 				image.onerror = () => {
-					console.log('tidak ada')
 				 return false}
 				image.src = src
 			}

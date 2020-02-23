@@ -200,7 +200,6 @@
 	                      this.$swal.close()
 	                      this.$router.push({path: '/stock-in-out'})
 	                    }, 2000)
-	         			console.log(res)
 	         		})
 	         		.catch(e => {
 	         			

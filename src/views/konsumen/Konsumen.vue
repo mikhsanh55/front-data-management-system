@@ -151,8 +151,6 @@
 					for(let i = 0;i < this.tableItem.length;i++) {
 						this.tableItem[i].no = i+1
 					}
-					console.log(response.data)
-					
 				})
 				.catch(e => {
 					console.error(e.response)
@@ -189,7 +187,6 @@
 		},
 		mounted() {
 			this.data = this.$store.getters.userData
-			console.log(this.data)
 		}
 	}
 </script>

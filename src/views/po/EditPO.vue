@@ -341,7 +341,6 @@
             redirect:'follow'
           })
           .then(res => {
-            console.log(res)
             this.label = 'Simpan Perubahan'
             this.$swal(res.data.message, 'Mohon tunggu sebentar...', 'success')
             setTimeout(() => {

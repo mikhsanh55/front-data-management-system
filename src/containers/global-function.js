@@ -181,8 +181,6 @@ export function getOrderBarang() {
 		})
 		.then(res => res.json())
 		.then(res => {
-			console.warn('ORDER BARANG')
-			console.log(res)
 			res.forEach((item, i) => {
 				fetch(localStorage.base_api + 'po/' + item.id_po, {
 					method:'post',
@@ -192,8 +190,6 @@ export function getOrderBarang() {
 				})
 				.then(res => res.json())
 				.then(res => {
-					console.warn('PO')
-					console.log(res)
 				})
 			})
 				

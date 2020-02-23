@@ -176,7 +176,6 @@
 						obj.label = res.data[i].nama_instansi
 						this.vendor.push(obj)
 					}
-					console.log(this.vendor)
 					
 				})
 				.catch(e => {
@@ -217,7 +216,6 @@
 		          return false
 		         }
 		         else {
-		         	console.log(file)
 		          this.barang.foto = file
 		         }
 	         },
@@ -304,7 +302,6 @@
 	                      this.$swal.close()
 	                      this.$router.push({path: '/barang'})
 	                    }, 2000)
-	         			console.log(res)
 	         		})
 	         		.catch(e => {
 	         			

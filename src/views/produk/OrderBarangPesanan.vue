@@ -209,7 +209,6 @@
 						this.order_barang_pesanan.kode_barang = this.barangs[i].kode_barang
 						this.order_barang_pesanan.spesifikasi_barang = this.barangs[i].spesifikasi
 						this.order_barang_pesanan.satuan = this.barangs[i].satuan
-						return
 					}
 				}
 			},

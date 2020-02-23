@@ -135,7 +135,6 @@
 		          return false
 		         }
 		         else {
-		          console.log(f)
 		          this.vendor.foto = f
 		         }
 			},
