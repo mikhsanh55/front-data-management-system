@@ -196,8 +196,8 @@
 				}
 				else {
 					if(!this.validateEmail(this.konsumen.email)) {
-						this.validator.no_rekening = false
-						this.validator.no_rekening_msg = 'Email tidak valid!'
+						this.validator.email = false
+						this.validator.email_msg = 'Email tidak valid!'
 						this.errors.push('email konsumen tidak valid')
 					}
 				}
