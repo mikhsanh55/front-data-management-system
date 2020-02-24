@@ -153,17 +153,24 @@ export function checkPO(self) {
 			}
 
 			for(let j = 0;j < data.length;j++) {
-				let currentDate = new Date()
-				let notifPO = new Date(data[j].date)
-				if(currentDate == notifPO) {
+				let currentDate = new Date().setHours(0, 0, 0, 0)
+				let notifPO = new Date(data[j].date).setHours(0, 0, 0, 0)
+				currentDate = new Date(currentDate)
+				notifPO = new Date(notifPO)
+				console.log('Current Date ' + currentDate)
+				console.log('Notif Date ' + notifPO)
+				if(currentDate.getTime() == notifPO.getTime()) {
+					console.warn('sama cuy')
+					console.log(notifPO)
 					notif.push({
-						date:data[j].date,
-						data:data[j]
+						date:notifPO,
+						data:data[j],
+						link: 'po/detail/' + data[j].id
 					})
 				}
 			}
-			localStorage.setItem('notif', JSON.stringify(data))
-			return data
+			localStorage.setItem('notif', JSON.stringify(notif))
+			return notif
 		})
 		.then(notif => resolve(notif))
 		.catch(e => reject(e))
