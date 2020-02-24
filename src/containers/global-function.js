@@ -140,32 +140,32 @@ export function checkPO(self) {
 		.then(res => {
 			let data = [], notif = []
 			// console.log(res.data)
-			for(let i = 0;i < res.data.length;i++) {
+			// for(let i = 0;i < res.data.length;i++) {
 			
-				let datePO = new Date(res.data[i].date_line)
-				let notifPO = new Date( datePO.setDate( datePO.getDate() - 2 ) )
-				data.push( {
-					date:notifPO,
-					data:res.data[i],
-					link:'po/detail/' + res.data[i].id
-				} )
+			// 	let datePO = new Date(res.data[i].date_line)
+			// 	let notifPO = new Date( datePO.setDate( datePO.getDate() - 2 ) )
+			// 	data.push( {
+			// 		date:notifPO,
+			// 		data:res.data[i],
+			// 		link:'po/detail/' + res.data[i].id
+			// 	} )
 				
-			}
+			// }
 
-			for(let j = 0;j < data.length;j++) {
+			for(let j = 0;j < res.data.length;j++) {
 				let currentDate = new Date().setHours(0, 0, 0, 0)
-				let notifPO = new Date(data[j].date).setHours(0, 0, 0, 0)
+
+				let notifPO = new Date(res.data[j].date_line)
 				currentDate = new Date(currentDate)
-				notifPO = new Date(notifPO)
-				console.log('Current Date ' + currentDate)
-				console.log('Notif Date ' + notifPO)
+				notifPO = new Date( notifPO.setDate( notifPO.getDate()-2 ) )
+
+				// console.warn(new Date(notifPO.setHours(0, 0, 0, 0)))
 				if(currentDate.getTime() == notifPO.getTime()) {
-					console.warn('sama cuy')
-					console.log(notifPO)
+					
 					notif.push({
 						date:notifPO,
-						data:data[j],
-						link: 'po/detail/' + data[j].id
+						data:res.data[j],
+						link: 'po/detail/' + res.data[j].id
 					})
 				}
 			}
