@@ -19,14 +19,14 @@
 								<small v-else-if="props.row.type == 2" class="badge badge-primary">Out</small>
 								<small v-if="props.row.type == 3" class="badge badge-danger">Habis</small>
 							</div>
-							<!-- <div slot="aksi" slot-scope="props">
+							<div slot="aksi" slot-scope="props">
 								<router-link :to="'/stock-in-out/edit/' + props.row.id" class="text-primary btn btn-secondary btn-sm mr-2">
 									<i class="fa fa-edit"></i>
 								</router-link>
 								<button class="text-danger btn btn-secondary btn-sm" @click="deleteStockInOut(props.row.id)">
 									<i class="fa fa-trash"></i>
 								</button>
-							</div> -->
+							</div>
 						</v-client-table>
 					</CCol>
 				</CRow>
