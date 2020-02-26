@@ -104,7 +104,7 @@
 			storeExcel() {
 				this.$swal('Mohon tunggu...', '', 'info')
 				// exportExcel(localStorage.base_api + 'excel/karyawan', {from:null, to:null}, 'karyawan.xls')
-				exportExcel(this, localStorage.base_api + 'excel/karyawan', {from:null, to:null}, {
+				exportExcel(this, localStorage.base_api + 'excel/karyawans', {from:null, to:null}, {
 					responseType: 'blob',
 					headers: {
 						'Authorization' : 'bearer ' + localStorage.token

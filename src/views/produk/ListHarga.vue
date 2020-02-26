@@ -114,10 +114,10 @@
 				products:[],
 				tableItem:[],
 				spvFields: [
-					'no', 'kode_barang', 'nama_barang', 'spesifikasi', 'stock', 'aksi'
+					'no', 'kode_barang', 'nama_barang', 'spesifikasi', 'stock', 'satuan', 'aksi'
 				],
 				tableFields: [
-					'no',  'kode_barang', 'nama_barang', 'spesifikasi', 'stock', 'harga_jual', 'aksi'
+					'no',  'kode_barang', 'nama_barang', 'spesifikasi', 'stock', 'satuan', 'harga_jual', 'aksi'
 			    ],
 			    spvOptions: {
 			    	perPage:10,
@@ -128,16 +128,18 @@
 			    		nama_barang:'Nama Barang',
 			    		spesifikasi:'Spesifikasi Barang',
 			    		stock: 'Stok',
+			    		satuan: 'Satuan',
 			    		aksi:'Aksi'
 			    	},
 			    	sortable:['nama_barang'],
-			    	filterable:['nama_barang', 'kode_barang', 'spesifikasi', 'no'],
+			    	filterable:['nama_barang', 'kode_barang', 'spesifikasi', 'no', 'satuan', 'stock'],
 			    	columnsClasses: {
 			    		no:'text-center align-middle',
 			    		kode_barang:'align-middle',
 			    		nama_barang:'align-middle',
 			    		spesifikasi:'align-middle',
 			    		stock:'text-center align-middle',
+			    		satuan: 'text-center align-middle',
 			    		aksi:'text-center align-middle'
 			    	}
 			    },
@@ -150,11 +152,12 @@
 			    		nama_barang:'Nama Barang',
 			    		spesifikasi:'Spesifikasi Barang',
 			    		stock:'Stok',
+			    		satuan: 'Satuan',
 			    		harga_jual:'Harga Jual',
 			    		aksi:'Aksi'
 			    	},
-			    	sortable:['no', 'kode_barang', 'spesifikasi', 'nama_barang', 'harga_jual', 'stock'],
-			    	filterable:['no', 'kode_barang', 'spesifikasi', 'nama_barang', 'harga_jual', 'stock'],
+			    	sortable:['no', 'kode_barang', 'spesifikasi', 'nama_barang', 'harga_jual', 'stock', 'satuan'],
+			    	filterable:['no', 'kode_barang', 'spesifikasi', 'nama_barang', 'harga_jual', 'stock', 'satuan'],
 			    	columnsClasses: {
 			    		no:'text-center align-middle',
 			    		kode_barang:'align-middle',
@@ -163,6 +166,7 @@
 			    		stock:'text-center align-middle',
 			    		harga_jual:'text-center align-middle',
 			    		stock:'text-center align-middle',
+			    		satuan: 'text-center align-middle',
 			    		aksi:'text-center align-middle'
 			    	}
 			    }

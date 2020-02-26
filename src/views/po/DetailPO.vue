@@ -244,6 +244,16 @@
 					this.po.tax = 0
 					this.po.grand_total = 0
 					this.detailpo.status = res.status
+					getDatas(this, localStorage.base_api + 'karyawan/' + res.id_kurir, {
+						method: 'POST',
+						headers: {
+							'Authorization' : 'bearer ' + localStorage.token
+						},
+						redirect: 'follow'
+					}, 'post')
+					.then(res => {
+						this.po.nama_kurir = res.nama_karyawan
+					})
 				})
 				.catch(e => {
 					console.error(e)
