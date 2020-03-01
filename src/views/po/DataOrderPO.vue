@@ -70,7 +70,7 @@
 				date:{from:null, to:null},
 				modal:false,
 				dataOrder:[],
-				tableFields: ['no', 'kode_barang', 'nama_barang', 'spesifikasi_barang', 'qty', 'keterangan', 'aksi'],
+				tableFields: ['no', 'kode_barang', 'nama_barang', 'spesifikasi', 'qty', 'keterangan', 'aksi'],
 				tableOptions: {
 					perPage:10,
 					pagination:{chunk:10, dropdown:false, edge:true, nav:'fixed'},
@@ -78,18 +78,18 @@
 						no: 'No',
 						kode_barang: 'Kode Barang',
 						nama_barang: 'Nama Barang',
-						spesifikasi_barang: 'Spesifikasi Barang',
+						spesifikasi: 'Spesifikasi Barang',
 						qty:'Quantity',
 						keterangan: 'Keterangan',
 						aksi: 'Aksi'
 					},
 					sortable: ['no', 'nama_barang', 'qty'],
-					filterable: ['nama_barang',  'qty','kode_barang', 'spesifikasi_barang', 'keterangan'],
+					filterable: ['nama_barang',  'qty','kode_barang', 'spesifikasi', 'keterangan'],
 					columnsClasses: {
 						no: 'text-center align-middle',
 						kode_barang: 'align-middle',
 						nama_barang: 'align-middle',
-						spesifikasi_barang: 'align-middle',
+						spesifikasi: 'align-middle',
 						qty: 'text-center align-middle',
 						keterangan: 'align-middle',
 						aksi: 'text-center align-middle',
@@ -138,26 +138,27 @@
 			}
 			getDatas(this, localStorage.base_api + 'order/barang/po', {headers:{'Authorization' : 'bearer ' + localStorage.token}}, 'get')
 			.then(res => {
-				let data = res, arr = []
+				let data = res
 				data.forEach((item, i) => {
 					i += 1
-					getDatas(this, localStorage.base_api + 'barang/' + item.id_barang, {method:'post', headers:{'Authorization':'bearer ' + localStorage.token}}, 'post')
-					.then(res => {
+					item.no = i++
+					// getDatas(this, localStorage.base_api + 'barang/' + item.id_barang, {method:'post', headers:{'Authorization':'bearer ' + localStorage.token}}, 'post')
+					// .then(res => {
 						
-						let obj = {}
-						obj.id = item.id
-						obj.qty = item.qty
-						obj.no = i++
-						obj.kode_barang = res.kode_barang
-						obj.nama_barang = res.nama_barang
-						obj.spesifikasi_barang = res.spesifikasi
-						obj.keterangan = res.keterangan
-						arr.push(obj)
-					})
+					// 	let obj = {}
+					// 	obj.id = item.id
+					// 	obj.qty = item.qty
+					// 	obj.no = i++
+					// 	obj.kode_barang = res.kode_barang
+					// 	obj.nama_barang = res.nama_barang
+					// 	obj.spesifikasi_barang = res.spesifikasi
+					// 	obj.keterangan = res.keterangan
+					// 	arr.push(obj)
+					// })
 
 				})
 				
-				return arr
+				return data
 			})
 			.then(res => {
 				this.dataOrder = res

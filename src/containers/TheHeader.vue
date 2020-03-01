@@ -68,7 +68,7 @@
 
 <script>
 import TheHeaderDropdownAccnt from './TheHeaderDropdownAccnt'
-
+import {checkPO, getDatas} from '@/containers/global-function.js'  
 export default {
   name: 'TheHeader',
   data() {

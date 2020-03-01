@@ -46,7 +46,7 @@
 				// tableFields: [
 				// 	'no', 'kode_barang', 'nama_barang', 'spesifikasi', 'jumlah', 'tanggal', 'keterangan', 'status', 'aksi'
 				// ],
-				tableFields: ['no','nama_barang', 'type', 'qty', 'tanggal', 'alasan', 'aksi'],
+				tableFields: ['no','nama_barang', 'type', 'qty', 'satuan', 'tanggal', 'alasan', 'aksi'],
 				tableOptions: {
 					perPage:10,
 					pagination:{chunk:10, dropdown:false, edge:true, nav:'fixed'},
@@ -56,16 +56,18 @@
 						tanggal: 'Tanggal',
 						type: 'Tipe',
 						qty: 'Quantity',
+						satuan: 'Satuan',
 						alasan: 'Alasan',
 						aksi: 'Aksi'
 					},
-					sortable: ['no', 'nama_barang'],
-					filterable: ['no', 'nama_barang', 'qty'],
+					sortable: ['no', 'nama_barang', 'qty', 'satuan'],
+					filterable: ['no', 'nama_barang', 'qty', 'satuan'],
 					columnsClasses: {
 						no:'text-center align-middle',
 						type:'align-middle',
 						nama_barang:'align-middle',
 						qty:'text-center align-middle',
+						satuan:'text-center align-middle',
 						tanggal:'text-center align-middle',
 						alasan:'text-center align-middle',
 						aksi:'text-center align-middle',
