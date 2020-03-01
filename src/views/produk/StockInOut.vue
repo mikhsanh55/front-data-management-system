@@ -23,7 +23,7 @@
 								<router-link :to="'/stock-in-out/edit/' + props.row.id" class="btn btn-primary btn-sm mr-2">
 									Edit
 								</router-link>
-								<button class="btn btn-secondary btn-sm" @click="deleteStockInOut(props.row.id)">
+								<button class="btn btn-danger btn-sm" @click="deleteStockInOut(props.row.id)">
 									Hapus
 								</button>
 							</div>

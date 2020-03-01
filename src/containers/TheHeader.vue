@@ -44,7 +44,8 @@
       
       <CHeaderNavItem class="d-md-down-none mx-2" v-if="data.level == 7">
         <CHeaderNavLink to="/notification">
-          <CIcon name="cil-bell"/>
+          <span v-if="jumlahNotif > 0" class="badge badge-primary rounded-circle">{{jumlahNotif}}</span>
+          <CIcon name="cil-bell" />
         </CHeaderNavLink>
       </CHeaderNavItem>
       <TheHeaderDropdownAccnt/>
@@ -72,12 +73,23 @@ export default {
   name: 'TheHeader',
   data() {
     return {
-      data: JSON.parse(localStorage.user)
+      data: JSON.parse(localStorage.user),
+      jumlahNotif: 0
     }
   },
   components: {
     TheHeaderDropdownAccnt
   },
+  created () {
+    checkPO(this)
+    .then(notif => {
+      this.jumlahNotif = notif.length
+    })
+    .catch(e => {
+      if(e.response)
+        console.error(e.response)
+    })
+  }
 }
 </script>
 <style type="text/css" scoped>

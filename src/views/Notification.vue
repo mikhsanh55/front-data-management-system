@@ -21,7 +21,7 @@
 										<b class="mt-3">
 											
 											<!-- <span @click.prevent="processNotif(i, d.data.data.id)" style="color:#e74c3c;" >Lihat</span> -->
-											<router-link :to="d.link">Lihat</router-link>
+											<span @click="processNotif(d.data.no, d.link)" class="text-primary link-notif" :data-link="d.link">Lihat</span>
 										</b>
 
 										</a>
@@ -52,10 +52,28 @@
 			}
 		},
 		methods: {
-			processNotif(i, dest) {
-				this.datas.splice(i, 1)
-				localStorage.setItem('notif', JSON.stringify(this.datas))
-				setTimeout(() => this.$router.push('/po/detail/' + dest), 2000)
+			processNotif(nopo, dateline, link) {
+				// this.datas.splice(i, 1)
+				// localStorage.setItem('notif', JSON.stringify(this.datas))
+				// setTimeout(() => this.$router.push('/po/detail/' + dest), 2000)
+				this.$http.post(localStorage.base_uri + 'notif/notif.php', {nopo, dateline}, {
+					headers: {
+						'Access-Control-Allow-Origin': '*'
+					}
+				})
+				.then(res => {
+					if(res.status == true) {
+						return true
+					}
+					else {
+						return false
+					}
+				})
+				.catch(e => {
+					if(e.response)
+						console.error(e.response)
+					return false
+				})
 			}
 		},
 		created() {
@@ -66,6 +84,13 @@
 					date_line = item.data.date_line.split('-')
 					item.date = `${real_date[2]} - ${real_date[1]} - ${real_date[0]}` 
 					item.data.date_line = `${date_line[2]} - ${date_line[1]} - ${date_line[0]}`
+					// if(this.processNotif(item.data.no, item.data.date_line,  item.link) == true) {
+					// 	item.recentViewed = true
+					// }
+					// else {
+					// 	item.recentViewed = false
+					// }
+					
 				})
 		}
 	}

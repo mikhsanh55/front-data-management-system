@@ -417,8 +417,8 @@
             obj.value = data[i].id
             obj.label = data[i].nama
             self.konsumen.push(obj)
-            self.getData()
           }
+          self.getData()
         })
       }
     },
