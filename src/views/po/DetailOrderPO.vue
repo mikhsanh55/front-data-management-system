@@ -58,11 +58,11 @@
 			}
 			getDatas(this, localStorage.base_api + 'order/barang/po/' + this.$route.params.id, {method:'post', headers:{'Authorization': 'bearer ' + localStorage.token}}, 'post')
 			.then(res => {
-				getDatas(this, localStorage.base_api + 'barang/' + res.id_barang, {method: 'post', headers: {'Authorization' : 'bearer ' + localStorage.token}}, 'post')
-				.then(res => {
+				// getDatas(this, localStorage.base_api + 'barang/' + res.id_barang, {method: 'post', headers: {'Authorization' : 'bearer ' + localStorage.token}}, 'post')
+				// .then(res => {
 					this.order_barang = res
-				})
-				.catch(e => console.error(e))
+				// })
+				// .catch(e => console.error(e))
 			})
 			.catch(e => console.error(e))
 		}

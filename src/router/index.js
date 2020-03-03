@@ -293,7 +293,7 @@ function configRoutes () {
         },
         {
           path: 'po',
-          name: 'PO',
+          name: 'Purchase Order',
           component: PO
         },
         {

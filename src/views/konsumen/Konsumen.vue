@@ -200,6 +200,7 @@
 	}	
 	#konsumen_table .form-inline input[type=text] {
 		width: 130%;
+		margin-bottom: 10px;
 	}
 	#konsumen_table .form-inline {
 		margin:0;

@@ -78,7 +78,7 @@
 				modal:false,
 				data:JSON.parse(localStorage.user),
 				date:{from:null, to:null},
-				tableFields: ['no', 'date', 'nama_barang', 'qty', 'keterangan', 'status', 'aksi'],
+				tableFields: ['no', 'date', 'nama_barang', 'qty', 'satuan', 'keterangan', 'status', 'aksi'],
 				tableOptions: {
 					perPage:10,
 					pagination:{chunk:10, dropdown:false, edge:true, nav:'fixed'},
@@ -87,15 +87,17 @@
 						date:'Tanggal',
 						nama_barang: 'Nama Barang',
 						qty: 'Kuantitas',
+						satuan: 'Satuan',
 						keterangan: 'Keterangan',
 						status: 'Status',
 						aksi: 'Aksi'
 					},
-					sortable: ['no', 'nama_barang', 'jumlah'],
-					filterable: ['no', 'nama_barang', 'qty', 'keterangan', 'status'],
+					sortable: ['no', 'nama_barang', 'jumlah', 'satuan'],
+					filterable: ['no', 'nama_barang', 'qty', 'keterangan', 'status', 'satuan'],
 					columnsClasses: {
 						no: 'text-center align-middle',
 						qty: 'text-center align-middle',
+						satuan: 'text-center align-middle',
 						date: 'text-center align-middle',
 						nama_barang: 'align-middle',
 						keterangan: 'align-middle',

@@ -94,7 +94,7 @@
 						>
 							<div slot="foto" slot-scope="props">
 								<div class="mx-auto d-flex justify-content-center">
-									<img :src="'https://api.sabalkes.com/' + props.row.foto" style="border-radius:50%;" />
+									<img :src="'https://api.sabalkes.com/' + props.row.foto" style="border-radius:50%;" width="50" height="50" />
 								</div>
 							</div>
 						</v-client-table>
@@ -277,9 +277,9 @@
 						this.po.sales_tax_rate = 0
 						this.po.grand_total = 0
 						this.info_po.forEach((item, i) => {
-							getDatas(this,localStorage.base_api + 'barang/' + item.id_barang, { method:'POST', headers:{'Authorization': 'bearer ' + localStorage.token}}, 'POST')
-							.then(res => {
-								let total = item.qty * res.harga_jual, 
+							// getDatas(this,localStorage.base_api + 'barang/' + item.id_barang, { method:'POST', headers:{'Authorization': 'bearer ' + localStorage.token}}, 'POST')
+							// .then(res => {
+								let total = item.qty * item.harga_jual, 
 								disc = item.disc,
 								tax = item.tax
 								arr.push({
@@ -287,15 +287,15 @@
 									total:total,
 									disc: disc,
 									tax: tax,
-									foto:localStorage.base_uri + res.foto,
-									kode_barang:res.kode_barang,
-									nama_barang: res.nama_barang,
-									spesifikasi: res.spesifikasi,
+									foto:item.foto,
+									kode_barang:item.kode_barang,
+									nama_barang: item.nama_barang,
+									spesifikasi: item.spesifikasi,
 								})
 								this.po.sub_total += parseInt(total) 
-								this.po.disc += parseInt(res.harga_jual * item.qty * (disc/100))
-								this.po.tax_rate += parseInt(res.harga_jual * item.qty * (tax/100))
-							})
+								this.po.disc += parseInt(item.harga_jual * item.qty * (disc/100))
+								this.po.tax_rate += parseInt(item.harga_jual * item.qty * (tax/100))
+							// })
 
 						})
 

@@ -390,31 +390,22 @@
 		    	getDatas(this, localStorage.base_api + 'order/barang/po/detail/' + this.$route.params.id, {method:'post',headers: {'Authorization': 'bearer ' + localStorage.token}}, 'post')
 				.then(res => {
 					res.forEach((item, i) => {
-						getDatas(this, localStorage.base_api + 'barang/' + item.id_barang, {method:'post', headers:{'Authorization': 'bearer ' + localStorage.token}}, 'post')
-						.then(res => {
 							let obj = {
 								id:item.id,
 								no:++i,
 								qty: item.qty,
 								tax: item.tax,
 								disc: item.disc,
-								kode_barang:res.kode_barang,
-								nama_barang:res.nama_barang,
-								spesifikasi_barang:res.spesifikasi,
-								harga_jual: res.harga_jual,
-								total: (res.harga_jual * item.qty)
+								kode_barang:item.kode_barang,
+								nama_barang:item.nama_barang,
+								spesifikasi_barang:item.spesifikasi,
+								harga_jual: item.harga_jual,
+								total: (item.harga_jual * item.qty)
 							}	
 							this.order_barang.push(obj)
-							this.rpo.sub_total += parseInt(res.harga_jual * item.qty)
-							this.rpo.disc += parseInt(res.harga_jual * item.qty * (item.disc/100))
-							this.rpo.tax_rate += parseInt(res.harga_jual * item.qty * (item.tax/100))
-						})
-						.catch(e => {
-							console.error(e)
-							this.$swal('Tidak bisa mengambil data barang', 'Mohon hubungi pengembangnya', 'error')
-							setTimeout(() => this.$swal.close(),1500)
-							return false
-						})
+							this.rpo.sub_total += parseInt(item.harga_jual * item.qty)
+							this.rpo.disc += parseInt(item.harga_jual * item.qty * (item.disc/100))
+							this.rpo.tax_rate += parseInt(item.harga_jual * item.qty * (item.tax/100))
 					})
 				})
 				.catch(e => {

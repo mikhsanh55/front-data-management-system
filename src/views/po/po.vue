@@ -100,7 +100,7 @@
 <script type="text/javascript">
 	import {exportExcel, exportPDF, getDatas, deleteData} from '@/containers/global-function.js'
 	export default {
-		name: 'PO',
+		name: 'Purchase Order',
 		data() {
 			return {
 				exportLabel: 'Mulai Export',
