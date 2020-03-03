@@ -230,10 +230,7 @@
 					})
 					.catch(e => {
 						this.label = 'Simpan Perubahan'
-						
-						console.log(e)
 						for(let item in e.response.data.errmsg) {
-							console.log(e.response.data.errmsg[item][0])
 							this.$swal(e.response.data.errmsg[item][0], 'hubungi pengembangnya yah', 'error')
 		                    setTimeout(() => {
 		                    	this.$swal.close()

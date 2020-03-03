@@ -41,7 +41,7 @@
                 <br>
                 <CRow>
                   <CCol col="12">
-                    <CButton color="primary" class="px-4 w-100 mt-3" @click.prevent="login" type="submit" @keyup.enter="login">
+                    <CButton color="primary" :disabled="loginAct === true" class="px-4 w-100 mt-3" @click.prevent="login" type="submit" @keyup.enter="login">
                       <span>Masuk</span>
                         <spring-spinner
                           :class="{'d-none':notloading, 'd-inline-block':displayloading}"
@@ -75,6 +75,7 @@ export default {
       notloading:true, // for spinner toggle ( toggle d-none class )
       displayloading:false, // for spinner toggle ( toggle d-inline-block class )
       errorHide:false, // for error label toggle
+      loginAct:false,
       form: {
         email:null,
         password:null
@@ -146,7 +147,7 @@ export default {
         body: formdata,
         redirect: 'follow'
       }
-          
+      this.loginAct = true    
       this.$store.dispatch('login', {email, password})
         .then(res => {
             let headers = new Headers()
@@ -183,6 +184,7 @@ export default {
           this.notloading = true
           this.displayloading = false
           this.form.password = ''
+          this.loginAct = false
           this.$swal('Email / Password salah', 'Coba lagi yah', 'error')
           setTimeout(() => {
             this.$swal.close()

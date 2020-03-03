@@ -163,7 +163,6 @@
 					this.jabatanselected = res.jabatan
 					this.karyawanselected = res.id
 					this.asset = res
-					console.log(this.asset)
 				})
 				.catch(e => {
 					

@@ -19,7 +19,6 @@ let store = new Vuex.Store({
 		auth_success(state, data) {
 			state.status = 'success'
 			state.user = data
-			console.log(data)
 			if(localStorage.level == 1 || localStorage.level == 2) {
 
 				state.menu = [
@@ -282,7 +281,7 @@ let store = new Vuex.Store({
 				]
 				localStorage.setItem('menu', JSON.stringify(state.menu))	
 			}
-			else if(localStorage.level == 3) {
+			else if(localStorage.level == 3) { // Admin Umum
 				state.menu = [
 
 			        {
@@ -290,18 +289,6 @@ let store = new Vuex.Store({
 				          name: 'Purchase Order',
 				          to: '/po',
 				          icon: 'cil-dollar'
-			        },
-			        {
-				          _name: 'CSidebarNavItem',
-				          name: 'Karyawan',
-				          to: '/karyawan',
-				          icon: 'cil-drop'
-			        },
-			        {
-				          _name: 'CSidebarNavItem',
-				          name: 'Asset',
-				          to: '/asset',
-				          icon: 'cil-library'
 			        },
 			        {
 			        	  _name: 'CSidebarNavItem',
@@ -426,7 +413,6 @@ let store = new Vuex.Store({
 			            })
 			            .then(res => {
 			            	if(res.status == 200) {
-			            		console.log(res)
 			            		return res.json()
 			            	}
 			            	else {

@@ -165,7 +165,6 @@
 			}
 			getDatas(this, localStorage.base_api + 'po', {headers:{'Authorization': 'bearer ' + localStorage.token}}, 'get')
 			.then(res => {
-				console.log(res)
 				this.po = res
 				this.po.forEach((item, i) => {
 					let obj = {}

@@ -76,7 +76,6 @@
 					redirect:'follow'
 				})
 				.then(res => {
-					console.log(res)
 						this.assets = res
 						for(let i = 0;i < this.assets.length;i++) {
 							this.assets[i].no = i+1

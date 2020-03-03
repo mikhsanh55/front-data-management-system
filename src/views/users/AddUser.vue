@@ -157,13 +157,11 @@
 						})
 						.then(res => res.json())
 						.then(res => {
-							console.warn(res)
 							this.user.level = res.id_jabatan
 						})
 					}
 
 				})
-				console.log(val)
 			},
 			assignJabatan(val) {
 				this.user.level = val
@@ -233,7 +231,6 @@
 						else {
 							this.label = 'Tambah User'
 							for(let item in e.response.data.errmsg) {
-								console.log(e.response.data.errmsg[item][0])
 								this.$swal(e.response.data.errmsg[item][0], 'hubungi pengembangnya yah', 'error')
 			                    setTimeout(() => {
 			                    	this.$swal.close()

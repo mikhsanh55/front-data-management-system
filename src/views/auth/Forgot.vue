@@ -29,7 +29,7 @@
                 </CInput>
                 <CRow>
                   <CCol col="12">
-                    <CButton color="primary" class="px-4 w-100 mt-3" @click.prevent="sendEmail" @keyup.enter="sendEmail" type="submit">
+                    <CButton color="primary" class="px-4 w-100 mt-3" :disabled="loginAct === true" @click.prevent="sendEmail" @keyup.enter="sendEmail" type="submit">
                     	<span>{{label}}</span>
                     	<spring-spinner
                           :class="{'d-none':notloading, 'd-inline-block':displayloading}"
@@ -64,7 +64,8 @@
 				notloading:true,
 				displayloading:false,
 				errors:[],
-				label: 'Send my password'
+				label: 'Send my password',
+				sendingEmail: false
 			}
 		},
 		components: {
@@ -91,9 +92,9 @@
 
 				if(this.errors.length == 0) {
 					this.label = 'Loading...'		
+					this.sendingEmail = true
 					this.$http.post(localStorage.base_api + 'auth/lupa/password', {email:this.email})
 					.then(res => {
-						console.log(res)
 							this.label = 'Send my password'
 							this.notloading = true
         					this.displayloading = false
@@ -104,6 +105,7 @@
 							}, 2500)
 					})
 					.catch(e => {
+						this.sendingEmail = false
 						this.label = 'Send my password'
 							this.notloading = true
         					this.displayloading = false

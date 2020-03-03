@@ -78,7 +78,6 @@
 
 				getDatas(this, localStorage.base_api + 'user', options)
 				.then(res => {
-					console.log(res)
 					if(res.errcode == 40001) {
 					  this.$store.dispatch('logout')
 	                  .then(() => {
@@ -99,9 +98,9 @@
 					}
 					else {
 						this.user = res
-						for(let i = 0;i <= this.user.length;i++) {
-							this.user[i].no = i+1
-						}
+						this.user.forEach((item, i) => {
+							item.no = i+1
+						})
 					}
 						
 				})

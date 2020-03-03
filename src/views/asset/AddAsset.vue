@@ -174,7 +174,6 @@
 					})
 					.then(res => {
 						this.label = 'Tambah Asset'
-						console.warn(res)
 						this.$swal('Tambah data asset berhasil', 'Mohon tunggu sebentar...', 'success')
 						setTimeout(() => {
 							this.$swal.close()

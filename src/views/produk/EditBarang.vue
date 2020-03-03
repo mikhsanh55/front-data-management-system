@@ -326,36 +326,8 @@
 					this.getData()
 				})
 				.catch(e => {
-					// if(e.response.status == 401) {
-	    //               this.$store.dispatch('logout')
-	    //               .then(() => {
-	    //                 let path = window.location.href
-	    //                 path = path.split('/')
-	    //                 localStorage.setItem('prevPath', path[path.length - 1])
-	    //                 this.$swal('Sesi login kamu udah habis', 'login lagi yah', 'warning')
-	    //                 setTimeout(() => {
-	    //                 	this.$swal.close()
-	    //                 	this.$router.replace({path: '/login'})
-	    //                 }, 1500)
-	    //                 return false
-	                    
-	    //               })
-	    //               .catch(e => {
-	    //                 this.$swal('Tidak bisa ambil data', 'hubungi pengembangnya...', 'danger')
-	    //                 setTimeout(() => {
-	    //                 	this.$swal.close()
-	    //                 }, 1500)
-	    //                 return false
-	    //               })
-	    //             }
-	    //             else if (e.response.status === 500) {
-					// 	this.$swal('Tidak bisa ambil data', 'hubungi pengembangnya...', 'danger')
-	    //                 setTimeout(() => {
-	    //                 	this.$swal.close()
-	    //                 }, 1500)
-	    //                 return false
-					// }
 					console.error('error ' + e)
+					return false
 				})
 	         }
 		},
@@ -364,7 +336,6 @@
 				this.$router.push('/')
 			}
 			this.getVendor()
-			this.getData()
 		}
 	}
 </script>

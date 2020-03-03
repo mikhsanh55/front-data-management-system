@@ -61,7 +61,7 @@
 				getDatas(this, localStorage.base_api + 'user/' + this.$route.params.id, options)
 				.then(res => {
 					this.user = res
-					this.user.foto = localStorage.base_api + res
+					this.user.foto = localStorage.base_uri + res.foto
 				})
 				.catch(e => {
 					if(e.response.status == 401) {
