@@ -15,7 +15,16 @@
             </CCardHeader>
             <CCardBody>
               <CForm @submit.prevent="login">
-                
+                <CDataList 
+                label="Karyawan"
+                placeholder="Pilih Karyawans"
+                idList="karyawan"
+                labelClasses="text-danger"
+                listClasses="form-control"
+                :options="karyawan"
+                @update:value="assignK"
+                />   
+
                 <transition name="fade">  
                   <div v-if="errors.length > 0" :class="{'d-none':errorHide}">
                     <small v-for="error in errors" class="alert alert-danger d-block">
@@ -49,7 +58,7 @@
                           :size="10"
                           color="#fff"
                           class="align-middle pl-2"
-                        />
+                        /> 
                        </CButton>
                   </CCol>
                   <CCol col="12" class="d-flex justify-content-center mt-3 w-75">
@@ -67,7 +76,7 @@
 <script>
 // Import spinner component from third-party  
 import { SpringSpinner } from 'epic-spinners'
-
+import CDataList from '@/components/CDataList.vue'
 export default {
   name: 'Login',
   data() {
@@ -80,14 +89,18 @@ export default {
         email:null,
         password:null
       },
-      errors: [] // all errors message store here
+      errors: [], // all errors message store here
+      karyawan: [{label: 'Ikhsan', value:13}, {label:'Hamidan', value:14}]
     }
   },
   components: {
-    SpringSpinner
+    SpringSpinner,
+    CDataList
   },
   methods: {
-    
+    assignK(val) {
+      console.log(val)
+    },
     validate() {
       // Set errors array to 0 length
       this.errors = []
