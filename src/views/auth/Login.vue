@@ -15,16 +15,6 @@
             </CCardHeader>
             <CCardBody>
               <CForm @submit.prevent="login">
-                <CDataList 
-                label="Karyawan"
-                placeholder="Pilih Karyawans"
-                idList="karyawan"
-                labelClasses="text-danger"
-                listClasses="form-control"
-                :options="karyawan"
-                @update:value="assignK"
-                />   
-
                 <transition name="fade">  
                   <div v-if="errors.length > 0" :class="{'d-none':errorHide}">
                     <small v-for="error in errors" class="alert alert-danger d-block">

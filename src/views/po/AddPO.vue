@@ -373,7 +373,7 @@
 		          for(let i = 0;i < data.length;i++) {
 		            let obj = {}
 		            obj.value = data[i].id
-		            obj.label = data[i].nama
+		            obj.label = data[i].nama + ' - ' + this.extractString(data[i].alamat)
 		            self.konsumen.push(obj)
 		          }
 		        })

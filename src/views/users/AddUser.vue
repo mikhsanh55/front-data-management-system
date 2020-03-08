@@ -11,8 +11,16 @@
 							  <p v-show="validMsg == true" class="alert alert-success">
 		                        <small>Penambahan User berhasil!</small>
 		                      </p>    
-
-		                    <CSelect
+		                      <CDataList 
+				                label="Karyawan"
+				                placeholder="Pilih Karyawan"
+				                idList="karyawan"
+				                labelClasses="text-dark"
+				                listClasses="form-control"
+				                :options="karyawan"
+				                @update:value="assignKaryawan"
+				                />   
+		                    <!-- <CSelect
 		                    	label="Nama Karyawan"
 		                    	horizontal
 		                    	:options="karyawan"
@@ -20,7 +28,7 @@
 		                        autocomplete="nama_karyawan"
 		                        v-model="user.id_karyawan"
 		                        @update:value="assignKaryawan"
-		                      />
+		                      /> -->
 		                    <CInput
 		                        type="email"
 		                        :description="validator.email_msg"
@@ -145,23 +153,40 @@
 				})
 			},
 			assignKaryawan(val) {
-				this.user.id_karyawan = val
-				this.data_karyawan.forEach((item, i) => {
-					if(val == item.id) {
+				this.data_karyawan.forEach(function(item, i) {
+					if(val === item.nama_karyawan) {
 						this.user.email = item.email
-						fetch(localStorage.base_api + 'karyawan/' + val, {
-							method:'POST',
-							headers: {
-								'Authorization': 'bearer ' + localStorage.token
-							}
-						})
-						.then(res => res.json())
-						.then(res => {
-							this.user.level = res.id_jabatan
-						})
+						this.user.id_karyawan = item.id
 					}
-
+						
 				})
+				fetch(localStorage.base_api + 'karyawan/' + this.user.id_karyawan, {
+					method: 'POST',
+					headers: {
+						'Authorization': 'bearer ' + localStorage.token
+					}
+				})
+				.then(res => res.json())
+				.then(res => {
+					this.user.level = res.id_jabatan
+				})
+				// this.user.id_karyawan = val
+				// this.data_karyawan.forEach((item, i) => {
+				// 	if(val == item.id) {
+				// 		this.user.email = item.email
+				// 		fetch(localStorage.base_api + 'karyawan/' + val, {
+				// 			method:'POST',
+				// 			headers: {
+				// 				'Authorization': 'bearer ' + localStorage.token
+				// 			}
+				// 		})
+				// 		.then(res => res.json())
+				// 		.then(res => {
+				// 			this.user.level = res.id_jabatan
+				// 		})
+				// 	}
+
+				// })
 			},
 			assignJabatan(val) {
 				this.user.level = val

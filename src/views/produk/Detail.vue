@@ -22,7 +22,7 @@
 								<th class="w-50">Nama Barang</th>
 								<td>{{product.nama_barang}}</td>
 							</tr>
-							<tr>
+							<tr v-if="data.level == 1 || data.level == 2 || data.level == 5">
 								<th class="w-50">Nama Vendor</th>
 								<td> {{product.nama_vendor}} </td>
 							</tr>

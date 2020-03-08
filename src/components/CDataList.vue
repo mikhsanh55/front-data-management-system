@@ -40,7 +40,7 @@
 				// 	value = option.value
 				const value = e.target.value,
 					options = e.srcElement
-					this.$emit('update:value', e)			
+					this.$emit('update:value', value)			
 			}
 		},
 		created () {
