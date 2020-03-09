@@ -27,6 +27,10 @@
 								<td> {{product.nama_vendor}} </td>
 							</tr>
 							<tr>
+								<th class="w-50">Nama Instansi</th>
+								<td> {{product.nama_instansi}} </td>
+							</tr>
+							<tr>
 								<th class="w-50">Spesifikasi Barang</th>
 								<td>{{product.spesifikasi}}</td>
 							</tr>			
@@ -89,6 +93,10 @@
 				getDatas(this, localStorage.base_api + 'barang/' + this.$route.params.id, options)
 				.then(res => {
 					this.product = res
+					getDatas(this, localStorage.base_api + 'vendor/' + this.product.id_vendor, options)
+					.then(res => {
+						this.product.nama_instansi = res.nama_instansi
+					})
 				})
 				.catch(e => {
 					alert('Cannot get data!')

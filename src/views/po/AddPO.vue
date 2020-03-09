@@ -195,6 +195,22 @@
 			}
 		},
 		methods: {
+			extractString(val, num = 3) {
+			  let arr = val.split(" "),
+			      res = ''
+			  if(num < 3) {
+			    num = 3
+			    for(let i = 0;i < num;i++) {
+			      res += ' ' + arr[i]
+			    }
+			  }
+			  else {
+			    for(let i = 0;i < num;i++) {
+			      res += ' ' + arr[i]
+			    }
+			  }
+			  return res
+			},
 			assignKurir(val) {
 				this.po.id_kurir = val
 			},
@@ -302,7 +318,7 @@
 		                    
 		                  })
 		                  .catch(e => {
-		                    this.$swal('Tidak bisa ambil data', 'hubungi pengembangnya...', 'danger')
+		                    this.$swal('Tidak bisa ambil data', 'hubungi pengembangnya...', 'error')
 		                    setTimeout(() => {
 		                    	this.$swal.close()
 		                    }, 1500)
@@ -310,7 +326,7 @@
 		                  })
 		                }
 		                else if(e.response.status == 500) {
-							this.$swal('Tidak bisa ambil data', 'hubungi pengembangnya...', 'danger')
+							this.$swal('Tidak bisa ambil data', 'hubungi pengembangnya...', 'error')
 		                    setTimeout(() => {
 		                    	this.$swal.close()
 		                    }, 1500)
@@ -340,11 +356,11 @@
 		            fallback(response.data)
 		          })
 		          .catch(e => {
-		            this.$swal('Tidak bisa ambil data', 'hubungi pengembangnya...', 'danger')
+		            this.$swal('Tidak bisa ambil data', 'hubungi pengembangnya...', 'error')
 	                    setTimeout(() => {
 	                    	this.$swal.close()
 	                    }, 1500)
-		            console.log(e)
+		            console.error(e)
 		            return false
 		          })
 		      },
@@ -373,7 +389,7 @@
 		          for(let i = 0;i < data.length;i++) {
 		            let obj = {}
 		            obj.value = data[i].id
-		            obj.label = data[i].nama + ' - ' + this.extractString(data[i].alamat)
+		            obj.label = data[i].nama + ' - ' + self.extractString(data[i].alamat)
 		            self.konsumen.push(obj)
 		          }
 		        })

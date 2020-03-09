@@ -226,6 +226,22 @@
       }
     },
     methods: {
+      extractString(val, num = 3) {
+        let arr = val.split(" "),
+            res = ''
+        if(num < 3) {
+          num = 3
+          for(let i = 0;i < num;i++) {
+            res += ' ' + arr[i]
+          }
+        }
+        else {
+          for(let i = 0;i < num;i++) {
+            res += ' ' + arr[i]
+          }
+        }
+        return res
+      },
       assignKurir(val) {
         this.po.id_kurir = val
       },
@@ -250,7 +266,7 @@
           })
           .catch(e => {
             alert('Ada sedikit error!')
-            console.log(e)
+            console.error(e)
             return false
           })
       },
@@ -268,7 +284,7 @@
             this.po.tgl_po_masuk = response.tgl_po_masuk.split('T')[0]
 
             if(response.status_code == 500) {
-              this.$swal('Tidak bisa ambil data', 'hubungi pengembangnya...', 'danger')
+              this.$swal('Tidak bisa ambil data', 'hubungi pengembangnya...', 'error')
               setTimeout(() => {
                 this.$swal.close()
               }, 1500)
@@ -299,7 +315,7 @@
           //   console.log(e)
           //   return false
           // }
-            this.$swal('Tidak bisa ambil data', 'hubungi pengembangnya...', 'danger')
+            this.$swal('Tidak bisa ambil data', 'hubungi pengembangnya...', 'error')
             setTimeout(() => {
               this.$swal.close()
             }, 1500)
@@ -365,7 +381,7 @@
                        
               })
               .catch(e => {
-                this.$swal('Tidak bisa update data', 'hubungi pengembangnya...', 'danger')
+                this.$swal('Tidak bisa update data', 'hubungi pengembangnya...', 'error')
                 setTimeout(() => {
                   this.$swal.close()
                 }, 1500)
@@ -373,7 +389,7 @@
               })
             }
             else {
-              this.$swal('Tidak bisa update data', 'hubungi pengembangnya...', 'danger')
+              this.$swal('Tidak bisa update data', 'hubungi pengembangnya...', 'error')
                 setTimeout(() => {
                   this.$swal.close()
                 }, 1500)
@@ -415,7 +431,7 @@
           for(let i = 0;i < data.length;i++) {
             let obj = {}
             obj.value = data[i].id
-            obj.label = data[i].nama
+            obj.label = data[i].nama + ' - ' + self.extractString(data[i].alamat)
             self.konsumen.push(obj)
           }
           self.getData()
