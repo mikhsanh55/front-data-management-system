@@ -7,7 +7,7 @@
 			<CCardBody>
 				<CForm class="mt-4">
 					<CRow class="mx-auto d-flex justify-content-center">
-						<CCol sm="8">
+						<CCol md="8" sm="12">
 							<CSelect
 				                label="Pilih Vendor"
 				                horizontal
@@ -115,6 +115,11 @@
 		                    </div>    
 
 						</CCol>
+						<CCol md="2" sm="12">
+	        				<div>
+	        					<button class="btn btn-success" @click.prevent="openVendorModal = true"><i class="fa fa-search mr-1"></i>Cari Vendor</button>
+	        				</div>
+	        			</CCol>
 					</CRow>
 				</CForm>
 			</CCardBody>
@@ -124,6 +129,38 @@
 				</CButton>
 			</CCardFooter>
 		</CCard>
+		<CModal
+	      :show.sync="openVendorModal"
+	      :no-close-on-backdrop="true"
+	      title="Cari vendor"
+	      size="lg"
+	      color="dark"
+	    >	
+	      <CInput
+		    type="text"
+            description="Ketik minimal 3 huruf untuk melihat hasil"
+            label="Cari vendor"
+            horizontal
+            placeholder="Masukan disc"
+            v-model="vendorKeyword"
+            class="m-4"
+	       />	
+	       <v-client-table
+			:data="searchVendor"
+			:columns="searchVendorFields"
+			:options="searchVendorOptions"
+			id="search-vendor-table"
+			 class="m-4"
+			>
+				<div slot="aksi" slot-scope="props">
+					<button class="btn btn-primary" @click="assignVendor(props.row.id)">Pilih</button>
+				</div>
+			</v-client-table>
+	      <template #header>
+	        <h6 class="modal-title">Cari Vendor</h6>
+	        <CButtonClose @click="openVendorModal = false" class="text-white"/>
+	      </template>
+	    </CModal>
 	</div>
 </template>
 <script type="text/javascript">
@@ -132,7 +169,28 @@
 		name:'AddBarang',
 		data() {
 			return {
-				
+				openVendorModal:false,
+				vendorKeyword:null,
+				searchVendor:[], //store array search vendor in modal
+				searchVendorFields: ['nama', 'email', 'wa_hp', 'nama_instansi', 'aksi'],
+				searchVendorOptions: {
+					headings: {
+						nama: 'Nama',
+						email: 'Email',
+						wa_hp: 'Whatsapp',
+						nama_instansi: 'Perusahaan',
+						aksi: 'Aksi'
+					},
+					sortable: ['nama', 'email', 'wa_hp', 'nama_instansi'],
+					filterable: ['nama', 'email', 'wa_hp', 'nama_instansi'],
+					columnsClasses: {
+						nama: 'align-middle',
+						email: 'align-middle',
+						wa_hp: 'align-middle text-center',
+						nama_instansi: 'align-middle',
+					}
+				},
+				vendorDetail: [],
 				vendor: [],
 				validator: {
 					kode_barang:null,
@@ -158,6 +216,19 @@
 				},
 				errors: [],
 				label: 'Simpan Perubahan'
+			}
+		},
+		watch: {
+			vendorKeyword: function(val) {
+				if(val.length >= 3) {
+					let s = this.vendorDetail.filter(item => item.nama.toLowerCase().indexOf(val) > -1)
+					if(s.length > 0) {
+						this.searchVendor = s
+					}
+					else {
+						this.searchVendor = []
+					}
+				}
 			}
 		},
 		methods: {
@@ -198,6 +269,8 @@
 		         }
 		     },
 	         assignVendor(val) {
+	         	if(this.openVendorModal == true)
+	         		this.openVendorModal = false
 	         	this.barang.id_vendor = val
 	         },
 	         updateBarang() {
@@ -315,6 +388,7 @@
 					}
 				})
 				.then(res => {
+					this.vendorDetail = res.data
 					for(let i = 0;i < res.data.length;i++) {
 						let obj = {}
 						obj.value = res.data[i].id

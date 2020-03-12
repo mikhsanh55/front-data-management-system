@@ -18,7 +18,7 @@
 						</CCol>
 					</CRow>
 					<CRow class="mx-auto d-flex justify-content-center">
-						<CCol sm="6" class="mt-4">
+						<CCol sm="12" md="6" class="mt-4">
 							<table class="table table-bordered mt-4">
 								<tr>
 									<th width="50%">No Karyawan</th>

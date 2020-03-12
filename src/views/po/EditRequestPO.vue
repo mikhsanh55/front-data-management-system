@@ -7,7 +7,7 @@
 			<CCardBody>
 				<CForm class="mt-4">
 					<CRow class="mx-auto d-flex justify-content-center">
-						<CCol sm="8">
+						<CCol sm="12" md="8">
 							<CSelect
 								label="Barang"
 								horizontal
@@ -48,6 +48,11 @@
 							/>
 
 						</CCol>
+						<CCol md="2" sm="12">
+            				<div>
+            					<button class="btn btn-success" @click.prevent="openBarangModal = true"><i class="fa fa-search mr-1"></i>Cari Barang</button>
+            				</div>
+            			</CCol>
 					</CRow>
 				</CForm>
 			</CCardBody>
@@ -58,6 +63,38 @@
 				</CButton>
 			</CCardFooter>
 		</CCard>
+		<CModal
+	      :show.sync="openBarangModal"
+	      :no-close-on-backdrop="true"
+	      title="Cari Barang"
+	      size="lg"
+	      color="dark"
+	    >	
+	      <CInput
+		    type="text"
+            description="Ketik minimal 3 huruf untuk melihat hasil"
+            label="Cari Barang"
+            horizontal
+            placeholder="Masukan disc"
+            v-model="barangKeyword"
+            class="m-4"
+	       />	
+	       <v-client-table
+			:data="searchBarang"
+			:columns="searchBarangFields"
+			:options="searchBarangOptions"
+			id="search-barang-table"
+			 class="m-4"
+			>
+				<div slot="aksi" slot-scope="props">
+					<button class="btn btn-primary" @click="assignBarang(props.row.id)">Pilih</button>
+				</div>
+			</v-client-table>
+	      <template #header>
+	        <h6 class="modal-title">Cari Barang</h6>
+	        <CButtonClose @click="openBarangModal = false" class="text-white"/>
+	      </template>
+	    </CModal>
 	</div>
 </template>
 <script type="text/javascript">
@@ -66,6 +103,29 @@
 		name: 'EditRequestPO',
 		data() {
 			return {
+				barangDetail: [],
+				barangKeyword:null,
+				openBarangModal:false, // For Modal Barang
+				searchBarangFields: ['kode_barang', 'nama_barang', 'stock', 'satuan', 'aksi'],
+				searchBarangOptions: {
+					headings: {
+						kode_barang: 'Kode',
+						nama_barang: 'Nama',
+						stock: 'Stok',
+						satuan: 'Satuan',
+						aksi: 'Aksi'
+					},
+					sortable: ['kode_barang', 'nama_barang', 'stock', 'satuan'],
+					filterable: ['kode_barang', 'nama_barang', 'stock', 'satuan'],
+					columnsClasses: {
+						kode_barang:'align-middle',
+						nama_barang:'align-middle',
+						stock:'text-center align-middle',
+						satuan:'text-center align-middle',
+						aksi:'text-center align-middle',
+					}
+				},
+				searchBarang: [],
 				statusselected:4,
 				barang:[],
 				status:[
@@ -115,6 +175,20 @@
 				
 			}
 		},
+		watch: {
+			barangKeyword: function(val) {
+				if(val.length >= 3)
+					if(val != null || val != '') {
+						let s = this.barangDetail.filter(item => item.nama_barang.toLowerCase().indexOf(val) > -1)
+						if(s.length > 0) {
+							this.searchBarang = s
+						}
+						else {
+							this.searchBarang = []
+						}
+					}
+			}
+		},
 		methods: {
 			getData() {
 				let headers = new Headers()
@@ -143,6 +217,8 @@
 				this.request_po.status = val
 			},
 			assignBarang(val) {
+				if(this.openBarangModal == true)
+	         		this.openBarangModal = false
 				this.request_po.id_barang = val
 			},
 			updateRequestPO() {
@@ -214,6 +290,7 @@
 				}
 			})
 			.then(res => {
+				this.barangDetail = res.data
 				for(let i = 0;i < res.data.length;i++) {
       				let obj = {}
       				obj.value = res.data[i].id

@@ -13,7 +13,7 @@
 					</CCol>
 				</CRow>
 				<CRow class="mx-auto d-flex justify-content-center mt-4">
-					<CCol sm="8">
+					<CCol sm="12" md="8">
 						<table class="table table-bordered">
 							<tr>
 								<th>Nama</th>

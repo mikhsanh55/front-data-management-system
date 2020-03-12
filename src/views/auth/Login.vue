@@ -41,7 +41,7 @@
                 <CRow>
                   <CCol col="12">
                     <CButton color="primary" :disabled="loginAct === true" class="px-4 w-100 mt-3" @click.prevent="login" type="submit" @keyup.enter="login">
-                      <span>Masuk</span>
+                      <span :class="{'d-none':loginAct}">Masuk</span>
                         <spring-spinner
                           :class="{'d-none':notloading, 'd-inline-block':displayloading}"
                           :animation-duration="2000"
@@ -130,7 +130,6 @@ export default {
       // display spinner
       this.notloading = false
       this.displayloading = true
-
       // perform validation
       if(this.validate() == false) {
         return false
@@ -176,6 +175,7 @@ export default {
           setTimeout(() => {
             this.notloading = true
             this.displayloading = false
+            this.loginAct = false
             this.$swal.close()  
             setTimeout(() => {
               this.$router.replace({path: homepath})

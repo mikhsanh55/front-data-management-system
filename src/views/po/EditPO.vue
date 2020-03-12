@@ -11,7 +11,7 @@
               <CCardBody>
                 <CForm class="mt-4">
                   <CRow class="mx-auto d-flex justify-content-center">
-                    <CCol sm="8">
+                    <CCol md="8" sm="12">
                       <p v-show="validMsg == true" class="alert alert-success">
                         <small>Perbaharuan data PO berhasil!</small>
                       </p>    
@@ -226,19 +226,31 @@
       }
     },
     methods: {
+      getStringLength(string) {
+          let arrString = string.split(" ")
+          return arrString.length
+      },
       extractString(val, num = 3) {
         let arr = val.split(" "),
             res = ''
-        if(num < 3) {
-          num = 3
+        if(num < 2) {
           for(let i = 0;i < num;i++) {
             res += ' ' + arr[i]
           }
         }
         else {
-          for(let i = 0;i < num;i++) {
-            res += ' ' + arr[i]
+          if(num <= 3 ) {
+            for(let i = 0;i < num;i++) {
+              res += ' ' + arr[i]
+            }
           }
+          else {
+            num = 3
+            for(let i = 0;i < num;i++) {
+              res += ' ' + arr[i]
+            }
+          }
+          
         }
         return res
       },
@@ -431,7 +443,7 @@
           for(let i = 0;i < data.length;i++) {
             let obj = {}
             obj.value = data[i].id
-            obj.label = data[i].nama + ' - ' + self.extractString(data[i].alamat)
+            obj.label = data[i].nama + ' - ' + self.extractString( data[i].alamat, self.getStringLength(data[i].alamat) )
             self.konsumen.push(obj)
           }
           self.getData()

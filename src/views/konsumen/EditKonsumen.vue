@@ -11,7 +11,7 @@
               <CCardBody>
                 <CForm class="mt-4">
                   <CRow class="mx-auto d-flex justify-content-center">
-                    <CCol sm="8">
+                    <CCol md="8" sm="12">
                       <p v-show="validMsg == true" class="alert alert-success">
                         <small>Perbaharuan data Konsumen berhasil!</small>
                       </p>    

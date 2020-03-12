@@ -6,7 +6,7 @@
 			</CCardHeader>
 			<CCardBody>
 				<CRow class="mx-auto d-flex justify-content-center">
-					<CCol sm="8" class="mt-4">
+					<CCol sm="12" md="8" class="mt-4">
 						<table class="table table-bordered table-striped">
 							<tr>
 								<th class="w-50">Tanggal</th>

@@ -16,7 +16,7 @@
 					</CCol>
 				</CRow>
 				<CRow class="mx-auto d-flex justify-content-center mt-4">
-					<CCol sm="6">
+					<CCol md="6" sm="12">
 						<table class="table table-bordered table-striped">
 							<tr>
 								<th width="50%">Nama</th>

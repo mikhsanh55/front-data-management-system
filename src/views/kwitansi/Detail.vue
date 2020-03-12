@@ -16,7 +16,7 @@
 					</CCol>
 				</CRow>
 				<CRow class="mx-auto d-flex justify-content-center">
-					<CCol sm="8" class="">
+					<CCol sm="12" md="8" class="">
 						<table class="table table-bordered mt-4">
 							<tr>
 								<th class="w-50">Diterima dari</th>

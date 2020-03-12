@@ -131,6 +131,9 @@
 						                v-model="po.catatan"
 						              />
 								</CCol>
+								<CCol sm="12" md="2">
+									<button class="btn btn-success" @click.prevent="openKonsumenModal = true"><i class="fa fa-search mr-1"></i>Cari Konsumen</button>
+								</CCol>
 							</CRow>
 						</CForm>
 					</CCardBody>
@@ -143,6 +146,38 @@
 		        </CCard>
 			</CCol>
 		</CRow>
+		<CModal
+	      :show.sync="openKonsumenModal"
+	      :no-close-on-backdrop="true"
+	      title="Cari Konsumen"
+	      size="lg"
+	      color="dark"
+	    >	
+	      <CInput
+		    type="text"
+            description="Ketik minimal 3 huruf untuk melihat hasil"
+            label="Cari Konsumen"
+            horizontal
+            placeholder="Masukan kata"
+            v-model="konsumenKeyword"
+            class="m-4"
+	       />	
+	       <v-client-table
+			:data="searchKonsumen"
+			:columns="searchKonsumenFields"
+			:options="searchKonsumenOptions"
+			id="search-konsumen-table"
+			 class="m-4"
+			>
+				<div slot="aksi" slot-scope="props">
+					<button class="btn btn-primary" @click="assignKonsumen(props.row.id)">Pilih</button>
+				</div>
+			</v-client-table>
+	      <template #header>
+	        <h6 class="modal-title">Cari Konsumen</h6>
+	        <CButtonClose @click="openKonsumenModal = false" class="text-white"/>
+	      </template>
+	    </CModal>
 	</div>
 </template>
 <script type="text/javascript">
@@ -152,6 +187,29 @@
 		name: 'AddPO',
 		data() {
 			return {
+				konsumenDetail: [],
+				konsumenKeyword:null,
+				openKonsumenModal:false, // For Modal Barang
+				searchKonsumen:[],
+				searchKonsumenFields: ['nama', 'email', 'wa_hp', 'nama_instansi', 'aksi'],
+				searchKonsumenOptions: {
+					headings: {
+						nama: 'Nama',
+						email: 'Email',
+						wa_hp: 'Whatsapp',
+						nama_instansi: 'Perusahaan',
+						aksi: 'Aksi'
+					},
+					sortable: ['nama', 'email', 'wa_hp', 'nama_instansi'],
+					filterable: ['nama', 'email', 'wa_hp', 'nama_instansi'],
+					columnsClasses: {
+						nama: 'align-middle',
+						email: 'align-middle',
+						wa_hp: 'align-middle text-center',
+						nama_instansi: 'align-middle',
+						aksi: 'align-middle text-center',
+					}
+				},
 				notif:undefined,
 				validMsg:false,
 				errors: [],
@@ -194,23 +252,49 @@
 				}
 			}
 		},
+		watch: {
+			konsumenKeyword: function(val) {
+				if(val.length >= 3)
+					if(val != null || val != '') {
+						let s = this.konsumenDetail.filter(item => item.nama.toLowerCase().indexOf(val) > -1)
+						if(s.length > 0) {
+							this.searchKonsumen = s
+						}
+						else {
+							this.searchKonsumen = []
+						}
+					}
+			}
+		},
 		methods: {
-			extractString(val, num = 3) {
-			  let arr = val.split(" "),
-			      res = ''
-			  if(num < 3) {
-			    num = 3
-			    for(let i = 0;i < num;i++) {
-			      res += ' ' + arr[i]
-			    }
-			  }
-			  else {
-			    for(let i = 0;i < num;i++) {
-			      res += ' ' + arr[i]
-			    }
-			  }
-			  return res
-			},
+			getStringLength(str) {
+		          let arrString = str.split(" ")
+		          return arrString.length
+		    },
+		    extractString(val, num = 3) {
+		        let arr = val.split(" "),
+		            res = ''
+		        if(num < 2) {
+		          for(let i = 0;i < num;i++) {
+		            res += ' ' + arr[i]
+		          }
+		        }
+		        else {
+		          if(num <= 3 ) {
+		            for(let i = 0;i < num;i++) {
+		              res += ' ' + arr[i]
+		            }
+		          }
+		          else {
+		            num = 3
+		            for(let i = 0;i < num;i++) {
+		              res += ' ' + arr[i]
+		            }
+		          }
+		          
+		        }
+		        return res
+		      },
 			assignKurir(val) {
 				this.po.id_kurir = val
 			},
@@ -218,6 +302,8 @@
 				this.po.status = val
 			},
 			assignKonsumen(val) {
+				if(this.openKonsumenModal == true)
+					this.openKonsumenModal = false
 				this.po.id_konsumen = val
 			},
 			assignSales(val) {
@@ -386,10 +472,11 @@
 		        })
 		        this.getRequest(localStorage.base_api + 'konsumen', function(data){
 		        	self.konsumen.push({value: '000', label:'Pilih Konsumen'})
+		        	self.konsumenDetail = data
 		          for(let i = 0;i < data.length;i++) {
 		            let obj = {}
 		            obj.value = data[i].id
-		            obj.label = data[i].nama + ' - ' + self.extractString(data[i].alamat)
+		            obj.label = data[i].nama + ' - ' + self.extractString( data[i].alamat, self.getStringLength(data[i].alamat) )
 		            self.konsumen.push(obj)
 		          }
 		        })
@@ -404,3 +491,8 @@
 	}
 
 </script>
+<style type="text/css">
+	#search-konsumen-table label {
+		display: none;
+	}
+</style>

@@ -6,7 +6,7 @@
 			</CCardHeader>
 			<CCardBody>
 				<CRow class="mx-auto d-flex justify-content-center">
-					<CCol sm="8" class="mt-4">
+					<CCol md="8" sm="12" class="mt-4">
 						<table class="table table-bordered table-striped">
 							<tr>
 								<th class="w-50">Nama Sales</th>
@@ -76,7 +76,7 @@
 					</CCol>
 				</CRow>
 				<CRow>
-					<CCol sm="10" class="d-flex justify-content-end mt-4 mb-4">
+					<CCol md="10" sm="12" class="d-flex justify-content-end mt-4 mb-4">
 						<button class="btn btn-primary" @click="updateStatus"><i class="fa fa-edit mr-2"></i> {{label}} </button>
 					</CCol>
 					

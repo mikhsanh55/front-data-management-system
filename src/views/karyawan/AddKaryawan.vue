@@ -8,7 +8,7 @@
 			<CCardBody>
 				<CForm class="mt-4">
 					<CRow class="mx-auto d-flex justify-content-center">
-						<CCol sm="8">
+						<CCol sm="12" md="8">
 							  <p v-show="validMsg == true" class="alert alert-success">
 		                        <small>Penambahan Karyawan berhasil!</small>
 		                      </p>    

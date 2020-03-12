@@ -12,7 +12,7 @@
 				</CRow>
 				<br>
 				<CRow class="mx-auto d-flex justify-content-center">
-					<CCol sm="8" class="mt-4">
+					<CCol md="8" sm="12" class="mt-4">
 						<table class="table table-bordered table-striped">
 							<tr>
 								<th class="w-50">Kode Barang</th>
@@ -74,7 +74,19 @@
 		data() {
 			return {
 				data:'',
-				product:[],
+				product:{
+					kode_barang:null,
+					nama_barang:null,
+					nama_vendor:null,
+					nama_instansi:null,
+					spesifikasi:null,
+					harga_jual:null,
+					harga_dasar:null,
+					satuan:null,
+					keterangan:null,
+					exp:null,
+					stock:null
+				},
 				base_uri:localStorage.base_uri	
 			}
 		},
@@ -92,11 +104,14 @@
 				}
 				getDatas(this, localStorage.base_api + 'barang/' + this.$route.params.id, options)
 				.then(res => {
-					this.product = res
-					getDatas(this, localStorage.base_api + 'vendor/' + this.product.id_vendor, options)
-					.then(res => {
-						this.product.nama_instansi = res.nama_instansi
+					
+					
+					getDatas(this, localStorage.base_api + 'vendor/' + res.id_vendor, options)
+					.then(vendor => {
+						res.nama_instansi = vendor.nama_instansi
+						this.product = res
 					})
+					.catch(e => console.error('Nama Instansi ' + e))
 				})
 				.catch(e => {
 					alert('Cannot get data!')

@@ -9,15 +9,16 @@
 					<CCardBody>
 						<CForm class="mt-4">
 							<CRow class="mx-auto d-flex justify-content-center">
-                    			<CCol sm="8">
+                    			<CCol md="8" sm="12">
 				                    <CSelect
 				                    	placeholder="Pilih Barang"
 				                        :label="labelBarang"
 				                        horizontal
-				                        v-model="rpo.nama_barang"
+				                        v-model="rpo.id_barang"
 				                        :options="barang"
 				                        @update:value="assignNamaBarang"
-				                      />    
+				                      /> 
+				                      
 				                    <CTextarea
 			                            label="Spesifikasi Barang"
 			                            :description="validator.spesifikasi_barang_msg"
@@ -79,10 +80,16 @@
 				                        placeholder="Masukan disc"
 				                        v-model="rpo.disc"
 				                      />  
+				                      <div class="d-flex justify-content-end mt-4">
+	                    				<button class="btn btn-primary" @click.prevent="addToTable"><i class="fa fa-plus mr-2"></i>{{label}}</button>
+	                    			</div>
                     			</CCol>
-                    			<CCol sm="8" class="d-flex justify-content-end mt-4">
-                    				<button class="btn btn-primary" @click.prevent="addToTable"><i class="fa fa-plus mr-2"></i>{{label}}</button>
+                    			<CCol md="2" sm="12">
+                    				<div>
+                    					<button class="btn btn-success" @click.prevent="openBarangModal = true"><i class="fa fa-search mr-1"></i>Cari Barang</button>
+                    				</div>
                     			</CCol>
+                    			
                     		</CRow>
 						</CForm>
 						<br>
@@ -139,6 +146,38 @@
 				</CCard>
 			</CCol>
 		</CRow>
+		<CModal
+	      :show.sync="openBarangModal"
+	      :no-close-on-backdrop="true"
+	      title="Cari Barang"
+	      size="lg"
+	      color="dark"
+	    >	
+	      <CInput
+		    type="text"
+            description="Ketik minimal 3 huruf untuk melihat hasil"
+            label="Cari Barang"
+            horizontal
+            placeholder="Masukan disc"
+            v-model="barangKeyword"
+            class="m-4"
+	       />	
+	       <v-client-table
+			:data="searchBarang"
+			:columns="searchBarangFields"
+			:options="searchBarangOptions"
+			id="search-barang-table"
+			 class="m-4"
+			>
+				<div slot="aksi" slot-scope="props">
+					<button class="btn btn-primary" @click="selectBarang(props.row.id, props.row.nama_barang)">Pilih</button>
+				</div>
+			</v-client-table>
+	      <template #header>
+	        <h6 class="modal-title">Cari Barang</h6>
+	        <CButtonClose @click="openBarangModal = false" class="text-white"/>
+	      </template>
+	    </CModal>
 	</div>
 </template>
 <script type="text/javascript">
@@ -147,10 +186,31 @@
 		name:'OrderPO',
 		data() {
 			return {
+				barangKeyword:null,
+				openBarangModal:false, // For Modal Barang
 				labelBarang: 'Pilih Barang',
 				isEmpty:true,
 				label: 'Tambah',
 				errors:[],
+				searchBarangFields: ['kode_barang', 'nama_barang', 'stock', 'satuan', 'aksi'],
+				searchBarangOptions: {
+					headings: {
+						kode_barang: 'Kode',
+						nama_barang: 'Nama',
+						stock: 'Stok',
+						satuan: 'Satuan',
+						aksi: 'Aksi'
+					},
+					sortable: ['kode_barang', 'nama_barang', 'stock', 'satuan'],
+					filterable: ['kode_barang', 'nama_barang', 'stock', 'satuan'],
+					columnsClasses: {
+						kode_barang:'align-middle',
+						nama_barang:'align-middle',
+						stock:'text-center align-middle',
+						satuan:'text-center align-middle',
+						aksi:'text-center align-middle',
+					}
+				},
 				tableFields: ['no', 'kode_barang', 'nama_barang', 'spesifikasi_barang', 'harga_jual', 'qty', 'tax', 'disc', 'total', 'aksi'],
 				tableOptions:{
 					perPage:10,
@@ -183,6 +243,7 @@
 					}
 					
 				},
+				searchBarang:[],
 				barang: [],
 				barangs:[],
 				validator:{
@@ -221,15 +282,28 @@
 				order_barang:[]
 			}
 		},
-		computed: {
-			search() {
-				return this.barang
+		watch: {
+			barangKeyword: function(val) {
+				if(val.length >= 3)
+					if(val != null || val != '') {
+						let s = this.barangs.filter(item => item.nama_barang.toLowerCase().indexOf(val) > -1)
+						if(s.length > 0) {
+							this.searchBarang = s
+						}
+						else {
+							this.searchBarang = []
+						}
+					}
 			}
 		},
 		methods: {
+			selectBarang(id_barang, nama_barang) {
+				this.assignNamaBarang(id_barang, nama_barang)
+				this.openBarangModal = false
+			},
 			assignNamaBarang(val,i) {
 				this.rpo.id_barang = val
-				this.rpo.nama_barang = i.target.selectedOptions[0].innerHTML
+				this.rpo.nama_barang = typeof i == 'object' ? i.target.selectedOptions[0].innerHTML : i
 
 				for(let i = 0;i < this.barangs.length;i++) {
 					if(this.barangs[i].id == val) {
@@ -427,7 +501,10 @@
 	}
 </script>
 <style>
-	#request-table .form-inline label {
+	#search-barang-table .form-inline input[type=text] {
+		display: none;
+	}
+	#search-barang-table .form-inline label, #request-table .form-inline label {
 		display: none;
 	}	
 	.VuePagination {

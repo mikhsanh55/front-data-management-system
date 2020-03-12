@@ -7,20 +7,11 @@
 			<CCardBody>
 				<CForm class="mt-4">
 					<CRow class="mx-auto d-flex justify-content-center">
-						<CCol sm="8">
+						<CCol sm="12" md="8">
 							  <p v-show="validMsg == true" class="alert alert-success">
 		                        <small>Penambahan User berhasil!</small>
-		                      </p>    
-		                      <CDataList 
-				                label="Karyawan"
-				                placeholder="Pilih Karyawan"
-				                idList="karyawan"
-				                labelClasses="text-dark"
-				                listClasses="form-control"
-				                :options="karyawan"
-				                @update:value="assignKaryawan"
-				                />   
-		                    <!-- <CSelect
+		                      </p>   
+		                    <CSelect
 		                    	label="Nama Karyawan"
 		                    	horizontal
 		                    	:options="karyawan"
@@ -28,7 +19,7 @@
 		                        autocomplete="nama_karyawan"
 		                        v-model="user.id_karyawan"
 		                        @update:value="assignKaryawan"
-		                      /> -->
+		                      />
 		                    <CInput
 		                        type="email"
 		                        :description="validator.email_msg"

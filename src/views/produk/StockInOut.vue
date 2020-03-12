@@ -20,7 +20,7 @@
 								<small v-if="props.row.type == 3" class="badge badge-danger">Habis</small>
 							</div>
 							<div slot="aksi" slot-scope="props">
-								<router-link :to="'/stock-in-out/edit/' + props.row.id" class="btn btn-primary btn-sm mr-2">
+								<router-link :to="'/stock-in-out/edit/' + props.row.id" class="btn btn-primary btn-sm mr-2 mb-2">
 									Edit
 								</router-link>
 								<button class="btn btn-danger btn-sm" @click="deleteStockInOut(props.row.id)">
