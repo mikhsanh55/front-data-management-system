@@ -413,6 +413,7 @@
 			    		if(e.response) {
 			    			console.error(e)
 			    			this.$swal(e.response.data.message, '', 'warning')
+			    			this.getDataTable()
 			    			setTimeout(() => {
 			    				this.$swal.close()
 			    			}, 1500)
@@ -444,12 +445,19 @@
 		    		}
 		    		else {
 		    			this.barangs = data
-			    		for(let i = 0;i < data.length;i++) {
+			    		data.forEach((item, i) => {
 			    			let obj = {}
-			    			obj.value = data[i].id
-			    			obj.label = data[i].nama_barang
+			    			obj.label = `${item.nama_vendor} - ${item.nama_barang}`
+			    			obj.value = item.id
 			    			self.barang.push(obj)
-			    		}	
+
+			    		})
+			    			
+			    			// let obj = {}
+			    			// obj.value = data[i].id
+			    			// obj.label = data[i].nama_barang
+			    			// self.barang.push(obj)
+			    		
 		    		}
 		    	}) 
 		    	.catch(e => {
@@ -460,7 +468,7 @@
 		    	})
 		    },
 		    getDataTable() {
-
+		    	this.order_barang = []
 		    	getDatas(this, localStorage.base_api + 'order/barang/po/detail/' + this.$route.params.id, {method:'post',headers: {'Authorization': 'bearer ' + localStorage.token}}, 'post')
 				.then(res => {
 					res.forEach((item, i) => {

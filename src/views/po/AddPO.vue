@@ -72,6 +72,7 @@
 						                placeholder="Masukan Tanggal Pengiriman"
 						                v-model="po.date_line"
 						              />
+						              <div v-if="level != 7 && level == 3">
 						              <CInput
 						                type="date"
 						                :description="validator.jatuh_tempo_msg"
@@ -83,6 +84,7 @@
 						                placeholder="Masukan jatuh_tempo"
 						                v-model="po.jatuh_tempo"
 						              />
+						          	  </div>
 						              <CTextarea
 						                label="Keterangan"
 						                placeholder="Keterangan"
@@ -187,6 +189,7 @@
 		name: 'AddPO',
 		data() {
 			return {
+				level: localStorage.level,
 				konsumenDetail: [],
 				konsumenKeyword:null,
 				openKonsumenModal:false, // For Modal Barang

@@ -52,7 +52,7 @@
                             placeholder="Masukan Nomer PO"
                             v-model="po.no_po"
                           />
-                          <div v-if="level != 7">
+                          <div v-if="level != 7 && level == 3">
                           <CInput
                             
                             type="text"
@@ -100,6 +100,7 @@
                             placeholder="Masukan Tanggal Pengiriman"
                             v-model="po.date_line"
                           />
+                          <div v-if="level != 7">
                           <CInput
                             type="date"
                             :description="validator.jatuh_tempo_msg"
@@ -111,6 +112,7 @@
                             placeholder="Masukan jatuh_tempo"
                             v-model="po.jatuh_tempo"
                           />
+                          </div>
                           <CTextarea
                             label="Keterangan"
                             placeholder="Keterangan"

@@ -82,11 +82,11 @@
 			storeExcel() {
 				this.$swal('Mohon tunggu...', '', 'info')
 				this.exportLabel = 'Loading...'
-				exportExcel(this, localStorage.base_api + 'excel/konsumen', 'from='+null, {
+				exportExcel(this, localStorage.base_api + 'excel/konsumen', {}, {
 					responseType: 'blob',
 					headers: {
 						'Authorization' : 'bearer ' + localStorage.token,
-						'Access-Control-Allow-Origin' : '*'
+						'Access-Control-Allow-Origin' : localStorage.base_uri
 					}
 				}, 'konsumen.xls')
 				.then(() => {
@@ -95,7 +95,7 @@
 				.catch(e => {
 					this.$swal.close()
 					console.log(e)
-					this.$swal('Tidak bisa mengambil data', '', 'error')
+					this.$swal('Tidak bisa :( mengambil data', '', 'error')
 					setTimeout(() => {
 						this.$swal.close()
 						this.modal = false

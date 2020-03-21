@@ -248,11 +248,10 @@
 			storeExcel() {
 				this.exportLabel = 'Loading...'
 				this.$swal('Mohon tunggu', '', 'info')
-				exportExcel(this, localStorage.base_api + 'excel/barang', {from:null, to:null}, {
+				exportExcel(this, localStorage.base_api + 'excel/barang', {from:this.date.from, to:this.date.from}, {
 					responseType: 'blob',
 					headers: {
-						'Authorization' : 'bearer ' + localStorage.token,
-						'Access-Control-Allow-Origin': '*'
+						'Authorization' : 'bearer ' + localStorage.token
 					}
 				}, 'barang.xls')
 				.then(() => {

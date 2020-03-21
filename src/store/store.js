@@ -19,7 +19,7 @@ let store = new Vuex.Store({
 		auth_success(state, data) {
 			state.status = 'success'
 			state.user = data
-			if(localStorage.level == 1 || localStorage.level == 2) {
+			if(localStorage.level == 1 || localStorage.level == 2) { //Direktur dan Manager
 
 				state.menu = [
 					{
@@ -170,7 +170,7 @@ let store = new Vuex.Store({
 				]
 				localStorage.setItem('menu', JSON.stringify(state.menu))
 			}
-			else if(localStorage.level == 7) {
+			else if(localStorage.level == 7) { //Marketing
 				state.menu = [
 
 					{
@@ -210,7 +210,7 @@ let store = new Vuex.Store({
 				]
 				localStorage.setItem('menu', JSON.stringify(state.menu))
 			}
-			else if(localStorage.level == 6) {
+			else if(localStorage.level == 6) { // SPV
 				state.menu = [
 
 			        {
@@ -234,7 +234,7 @@ let store = new Vuex.Store({
 				]
 				localStorage.setItem('menu', JSON.stringify(state.menu))	
 			}
-			else if(localStorage.level == 5) {
+			else if(localStorage.level == 5) { // Pembelian
 				state.menu = [
 
 			        {
@@ -264,7 +264,7 @@ let store = new Vuex.Store({
 				]
 				localStorage.setItem('menu', JSON.stringify(state.menu))	
 			}
-			else if(localStorage.level == 4) {
+			else if(localStorage.level == 4) { // Admin Stok
 				state.menu = [
 					{
 			          _name: 'CSidebarNavItem',

@@ -144,8 +144,8 @@
 				})
 			},
 			assignKaryawan(val) {
-				this.data_karyawan.forEach(function(item, i) {
-					if(val === item.nama_karyawan) {
+				this.data_karyawan.forEach((item, i) => {
+					if(val === item.id) {
 						this.user.email = item.email
 						this.user.id_karyawan = item.id
 					}

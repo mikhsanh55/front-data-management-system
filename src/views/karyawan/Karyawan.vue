@@ -67,7 +67,7 @@
 			return {
 				modal:false,
 				base_api: localStorage.base_api,
-				date:{from:null},
+				date:{from:'2020-02-02'},
 				exportLabel: 'Mulai Export',
 				id:0,
 				uri:localStorage.base_uri,
@@ -113,46 +113,27 @@
 				// 	method: 'POST'
 				// })
 				// .then(res => console.log(res))
-				let xhr = new XMLHttpRequest()
-				xhr.open('POST', localStorage.base_api + 'excel/karyawans', true)
-				xhr.withCredentials = true
-				xhr.setRequestHeader('Authorization', 'bearer ' + localStorage.token)
-				xhr.setRequestHeader('Access-Control-Allow-Origin', localStorage.base_uri)
-				xhr.setRequestHeader('Access-Control-Allow-Credentials', 'true')
-				xhr.onload = function() {
-					console.log(xhr.responseText)
-				}
-				xhr.onerror = function(e) {
-					console.error(e)
-				}
 				
-				// xhr.onreadystatechange = function() {
-				// 	if(xhr.readyState == 4 && xhr.status == 200) {
-				// 		console.warn(xhr.responseText)
-				// 	}
-				// }
-				xhr.send({from:null, to:null})
-				// exportExcel(this, localStorage.base_api + 'excel/karyawans', {from:null, to:null}, {
-				// 	responseType: 'blob',
-				// 	headers: {
-				// 		'Authorization' : 'bearer ' + localStorage.token,
-				// 		'Access-Control-Allow-Origin': '*'
-				// 	}
-				// }, 'karyawan.xls')
-				// .then(() => {
-				// 	this.modal = false
-				// 	this.$swal.close()
-				// })
-				// .catch(e => {
-				// 	this.$swal.close()
-				// 	console.log(e)
-				// 	this.$swal('Tidak bisa mengambil data', '', 'error')
-				// 	setTimeout(() => {
-				// 		this.$swal.close()
-				// 		this.modal = false
-				// 	}, 2000)
-				// 	return false
-				// })
+				exportExcel(this, localStorage.base_api + 'excel/karyawans', {from:this.date.from}, {
+					responseType: 'blob',
+					headers: {
+						'Authorization' : 'bearer ' + localStorage.token
+					}
+				}, 'karyawan.xls')
+				.then(() => {
+					this.modal = false
+					this.$swal.close()
+				})
+				.catch(e => {
+					this.$swal.close()
+					console.log(e)
+					this.$swal('Tidak bisa mengambil data', '', 'error')
+					setTimeout(() => {
+						this.$swal.close()
+						this.modal = false
+					}, 2000)
+					return false
+				})
 			},
 			getData() {
 				if(this.data.level == 7) {

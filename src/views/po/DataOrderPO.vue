@@ -67,7 +67,7 @@
 			return {
 				exportLabel: 'Mulai Export',
 				data:'',
-				date:{from:null, to:null},
+				date:{from:'2020-02-02', to:'2020-02-02'},
 				modal:false,
 				dataOrder:[],
 				tableFields: ['no', 'kode_barang', 'nama_barang', 'spesifikasi', 'qty', 'keterangan', 'aksi'],

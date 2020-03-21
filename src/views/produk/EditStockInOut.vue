@@ -207,7 +207,7 @@
 					for(let i = 0;i < res.data.length;i++) {
 						let obj = {}
 						obj.value = res.data[i].id
-						obj.label = res.data[i].nama_barang
+						obj.label = res.data[i].nama_vendor + ' - ' + res.data[i].nama_barang
 						this.barang.push(obj)
 					}
 					
