@@ -216,7 +216,7 @@
           no_po: null,
           date: null,
           date_line: null,
-          jatuh_tempo: null,
+          jatuh_tempo: '2020-02-02',
           tax_rate: null,
           sales_fee: null,
           other: null,
@@ -357,11 +357,11 @@
                 this.validator.date_line_msg = 'Harap isi tanggal pengiriman'
                 this.errors.push('date_line kosong')
         }
-        if(!this.po.jatuh_tempo) {
-          this.validator.jatuh_tempo = false
-                this.validator.jatuh_tempo_msg = 'Harap isi tanggal jatuh tempo'
-                this.errors.push('jatuh_tempo kosong')
-        }
+        // if(!this.po.jatuh_tempo) {
+        //   this.validator.jatuh_tempo = false
+        //         this.validator.jatuh_tempo_msg = 'Harap isi tanggal jatuh tempo'
+        //         this.errors.push('jatuh_tempo kosong')
+        // }
         if(!this.errors.length) {
           this.label = 'Loading...'
           this.$http.post(localStorage.base_api + 'po/edit/' + this.$route.params.id, this.po, {
