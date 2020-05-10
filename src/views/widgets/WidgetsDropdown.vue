@@ -422,12 +422,11 @@ export default {
         localStorage.base_api + 'dashboard/kj',
         localStorage.base_api + 'dashboard/vk'
       ], [
-        {headers:{'Authorization': 'bearer ' + localStorage.token}},
-        {headers:{'Authorization': 'bearer ' + localStorage.token}},
-        {headers:{'Authorization': 'bearer ' + localStorage.token}}
+        {method:'post', headers:{'Authorization': 'bearer ' + localStorage.token}},
+        {method:'post', headers:{'Authorization': 'bearer ' + localStorage.token}},
+        {method:'post', headers:{'Authorization': 'bearer ' + localStorage.token}}
       ])
       .then(res => {
-        console.warn('HI')
         res.shift()
         this.data = {...res[0], ...res[1]}
         
@@ -439,12 +438,12 @@ export default {
         localStorage.base_api + 'dashboard/pk',
         localStorage.base_api + 'dashboard/k'
       ], [
-        {headers:{'Authorization': 'bearer ' + localStorage.token}},
-        {headers:{'Authorization': 'bearer ' + localStorage.token}},
-        {headers:{'Authorization': 'bearer ' + localStorage.token}}
+        {method:'post', headers:{'Authorization': 'bearer ' + localStorage.token}},
+        {method:'post', headers:{'Authorization': 'bearer ' + localStorage.token}},
+        {method:'post', headers:{'Authorization': 'bearer ' + localStorage.token}}
       ])
       .then(res => {
-        console.warn('HI')
+        
         this.data = {...res[0], ...res[1], ...res[2]}
         
       }) 
@@ -453,10 +452,10 @@ export default {
       fetchAll([
         localStorage.base_api + 'dashboard/rbs'
       ], [
-        {headers:{'Authorization': 'bearer ' + localStorage.token}}
+        {method:'post', headers:{'Authorization': 'bearer ' + localStorage.token}}
       ])
       .then(res => {
-        console.warn('HI')
+        
         this.data = {...res[0]}
       })
       .catch(e => {
@@ -468,10 +467,10 @@ export default {
       fetchAll([
         localStorage.base_api + 'dashboard/sp'
       ], [
-        {headers:{'Authorization': 'bearer ' + localStorage.token}}
+        {method:'post', headers:{'Authorization': 'bearer ' + localStorage.token}}
       ])
       .then(res => {
-        console.warn('HI')
+        
         this.data = {...res[0]}
         console.log(this.data.pengiriman_po)
       })
@@ -484,10 +483,10 @@ export default {
       fetchAll([
         localStorage.base_api + 'dashboard/tio'
       ], [
-        {headers:{'Authorization': 'bearer ' + localStorage.token}}
+        {method:'post', headers:{'Authorization': 'bearer ' + localStorage.token}}
       ])
       .then(res => {
-        console.warn('HI')
+        
         this.data = {...res[0]}
       })
       .catch(e => {
@@ -500,10 +499,10 @@ export default {
       fetchAll([
         localStorage.base_api + 'dashboard/bp'
       ], [
-        {headers:{'Authorization': 'bearer ' + localStorage.token}}
+        {method:'post', headers:{'Authorization': 'bearer ' + localStorage.token}}
       ])
       .then(res => {
-        console.warn('HI')
+        
         this.data = {...res[0]}
       })
       .catch(e => {

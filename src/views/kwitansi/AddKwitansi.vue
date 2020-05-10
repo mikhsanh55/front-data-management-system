@@ -43,7 +43,7 @@
 		                        readonly
 		                      />  
 		                      <CInput
-		                        type="number"
+		                        type="text"
 		                        description="Masukan Uang Terbilang"
 		                        autocomplete="uang_terbilang"
 		                        label="Uang Terbilang"
@@ -65,9 +65,11 @@
 	</div>
 </template>
 <script type="text/javascript">
+	import mixins from '@/mixins/currency.js'
 	import {getDatas} from '@/containers/global-function.js'
 	export default {
 		name:"AddKwitansi",
+		mixins:[mixins],
 		data() {
 			return {
 				label:'Tambah Kwitansi',
@@ -83,7 +85,15 @@
 				po:[]
 			}
 		},
+		watch: {
+			'kwitansi.uang': function(val) {
+				this.kwitansi.uang = this.toRupiah(val)
+			}
+		},
 		methods: {
+			uangRupiah() {
+				this.kwitansi.uang = this.toRupiah(this.kwitansi.uang)
+			},
 			assignGunaPembayaran(val) {
 				this.po.forEach((item) => {
 					if(item.id == val) {
@@ -111,6 +121,7 @@
 				}
 
 				if(!this.errors.length) {
+					this.kwitansi.uang = this.toFloatRupiah(this.kwitansi.uang)
 					this.label = 'Loading...'
 					this.$http.post(localStorage.base_api + 'kwitansi', this.kwitansi, {
 						headers: {
@@ -145,7 +156,7 @@
 			if(localStorage.level != 1 && localStorage.level != 2 && localStorage.level != 3) {
 				this.$router.push('/')
 			}
-			getDatas(this, localStorage.base_api + 'po', {headers:{'Authorization': 'bearer ' + localStorage.token}}, 'get')
+			getDatas(this, localStorage.base_api + 'po', {method:'post',headers:{'Authorization': 'bearer ' + localStorage.token}}, 'post', {})
 			.then(res => {
 				this.po = res
 				this.guna_pembayaran.push({value: '000', label:'Pilih Guna Pembayaran'})

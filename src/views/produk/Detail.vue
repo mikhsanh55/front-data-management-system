@@ -36,11 +36,11 @@
 							</tr>			
 							<tr>
 								<th class="w-50">Harga Jual</th>
-								<td>{{product.harga_jual}}</td>
+								<td>{{product.harga_jual | formatRupiah}}</td>
 							</tr>
 							<tr v-if="data.level == 1 || data.level == 2 || data.level == 5">
 								<th class="w-50">Harga Dasar</th>
-								<td> {{product.harga_dasar}} </td>
+								<td> {{product.harga_dasar | formatRupiah}} </td>
 							</tr>
 							<tr>
 								<th class="w-50">Satuan</th>
@@ -68,9 +68,11 @@
 	</div>
 </template>
 <script type="text/javascript">
+	import mixins from '@/mixins/currency.js'
 	import {getDatas} from '@/containers/global-function.js'
 	export default {
 		name:'DetailListHarga',
+		mixins:[mixins],
 		data() {
 			return {
 				data:'',
@@ -90,6 +92,24 @@
 				base_uri:localStorage.base_uri	
 			}
 		},
+		filters: {
+			formatRupiah(angka)  {
+				let angkaToString = angka.toString().replace(/[^, \d]/g, "").toString(),
+			        split = angkaToString.split(","),
+			        sisa = split[0].length % 3,
+			        rupiah = split[0].substr(0, sisa),
+			        ribuan = split[0].substr(sisa).match(/\d{3}/gi),
+			        separator = ''
+
+			    if(ribuan && ribuan.length != null) {
+			      separator = sisa ? "." : ""
+			      rupiah += separator + ribuan.join(".")
+			    }
+			    rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah
+
+			    return rupiah
+			}
+		},
 		methods: {
 			getData() {
 				let headers = new Headers()
@@ -106,7 +126,7 @@
 				.then(res => {
 					
 					
-					getDatas(this, localStorage.base_api + 'vendor/' + res.id_vendor, options)
+					getDatas(this, localStorage.base_api + 'vendors/' + res.id_vendor, options)
 					.then(vendor => {
 						res.nama_instansi = vendor.nama_instansi
 						this.product = res

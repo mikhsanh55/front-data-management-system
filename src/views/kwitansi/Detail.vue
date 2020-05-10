@@ -24,11 +24,11 @@
 							</tr>
 							<tr>
 								<th class="w-50">Uang Terbuka</th>
-								<td>{{kwitansi.uang}}</td>
+								<td>{{kwitansi.uang | formatRupiah}}</td>
 							</tr>
 							<tr>
 								<th class="w-50">Uang</th>
-								<td> {{kwitansi.uang}} </td>
+								<td> {{kwitansi.uang | formatRupiah}} </td>
 							</tr>
 							<tr>
 								<th class="w-50">Guna Pembayaran</th>
@@ -42,9 +42,11 @@
 	</div>
 </template>
 <script type="text/javascript">
+	import mixins from '@/mixins/currency.js'
 	import {getDatas} from '@/containers/global-function.js'
 	export default {
 		name: 'DetailKwitansi',
+		mixins:[mixins],
 		data() {
 			return {
 				kwitansi: {
@@ -54,6 +56,11 @@
 					uang:null,
 					guna_pembayaran:null
 				}
+			}
+		},
+		filters: {
+			formatRupiah(val) {
+				return this.toRupiah(val)
 			}
 		},
 		methods: {

@@ -1,0 +1,10 @@
+--- Catatan Upgrade Alkes ---
+Tanggal 05-05-2020
+
+1. Currency utuk setiap uang harus format rupiah
+2. Menu -> PO -> Untuk Export Excel tambah inputan tanggal dan inputan TEXT untuk Custom nama perusahaan di dokumen di modal
+3. Munculkan Menu baru seperti PO tapi tambah no Invoice dengan No Pesanan (Khusus admin umum)
+4. Ubah loading setiap get data (optional)
+5. Ubah loading saat button (tambah disabled, optional)
+6. Menu -> Stock In Out -> adakan tombol export Excel dan pilihan Tanggalnya
+7. Tambah input tanggal untuk setiap export PDF kecuali di Menu Barang Pesanan

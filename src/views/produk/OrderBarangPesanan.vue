@@ -152,6 +152,12 @@
 			id="search-barang-table"
 			 class="m-4"
 			>
+				<div slot="harga_dasar" slot-scope="props">
+					{{this.toRupiah(props.row.harga_dasar)}}
+				</div>
+				<div slot="total" slot-scope="props">
+					{{this.toRupiah(props.row.total)}}
+				</div>
 				<div slot="aksi" slot-scope="props">
 					<button class="btn btn-primary" @click="selectBarang(props.row.id, props.row.nama_barang)">Pilih</button>
 				</div>
@@ -164,9 +170,11 @@
 	</div>
 </template>
 <script type="text/javascript">
+	import mixins from '@/mixins/currency.js'
 	import {getDatas, getOrderBarang} from '@/containers/global-function.js'
 	export default {
 		name:'OrderBarangPesanan',
+		mixins:[mixins],
 		data() {
 			return {
 				barangKeyword:null,
@@ -271,6 +279,9 @@
 							this.searchBarang = []
 						}
 					}
+			},
+			'order_barang_pesanan.harga_dasar':function(val) {
+				this.order_barang_pesanan.harga_dasar = this.toRupiah(val)
 			}
 		},
 		methods: {
@@ -302,7 +313,7 @@
 		    		this.order_barang_table = []
 			    	this.barangs = []
 		    		this.$swal.close()
-		    		getDatas(this, localStorage.base_api + 'barang', {headers: {'Authorization': 'bearer ' + localStorage.token}}, 'post')
+		    		getDatas(this, localStorage.base_api + 'barang', {method:'post', headers: {'Authorization': 'bearer ' + localStorage.token}}, 'post')
 						.then(res => {
 							this.barangs = res
 							// this.barangs.forEach((item, i) => {
@@ -339,6 +350,8 @@
 		    	}
 
 		    	if(!this.errors.length){
+		    		// convert to float from rupiah
+		    		this.order_barang_pesanan.harga_dasar = this.toFloatRupiah(this.order_barang_pesanan.harga_dasar)
 					this.label = 'Loading...'
 					this.order_barang_pesanan.id_po = this.$route.params.id
 
@@ -441,7 +454,7 @@
 				this.$router.push('/')
 			}
 			// Get Semua Barang untuk obral
-			getDatas(this, localStorage.base_api + 'barang', {headers: {'Authorization': 'bearer ' + localStorage.token}}, 'post')
+			getDatas(this, localStorage.base_api + 'barang', {method:'post', headers: {'Authorization': 'bearer ' + localStorage.token}}, 'post')
 			.then(res => {
 				this.barangs = res
 				// this.barangs.forEach((item, i) => {

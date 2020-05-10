@@ -17,6 +17,9 @@
 							<div slot="foto" slot-scope="props">
 								<img :src="props.row.foto" />
 							</div>
+							<div slot="uang" slot-scope="props">
+								{{props.row.uang | formatRupiah}}
+							</div>
 							<div slot="aksi" slot-scope="props" class="d-flex justify-content-center">
 								<!-- <router-link :to="'/kwitansi/detail/' + props.row.id" class="btn btn-primary btn-sm mr-2" title="detail kwitansi">
 									<i class="fa fa-eye"></i>
@@ -35,9 +38,11 @@
 	</div>
 </template>
 <script type="text/javascript">
+	import mixins from '@/mixins/currency.js'
 	import {exportPDF, getDatas} from '@/containers/global-function.js'
 	export default {
 		name:"Kwitansi",
+		mixins:[mixins],
 		data() {
 			return {
 				id:0,
@@ -66,6 +71,24 @@
 					}
 				},
 				kwitansi: []
+			}
+		},
+		filters: {
+			formatRupiah(angka)  {
+				let angkaToString = angka.toString().replace(/[^, \d]/g, "").toString(),
+			        split = angkaToString.split(","),
+			        sisa = split[0].length % 3,
+			        rupiah = split[0].substr(0, sisa),
+			        ribuan = split[0].substr(sisa).match(/\d{3}/gi),
+			        separator = ''
+
+			    if(ribuan && ribuan.length != null) {
+			      separator = sisa ? "." : ""
+			      rupiah += separator + ribuan.join(".")
+			    }
+			    rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah
+
+			    return rupiah
 			}
 		},
 		methods: {
@@ -97,6 +120,7 @@
 			},
 			getData() {
 				getDatas(this, localStorage.base_api + 'kwitansi', {
+					method: 'post',
 					headers: {
 						'Authorization':'bearer ' + localStorage.getItem('token')
 					},

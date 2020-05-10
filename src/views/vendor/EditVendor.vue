@@ -160,7 +160,7 @@
 					headers,
 					redirect:'follow'
 				}
-				getDatas(this, localStorage.base_api + 'vendor/' + this.$route.params.id, options)
+				getDatas(this, localStorage.base_api + 'vendors/' + this.$route.params.id, options)
 				.then(res => {
 					this.vendor = res
 				})

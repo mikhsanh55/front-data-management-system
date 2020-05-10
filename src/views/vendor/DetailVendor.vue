@@ -82,7 +82,7 @@
 					headers,
 					redirect:'follow'
 				}
-				getDatas(this, localStorage.base_api + 'vendor/' + this.$route.params.id, options)
+				getDatas(this, localStorage.base_api + 'vendors/' + this.$route.params.id, options)
 				.then(res => {
 					if(this.checkImage(localStorage.base_uri + this.vendor.foto) == true) {
 						this.image = 1

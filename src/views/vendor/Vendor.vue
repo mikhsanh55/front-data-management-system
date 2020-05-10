@@ -123,7 +123,8 @@
 				})
 			},
 			getData() {
-				getDatas(this, localStorage.base_api + 'vendor', {
+				getDatas(this, localStorage.base_api + 'vendors', {
+					method: 'post',
 					headers: {
 						'Authorization': 'bearer ' + localStorage.getItem('token')
 					}

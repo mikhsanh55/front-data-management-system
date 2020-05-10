@@ -49,7 +49,7 @@
 			                        	readonly
 			                         />    
 			                        <CInput
-			                        	type="number"  
+			                        	type="text"  
 			                        	:description="validator.harga_jual_msg"
 			                        	:is-valid="validator.harga_jual"
 			                        	autocomplete="harga_jual"
@@ -113,7 +113,7 @@
 								<table class="table table-bordered table-striped m-2 mr-3 justify-content-end w-50">
 									<tr>
 										<th class="w-50 text-right">Sub Total</th>
-										<td>{{rpo.sub_total}}</td>
+										<td>{{rpo.sub_total | formatRupiah}}</td>
 									</tr>
 									<tr>
 										<th class="w-50 text-right" >Discount</th>
@@ -125,15 +125,15 @@
 									</tr>
 									<tr>
 										<th class="w-50 text-right">Sales Fee</th>
-										<td>{{rpo.sales_fee}}</td>
+										<td>{{rpo.sales_fee | formatRupiah}}</td>
 									</tr>
 									<tr>
 										<th class="w-50 text-right">Other Cost</th>
-										<td>{{rpo.other}}</td>
+										<td>{{rpo.other | formatRupiah}}</td>
 									</tr>
 									<tr>
 										<th class="w-50 text-right" >Grand Total</th>
-										<td>{{rpo.sub_total - rpo.disc + rpo.tax_rate + rpo.sales_fee + rpo.other}}</td>
+										<td>{{(rpo.sub_total - rpo.disc + rpo.tax_rate + rpo.sales_fee + rpo.other) | formatRupiah}}</td>
 									</tr>
 								</table>
 								</div>
@@ -158,7 +158,7 @@
             description="Ketik minimal 3 huruf untuk melihat hasil"
             label="Cari Barang"
             horizontal
-            placeholder="Masukan disc"
+            placeholder="Masukan nama barang"
             v-model="barangKeyword"
             class="m-4"
 	       />	
@@ -181,9 +181,11 @@
 	</div>
 </template>
 <script type="text/javascript">
+	import mixins from '@/mixins/currency.js'
 	import {getDatas, getOrderBarang} from '@/containers/global-function.js'
 	export default {
 		name:'OrderPO',
+		mixins:[mixins],
 		data() {
 			return {
 				barangKeyword:null,
@@ -283,6 +285,9 @@
 			}
 		},
 		watch: {
+			'rpo.harga_jual': function(val) {
+				this.rpo.harga_jual = this.toRupiah(val)
+			},
 			barangKeyword: function(val) {
 				if(val.length >= 3)
 					if(val != null || val != '') {
@@ -294,6 +299,24 @@
 							this.searchBarang = []
 						}
 					}
+			}
+		},
+		filters: {
+			formatRupiah(angka)  {
+				let angkaToString = angka.toString().replace(/[^, \d]/g, "").toString(),
+			        split = angkaToString.split(","),
+			        sisa = split[0].length % 3,
+			        rupiah = split[0].substr(0, sisa),
+			        ribuan = split[0].substr(sisa).match(/\d{3}/gi),
+			        separator = ''
+
+			    if(ribuan && ribuan.length != null) {
+			      separator = sisa ? "." : ""
+			      rupiah += separator + ribuan.join(".")
+			    }
+			    rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah
+
+			    return rupiah
 			}
 		},
 		methods: {
@@ -316,7 +339,7 @@
 			},
 			getRequest(url) {
 				return new Promise((resolve, reject) => {
-					this.$http.get(url, {
+					this.$http.post(url, {
 	                  headers: {
 			            'Authorization': 'bearer ' + localStorage.getItem('token')
 			          },
@@ -367,6 +390,8 @@
 		    	}
 
 		    	if(!this.errors.length){
+		    		// convert harga jual formatted to number
+		    		this.rpo.harga_jual = this.toFloatRupiah(this.rpo.harga_jual)
 					this.label = 'Loading...'
 					this.rpo.id_po = this.$route.params.id
 					this.rpo.total = Math.round(((this.rpo.harga_jual * this.rpo.qty) + this.rpo.tax / 100) - (this.rpo.disc / 100 * (this.rpo.harga_jual * this.rpo.qty)))
@@ -434,10 +459,18 @@
 		    	
 		    },
 		    fetchAll() {
+		    	
 		    	let 
 		    	self = this,
 		    	arr = []
-		    	this.getRequest(localStorage.base_api + 'barang').then((data) => {
+		    	getDatas(this, localStorage.base_api + 'barang', {
+					method: 'post',
+					headers: {
+						'Authorization': 'bearer ' + localStorage.getItem('token')
+					},
+					redirect:'follow'
+				})
+		    	.then((data) => {
 
 		    		if(data.length < 1){
 		    			alert('Mohon maaf belum ada barang masuk untuk saat ini, silahkan tambah dulu barangnya yah')

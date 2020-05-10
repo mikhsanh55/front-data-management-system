@@ -64,6 +64,7 @@
 		methods: {
 			getData() {
 				getDatas(this,localStorage.base_api + 'sales', {
+					method: 'post',
 					headers: {
 						'Authorization': 'bearer ' + localStorage.getItem('token')
 					},

@@ -70,6 +70,7 @@
 		methods: {
 			getData() {
 				getDatas(this, this.base_api + 'assets', {
+					method: 'post',
 					headers: {
 						'Authorization':'bearer ' + localStorage.getItem('token')
 					},

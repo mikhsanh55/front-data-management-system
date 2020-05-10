@@ -53,13 +53,24 @@
 	      color="dark"
 	    >	
 	      <CSelect
-		      type="date"
 		      label="Jenis Dokumen"
 		      horizontal
 		      :options="pdf"
-		      v-model="pdf.type"
+		      v-model="pdf_data.type"
 		      @update:value="assignPDF"
 	       />	
+	      <CInput
+	      	  label="Nama Perusahaan"
+	      	  horizontal
+	      	  v-model="pdf_data.nama_perusahaan"
+	      	  placeholder="Contoh company"
+	       /> 
+	      <CInput
+	          label="Tanggal"
+	      	  type="date"
+	      	  horizontal
+	      	  v-model="pdf_data.date"
+	       /> 
 	      <template #header>
 	        <h6 class="modal-title">Export Data ke PDF</h6>
 	        <CButtonClose @click="modal_pdf = false" class="text-white"/>
@@ -104,7 +115,7 @@
 		data() {
 			return {
 				exportLabel: 'Mulai Export',
-				pdf: {type:'po'},
+				pdf_data: {type:'po', date:'', nama_perusahaan:''},
 				pdf: [
 					{
 						label:'Purchase Order',
@@ -129,14 +140,15 @@
 				data:'',
 				po:[],
 				tableFields : [ 
-					'nod', 'no', 'date', 'tgl_po_masuk', 'date_line', 'sales', 'konsumen',  'aksi'
+					'nod', 'no_invoice', 'no_surat_jalan', 'no', 'date', 'tgl_po_masuk', 'date_line', 'konsumen',  'aksi'
 			    ],
 			    tableOptions : {
 			    	perPage:10,
 					pagination:{chunk:10, dropdown:false, edge:true, nav:'fixed'},
 			    	headings : {
 			    		nod: 'No',
-			    		sales: 'Nama Sales',
+			    		no_invoice: 'No Invoice',
+			    		no_surat_jalan: 'No Surat Jalan',
 			    		date: 'Tanggal PO',
 			    		tgl_po_masuk: 'Tanggal PO Masuk',
 			    		date_line: 'Tanggal Pengiriman',
@@ -144,17 +156,18 @@
 			    		no: 'No PO',
 			    		aksi: 'Aksi'
 			    	},
-			    	sortable:['nod', 'sales', 'konsumen', 'date', 'date_line', 'tgl_po_masuk'],
-			    	filterable:['nod', 'sales', 'konsumen', 'no',  'date', 'date_line', 'tgl_po_masuk'],
+			    	sortable:['nod', 'no_invoice', 'no_surat_jalan', 'konsumen', 'date', 'date_line', 'tgl_po_masuk'],
+			    	filterable:['nod', 'konsumen', 'no',  'date', 'date_line', 'tgl_po_masuk'],
 			    	columnsClasses: {
 			    		nod:'text-center align-middle',
-			    		sales:'align-middle',
 			    		konsumen:'align-middle',
 			    		no:'align-middle',
 			    		aksi:'text-center align-middle',
 			    		date:'text-center align-middle',
 			    		date_line:'text-center align-middle',
-			    		tgl_po_masuk:'text-center align-middle'
+			    		tgl_po_masuk:'text-center align-middle',
+			    		no_invoice:'text-center align-middle',
+			    		no_surat_jalan:'text-center align-middle',
 			    	}
 			    },
 			    id:0
@@ -173,9 +186,9 @@
 					headers: {
 						'Authorization': 'bearer ' + localStorage.token
 					},
-					method:'get',
+					method:'post',
 					redirect: 'follow'
-				}, 'get')
+				}, 'post')
 				.then(res => {
 					this.po = res
 					this.po.forEach((item, i) => {
@@ -212,6 +225,11 @@
 						break
 				}
 
+				if(this.pdf.date == '') {
+					alert('Harap isi tanggal')
+					return false
+				}
+
 				this.$swal({
 					title: 'Mohon tunggu...',
 					showCloseButton:false,
@@ -220,15 +238,16 @@
 				
 				exportPDF(this, url, {
 					responseType: 'blob',
+					method:'post',
 					headers: {
 						'Authorization' : 'bearer ' + localStorage.token
 					}
-				}, filename, 'get')
+				}, filename, 'post', this.pdf_data)
 				.then(() => {
 					this.$swal.close()
 				})
 				.catch(e => {
-					console.log(e)
+					console.log(JSON.stringify(e))
 					if(e.response) {
 						this.$swal(e.response.data.message, '', 'error')
 						setTimeout(() => {
@@ -241,7 +260,7 @@
 				})
 			},
 			storeExcel() {
-				if(this.date.from == null && this.date.to == nul)  {
+				if(this.date.from == null && this.date.to == null)  {
 					this.$swal('Tanggal tidak boleh kosong', '', 'warning')
 					setTimeout(() => {
 						this.$swal.close()
@@ -323,22 +342,21 @@
 			},
 		},
 		filters: {
-			formatRupiah: function(angka, prefix){
-				let number_string = angka.toString().replace(/[^,\d]/g, '').toString(),
-				split   		= number_string.split(','),
-				sisa     		= split[0].length % 3,
-				rupiah     		= split[0].substr(0, sisa),
-				ribuan     		= split[0].substr(sisa).match(/\d{3}/gi),
-				separator ='';
-	 
-				// tambahkan titik jika yang di input sudah menjadi angka ribuan
-				if(ribuan){
-					separator = sisa ? '.' : '';
-					rupiah += separator + ribuan.join('.');
-				}
-	 
-				rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
-				return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
+			formatRupiah(angka)  {
+				let angkaToString = angka.toString().replace(/[^, \d]/g, "").toString(),
+			        split = angkaToString.split(","),
+			        sisa = split[0].length % 3,
+			        rupiah = split[0].substr(0, sisa),
+			        ribuan = split[0].substr(sisa).match(/\d{3}/gi),
+			        separator = ''
+
+			    if(ribuan && ribuan.length != null) {
+			      separator = sisa ? "." : ""
+			      rupiah += separator + ribuan.join(".")
+			    }
+			    rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah
+
+			    return rupiah
 			}
 		},
 		created() {

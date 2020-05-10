@@ -141,6 +141,7 @@
 			},
 			getData() {
 				getDatas(this, localStorage.base_api + 'konsumen', {
+					method:'post',
 					headers: {
 						'Authorization': 'bearer ' + localStorage.getItem('token'),
 						'Access-Control-Allow-Origin': '*',

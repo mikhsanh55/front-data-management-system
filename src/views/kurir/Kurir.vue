@@ -83,6 +83,7 @@
 		methods: {
 			getData() {
 				getDatas(this, localStorage.base_api + 'kurir', {
+					method: 'post',
 					headers: {
 						'Authorization': 'bearer ' + localStorage.getItem('token')
 					},

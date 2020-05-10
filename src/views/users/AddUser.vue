@@ -93,7 +93,7 @@
 		methods: {
 			getJabatan() {
 				this.jabatan.push({value:'000', label: 'Pilih Jabatan'})
-				this.$http.get(localStorage.base_api + 'jabatan', {
+				this.$http.post(localStorage.base_api + 'jabatan', {
 	      			headers: {
 	      				'Authorization': 'bearer ' + localStorage.token
 	      			}
@@ -118,7 +118,7 @@
 				let headers = new Headers()
 				headers.append('Authorization', 'bearer ' + localStorage.getItem('token'))
 				let options = {
-					method:'GET',
+					method:'post',
 					headers,
 					redirect:'follow'
 				}

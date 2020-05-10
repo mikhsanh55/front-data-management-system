@@ -406,6 +406,7 @@ let store = new Vuex.Store({
 						commit('setTokenExpired', new Date().addHours( localStorage.getItem('expires_in') / 3600 ))
 						
 			            fetch(localStorage.base_api + 'auth/me', {
+			              method: 'POST',	
 			              headers: {
 			                'Authorization': 'bearer ' + localStorage.getItem('token'),
 			                'Access-Control-Allow-Origin': '*'

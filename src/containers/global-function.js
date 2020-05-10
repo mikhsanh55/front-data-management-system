@@ -68,31 +68,13 @@ export function exportExcel2(url, data, filename) {
 		}
 
 		xhr.send(data)
-		// fetch(url, options)
-		// .then(res => res.json())
-		// .then(res => {
-			// const url = URL.createObjectURL(new Blob([res], {
-			//     type: 'application/vnd.ms-excel'
-			// }))
-			// const link = document.createElement('a')
-			// link.href = url
-			// link.setAttribute('download', filename)
-			// document.body.appendChild(link)
-			// link.click()
-		// })
-		// .then(() => {
-		// 	resolve()
-		// })
-		// .catch(e => {
-		// 	reject(e)
-		// })
 	})
 		
 }
 
-export function exportPDF(self, url, options, filename, method = 'get') {
+export function exportPDF(self, url, options, filename, method = 'get', data = null) {
 	return new Promise((resolve, reject) => {
-		if(method == 'get')
+		if(method == 'get') {
 			self.$http.get(url, options)
 			.then(res => {
 				const url = URL.createObjectURL(new Blob([res.data], {
@@ -110,8 +92,9 @@ export function exportPDF(self, url, options, filename, method = 'get') {
 			.catch(e => {
 				reject(e)
 			})
-		else
-			self.$http.post(url, options)
+		}
+		else {
+			self.$http.post(url, data, options)
 			.then(res => {
 				const url = URL.createObjectURL(new Blob([res.data], {
 				    type: 'application/pdf'
@@ -128,14 +111,22 @@ export function exportPDF(self, url, options, filename, method = 'get') {
 			.catch(e => {
 				reject(e)
 			})
+		}
 	})
 }
+
+/*
+* Function for check PO shipping delivery
+* @return date
+*/
 export function checkPO(self) {
 	return new Promise((resolve, reject) => {
-		self.$http.get(localStorage.base_api + 'po', {
+		getDatas(self, localStorage.base_api + 'po', {
+			method: 'post',
 			headers: {
-				'Authorization': 'bearer ' + localStorage.token
-			}
+				'Authorization':'bearer ' + localStorage.getItem('token')
+			},
+			redirect:'follow'
 		})
 		.then(res => {
 			let data = [], notif = []
@@ -152,10 +143,10 @@ export function checkPO(self) {
 				
 			// }
 
-			for(let j = 0;j < res.data.length;j++) {
+			for(let j = 0;j < res.length;j++) {
 				let currentDate = new Date().setHours(0, 0, 0, 0)
 
-				let notifPO = new Date(res.data[j].date_line)
+				let notifPO = new Date(res[j].date_line)
 				currentDate = new Date(currentDate)
 				notifPO = new Date( notifPO.setDate( notifPO.getDate()-2 ) )
 
@@ -164,8 +155,8 @@ export function checkPO(self) {
 					
 					notif.push({
 						date:notifPO,
-						data:res.data[j],
-						link: 'po/detail/' + res.data[j].id
+						data:res[j],
+						link: 'po/detail/' + res[j].id
 					})
 				}
 			}
@@ -177,6 +168,10 @@ export function checkPO(self) {
 	})
 }
 
+/*
+* Function for retrieve stock barang order
+* @return object
+*/
 export function getOrderBarang() {
 	return new Promise((resolve, reject) => {
 		let arr = []
@@ -257,6 +252,7 @@ export function getDatas(self, url, options, method) {
 		.catch(e => reject(e))
 	})
 }
+
 
 export function postData(self, url, data, options) {
 	return new Promise((resolve, reject) => {

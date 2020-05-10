@@ -19,7 +19,7 @@
 								<router-link title="Order Barang Pesanan" :to="'/barang-pesanan/order/' + props.row.id" class="btn btn-warning text-dark btn-sm mr-2">
 									Order
 								</router-link>
-								<button title="Export PDF" class="btn btn-outline-danger btn-sm mr-2" @click="storePDF(props.row.id)">
+								<button title="Export PDF" class="btn btn-outline-danger btn-sm mr-2" @click="confirmPDF(props.row.id)">
 									PDF
 								</button>
 								<router-link title="Edit Barang Pesanan" :to="'/barang-pesanan/edit/' + props.row.id" class="btn btn-primary btn-sm mr-2">
@@ -34,6 +34,38 @@
 				</CRow>
 			</CCardBody>
 		</CCard>
+		<!-- Modal PDF -->
+		<CModal
+		  :show.sync="modalPDF"
+		  :no-close-on-backdrop="true"
+	      title="Export Data ke PDF"
+	      size="sm"
+	      color="dark"
+		>
+			<CInput 
+				type="text"
+				label="Nama Perusahaan"
+				placeholder="Perusahaan"
+				v-model="pdf.nama_perusahaan"
+				horizontal
+			/>
+			<CInput
+				type="date"
+				label="Tanggal"
+				v-model="pdf.date"
+				horizontal
+			 />
+			 <template #header>
+		        <h6 class="modal-title">Export Data ke PDF</h6>
+		        <CButtonClose @click="modalPDF = false" class="text-white"/>
+		      </template>
+		      <template #footer>
+		        <CButton @click="storePDF" :disabled="exportDisabled" color="success">{{exportLabel}}</CButton>
+		      </template>
+
+		</CModal>
+
+		<!-- Modal Excel -->
 		<CModal
 	      :show.sync="modal"
 	      :no-close-on-backdrop="true"
@@ -70,8 +102,11 @@
 		data() {
 			return {
 				exportLabel: 'Mulai Export',
+				exportDisabled: false,
 				modal:false,
+				modalPDF:false,
 				date:{from:null, to:null},
+				pdf:{id:'', date:'', nama_perusahaan: ''},
 				data:'',
 				smallModal:false,
 				barangPesanan:[],
@@ -85,7 +120,7 @@
 					headings: {
 						nod: 'No',
 						no:'No Pesanan',
-						tanggal_pesanan: 'Tanggal_pesanan',
+						tanggal_pesanan: 'Tanggal Pesanan',
 						keterangan: 'Keterangan',
 						aksi: 'Aksi'
 					},
@@ -101,19 +136,35 @@
 			}
 		},
 		methods: {
-			storePDF(id) {
+			confirmPDF(id) {
+				this.pdf.id = id
+				this.modalPDF = true
+			},
+			storePDF() {
+				// set loading
+				this.exportDisabled = true
+				this.exportLabel = 'Loading...'
+
+				if(this.pdf.date == '') {
+					// set loading
+					this.exportDisabled = false
+					this.exportLabel = 'Mulai Export'
+					alert('Harap isi salah satu tanggal')
+					return false
+				}
+
 				this.$swal({
 					title: 'Mohon tunggu...',
 					showCloseButton:false,
 					showCancelButton:false,
 				})
 				
-				exportPDF(this, localStorage.base_api + 'pdf/barang/pesanan/' + id, {
+				exportPDF(this, localStorage.base_api + 'pdf/barang/pesanan/' + this.pdf.id, {
 					responseType: 'blob',
 					headers: {
 						'Authorization' : 'bearer ' + localStorage.token
 					}
-				}, 'barang pesanan.pdf')
+				}, 'barang pesanan.pdf', 'post', this.pdf)
 				.then(() => {
 					this.$swal.close()
 				})
@@ -130,6 +181,7 @@
 			},
 			getData() {
 				getDatas(this, localStorage.base_api + 'barang/pesanan', {
+					method:'post',
 					headers: {
 						'Authorization': 'bearer ' + localStorage.token
 					},

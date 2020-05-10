@@ -307,28 +307,6 @@
             }
          })
          .catch(e => {
-          // if(e.response.status == 401) {
-          //   this.$store.dispatch('logout')
-          //   .then(() => {
-          //     let path = window.location.href
-          //     path = path.split('/')
-          //     localStorage.setItem('prevPath', path[path.length - 1])
-          //     alert('Session Login kamu sudah habis! silahkan login kembali')
-              
-          //   })
-          //   .then(() => {
-          //     this.$router.replace({path: '/login'})
-          //   })
-          //   .catch(e => {
-          //     alert('An error occured when get data :(')
-          //     return false
-          //   })
-          // }
-          // else if(e.response.status == 500){
-          //   alert('Ada sedikit masalah di sisi server, harap hubungi pengembangnya :)')
-          //   console.log(e)
-          //   return false
-          // }
             this.$swal('Tidak bisa ambil data', 'hubungi pengembangnya...', 'error')
             setTimeout(() => {
               this.$swal.close()

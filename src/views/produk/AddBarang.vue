@@ -49,7 +49,7 @@
 		                        v-model="barang.spesifikasi"
 		                      />  
 		                    <CInput
-		                        type="number"
+		                        type="text"
 		                        :description="validator.harga_dasar_msg"
 		                        :is-valid="validator.harga_dasar"
 		                        @input="barang.harga_dasar.length < 1 ? validator.harga_dasar = false : validator.harga_dasar = true"
@@ -60,7 +60,7 @@
 		                        v-model="barang.harga_dasar"
 		                      />  
 		                    <CInput
-		                        type="number"
+		                        type="text"
 		                        :description="validator.harga_jual_msg"
 		                        :is-valid="validator.harga_jual"
 		                        @input="barang.harga_jual.length < 1 ? validator.harga_jual = false : validator.harga_jual = true"
@@ -137,7 +137,7 @@
             description="Ketik minimal 3 huruf untuk melihat hasil"
             label="Cari vendor"
             horizontal
-            placeholder="Masukan disc"
+            placeholder="Nama barang"
             v-model="vendorKeyword"
             class="m-4"
 	       />	
@@ -160,8 +160,11 @@
 	</div>
 </template>
 <script type="text/javascript">
+	import mixins from '@/mixins/currency.js'
+	import {getDatas} from '@/containers/global-function.js'
 	export default {
 		name:'AddBarang',
+		mixins:[mixins],
 		data() {
 			return {
 				vendorDetail: [],
@@ -229,22 +232,29 @@
 						this.searchVendor = []
 					}
 				}
+			},
+			'barang.harga_dasar': function(val) {
+				this.barang.harga_dasar = this.toRupiah(val)
+			},
+			'barang.harga_jual': function(val) {
+				this.barang.harga_jual = this.toRupiah(val)	
 			}
 		},
 		methods: {
 			getVendor() {
 				this.vendor.push({value: '000', label: 'Pilih Vendor'})
-				this.$http.get(localStorage.base_api + 'vendor', {
+				getDatas(this, localStorage.base_api + 'vendors', {
+					method: 'post',
 					headers: {
-						'Authorization': 'bearer ' + localStorage.token
+						'Authorization': 'bearer ' + localStorage.getItem('token')
 					}
 				})
 				.then(res => {
-					this.vendorDetail = res.data
-					for(let i = 0;i < res.data.length;i++) {
+					this.vendorDetail = res
+					for(let i = 0;i < res.length;i++) {
 						let obj = {}
-						obj.value = res.data[i].id
-						obj.label = res.data[i].nama_instansi
+						obj.value = res[i].id
+						obj.label = res[i].nama_instansi
 						this.vendor.push(obj)
 					}
 					
@@ -348,6 +358,10 @@
 					setTimeout(() => this.$swal.close(), 1500)
 	         	}
 	         	if(!this.errors.length) {
+	         		// convert harga jual dan harga dasar ke float
+	         		this.barang.harga_jual = this.toFloatRupiah(this.barang.harga_jual)
+	         		this.barang.harga_dasar = this.toFloatRupiah(this.barang.harga_dasar)
+	         		
 	         		let formData = new FormData()
 	         		formData.append('id_vendor', this.barang.id_vendor)
 	         		formData.append('kode_barang', this.barang.kode_barang)
@@ -423,6 +437,7 @@
 	         }
 		},
 		created() {
+			console.log(this.toRupiah('2000'))
 			if(localStorage.level == 3 ) {
 				this.$router.push('/')
 			}

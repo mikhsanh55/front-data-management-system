@@ -16,7 +16,7 @@ Vue.use(ClientTable)
 
 
 const token = localStorage.getItem('token')
-localStorage.setItem('base_api', 'https://api.sabalkes.com/api/')
+localStorage.setItem('base_api', 'https://api.sabalkes.com/')
 localStorage.setItem('base_uri', 'https://api.sabalkes.com/')
 let app = new Vue({
   el: '#app',
@@ -39,7 +39,6 @@ let app = new Vue({
       fetch(localStorage.base_api + 'karyawan', options)
       .then(res => res.json())
       .then(res => {
-        console.log(res)
         this.karyawan = res
       })
       .catch(e => console.error(e.response))
@@ -49,7 +48,7 @@ let app = new Vue({
   	let token = localStorage.getItem('token'),
   		exp = localStorage.getItem('exp')
       
-    localStorage.setItem('base_api', 'https://api.sabalkes.com/api/')
+    localStorage.setItem('base_api', 'https://api.sabalkes.com/')
     localStorage.setItem('base_uri', 'https://api.sabalkes.com/')
   	if(localStorage.getItem('token') == '' || localStorage.getItem('token') == undefined || localStorage.getItem('token-xx') < new Date()) {
       localStorage.removeItem('token')

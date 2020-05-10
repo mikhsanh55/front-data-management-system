@@ -44,7 +44,7 @@
 		                        readonly
 		                      />  
 		                      <CInput
-		                        type="number"
+		                        type="text"
 		                        description="Masukan Uang Terbilang"
 		                        autocomplete="uang"
 		                        label="Uang Terbilang"
@@ -66,9 +66,11 @@
 	</div>
 </template>
 <script type="text/javascript">
+	import mixins from '@/mixins/currency.js'
 	import {getDatas} from '@/containers/global-function.js'
 	export default {
 		name:"EditKwitansi",
+		mixins:[mixins],
 		data() {
 			return {
 				label: 'Simpan Perubahan',
@@ -82,6 +84,11 @@
 				errors:[],
 				guna_pembayaran:[],
 				po:[]
+			}
+		},
+		watch: {
+			'kwitansi.uang':function(val) {
+				this.kwitansi.uang = this.toRupiah(val)
 			}
 		},
 		methods: {
@@ -131,6 +138,7 @@
 				}
 
 				if(!this.errors.length) {
+					this.kwitansi.uang = this.toFloatRupiah(this.kwitansi.uang)
 					this.label = 'Loading...'
 					this.$http.post(localStorage.base_api + 'kwitansi/edit/' + this.$route.params.id, this.kwitansi, {
 						headers: {
@@ -163,7 +171,7 @@
 			if(localStorage.level != 1 && localStorage.level != 2 && localStorage.level != 3) {
 				this.$router.push('/')
 			}
-			getDatas(this, localStorage.base_api + 'po', {headers:{'Authorization': 'bearer ' + localStorage.token}}, 'get')
+			getDatas(this, localStorage.base_api + 'po', {method:'post', headers:{'Authorization': 'bearer ' + localStorage.token}}, 'post', {})
 			.then(res => {
 				this.po = res
 				this.po.forEach((item, i) => {

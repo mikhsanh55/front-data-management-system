@@ -435,7 +435,7 @@
 
 			},
 			getRequest(url, fallback) {
-		        this.$http.get(url, {
+		        this.$http.post(url, {
 		          headers: {
 		              'Authorization': 'bearer ' + localStorage.getItem('token')
 		            },

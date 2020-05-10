@@ -105,6 +105,7 @@
 	</div>
 </template>
 <script type="text/javascript">
+	import {getDatas} from '@/containers/global-function.js'
 	export default {
 		name:'AddStockInOut',
 		data() {
@@ -185,17 +186,19 @@
 			},
 			getBarang() {
 				this.barang.push({value:'000', label: 'Pilih Barang'})
-				this.$http.get(localStorage.base_api + 'barang', {
+
+				getDatas(this, localStorage.base_api + 'barang', {
+					method: 'post',
 					headers: {
 						'Authorization': 'bearer ' + localStorage.token
 					}
 				})
 				.then(res => {
-					this.barangDetail = res.data
-					for(let i = 0;i < res.data.length;i++) {
+					this.barangDetail = res
+					for(let i = 0;i < res.length;i++) {
 						let obj = {}
-						obj.value = res.data[i].id
-						obj.label = res.data[i].nama_vendor + ' - ' + res.data[i].nama_barang
+						obj.value = res[i].id
+						obj.label = res[i].nama_vendor + ' - ' + res[i].nama_barang
 						this.barang.push(obj)
 					}
 					

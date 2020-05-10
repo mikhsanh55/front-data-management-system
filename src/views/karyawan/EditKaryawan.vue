@@ -210,6 +210,7 @@
 		methods: {
 			getJabatan() {
 	      		getDatas(this, localStorage.base_api + 'jabatan', {
+	      			method:'post',
 	      			headers: {
 	      				'Authorization': 'bearer ' + localStorage.token
 	      			}

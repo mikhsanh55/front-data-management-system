@@ -115,7 +115,7 @@
 				let headers = new Headers()
 				headers.append('Authorization', 'bearer ' + localStorage.token)
 				let options = {
-					method: 'GET',
+					method: 'post',
 					headers,
 					redirect:'follow'
 				}
