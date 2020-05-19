@@ -167,7 +167,7 @@
 
 				if(!this.errors.length) {
 					this.label = 'Loading...'
-					this.$http.post(this.base_api + 'assets', this.asset, {
+					this.$http.post(this.base_api + 'tambah/asset', this.asset, {
 						headers: {
 							'Authorization':'bearer ' + localStorage.token
 						}

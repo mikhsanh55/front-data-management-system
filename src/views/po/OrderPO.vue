@@ -104,6 +104,12 @@
 								id="request-table"
 								 class="m-4"
 								>
+									<div slot="harga_jual" slot-scope="props">
+										{{props.row.harga_jual | formatRupiah}}
+									</div>
+									<div slot="total" slot-scope="props">
+										{{props.row.total | formatRupiah}}
+									</div>
 									<div slot="aksi" slot-scope="props">
 										<button class="btn btn-secondary text-danger m-1"  @click="deleteFromTable(props.row.id)"><i class="fa fa-trash"></i></button>				
 									</div>
@@ -395,8 +401,30 @@
 					this.label = 'Loading...'
 					this.rpo.id_po = this.$route.params.id
 					this.rpo.total = Math.round(((this.rpo.harga_jual * this.rpo.qty) + this.rpo.tax / 100) - (this.rpo.disc / 100 * (this.rpo.harga_jual * this.rpo.qty)))
+
+					let data = {
+						id_po:this.rpo.id_po,
+						id_barang:this.rpo.id_barang,
+						nama_barang:this.rpo.nama_barang,
+						spesifikasi_barang:this.spesifikasi_barang,
+						qty:this.rpo.qty,
+						tanggal:this.rpo.tanggal,
+						harga_jual:this.toFloatRupiah(this.rpo.harga_jual),
+						satuan:this.rpo.satuan,
+						status:this.rpo.status,
+						kode_barang: this.rpo.kode_barang,
+						tax_rate:this.rpo.tax_rate,
+						total:this.rpo.total,
+						sub_total:this.rpo.sub_total,
+						sales_fee:this.rpo.sales_fee,
+						other:this.rpo.other,
+						sales_tax_rate:this.rpo.sales_tax_rate,
+						disc:this.rpo.disc,
+						tax:this.rpo.tax,
+						grand_total:this.rpo.grand_total,
+					}
 		    	
-			    	this.$http.post(localStorage.base_api + 'order/barang/po', this.rpo, {
+			    	this.$http.post(localStorage.base_api + 'tambah/order/barang/po', data, {
 			    		headers: {
 			    			'Authorization': 'bearer ' + localStorage.token
 			    		}
@@ -514,7 +542,7 @@
 								kode_barang:item.kode_barang,
 								nama_barang:item.nama_barang,
 								spesifikasi_barang:item.spesifikasi,
-								harga_jual: item.harga_jual,
+								harga_jual: item.harga_jual === null ? 0 : item.harga_jual,
 								total: (item.harga_jual * item.qty)
 							}	
 							this.order_barang.push(obj)

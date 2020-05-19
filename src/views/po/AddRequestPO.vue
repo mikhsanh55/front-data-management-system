@@ -99,6 +99,7 @@
 	</div>
 </template>
 <script type="text/javascript">
+	import {exportExcel, getOrderBarang, getDatas} from '@/containers/global-function.js'
 	export default {
 		name: 'AddRequestPO',
 		data() {
@@ -236,7 +237,7 @@
 				}
 
 				if(!this.errors.length) {
-					this.$http.post(localStorage.base_api + 'request/barang', this.request_po, {
+					this.$http.post(localStorage.base_api + 'tambah/request/barang', this.request_po, {
 						headers: {
 							'Authorization': 'bearer ' + localStorage.token
 						},
@@ -274,17 +275,18 @@
 			if(localStorage.level != 1 && localStorage.level != 2 && localStorage.level != 6 && localStorage.level != 5) {
 				this.$router.push('/')
 			}
-			this.$http.post(localStorage.base_api + 'barang', {
+			getDatas(this, localStorage.base_api + 'barang', {
+				method: 'post',
 				headers: {
 					'Authorization': 'bearer ' + localStorage.token
 				}
 			})
 			.then(res => {
-				this.barangDetail = res.data
-				for(let i = 0;i < res.data.length;i++) {
+				this.barangDetail = res
+				for(let i = 0;i < res.length;i++) {
       				let obj = {}
-      				obj.value = res.data[i].id
-      				obj.label = res.data[i].nama_vendor + ' - ' + res.data[i].nama_barang
+      				obj.value = res[i].id
+      				obj.label = res[i].nama_vendor + ' - ' + res[i].nama_barang
       				this.barang.push(obj)
       			}
       			this.request_po.id_barang = this.barang[0].id

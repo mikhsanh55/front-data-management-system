@@ -7,7 +7,7 @@
 			<CCardBody>
 				<CRow>
 					<CCol sm="12">
-						<button v-if="data.level == 5 || data.level == 2 || data.level == 1 || data.level == 3" @click="modal = true" class="float-right mb-4 ml-2 btn btn-success"><small> <i class="fa fa fa-file-excel-o mr-1"></i> Export .xlsx</small></button>
+						<button v-if="data.level == 5 || data.level == 2 || data.level == 1 || data.level == 3 || data.level == 4" @click="modal = true" class="float-right mb-4 ml-2 btn btn-success"><small> <i class="fa fa fa-file-excel-o mr-1"></i> Export .xlsx</small></button>
 						<router-link to="/stock-in-out/add" class="float-right mb-4 btn btn-primary"><small> <i class="fa fa-plus mr-1"></i> Tambah Stock In Out</small></router-link>			
 						<v-client-table
 							:data="stockinout"

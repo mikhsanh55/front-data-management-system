@@ -37,7 +37,7 @@
 								<td>{{po.date_line}}</td>
 							</tr>
 							<tr>
-								<th class="w-50">TOP</th>
+								<th class="w-50">Tanggal Kontrabon</th>
 								<td>{{po.jatuh_tempo}}</td>
 							</tr>
 							<tr>
@@ -142,7 +142,7 @@
 				status: [],
 				label: 'Update Status PO',
 				data:this.$store.getters.userData,
-				tableFields:['no', 'foto', 'kode_barang', 'nama_barang', 'spesifikasi', 'disc', 'tax', 'total'],
+				tableFields:['no', 'foto', 'kode_barang', 'nama_barang', 'spesifikasi', 'harga_jual', 'disc', 'tax', 'total'],
 				tableOptions: {
 					perPage:10,
 					pagination:{chunk:10, dropdown:false, edge:true, nav:'fixed'},
@@ -152,18 +152,20 @@
 			    		kode_barang:'Kode Barang',
 			    		nama_barang:'Nama Barang',
 			    		spesifikasi:'Spesifikasi Barang',
+			    		harga_jual: 'Harga Jual',
 			    		disc: 'Diskon',
 			    		tax: 'Tax',
 			    		total: 'Total'
 			    	},
 			    	sortable:['nama_barang'],
-			    	filterable:['nama_barang', 'kode_barang', 'spesifikasi', 'no', 'disc', 'tax', 'total'],
+			    	filterable:['nama_barang', 'kode_barang', 'spesifikasi', 'harga_jual', 'no', 'disc', 'tax', 'total'],
 			    	columnsClasses: {
 			    		no:'text-center align-middle',
 			    		foto: 'text-center align-middle',
 			    		kode_barang:'align-middle',
 			    		nama_barang:'align-middle',
 			    		spesifikasi:'align-middle',
+			    		harga_jual: 'align-middle',
 			    		disc:'align-middle',
 			    		tax:'align-middle',
 			    		total:'align-middle'
@@ -279,7 +281,8 @@
 						this.info_po.forEach((item, i) => {
 							// getDatas(this,localStorage.base_api + 'barang/' + item.id_barang, { method:'POST', headers:{'Authorization': 'bearer ' + localStorage.token}}, 'POST')
 							// .then(res => {
-								let total = item.qty * item.harga_jual, 
+								let hargaJual = item.harga_jual === null ? 0 : item.harga_jual
+								let total = item.qty * hargaJual, 
 								disc = item.disc,
 								tax = item.tax
 								arr.push({
@@ -291,6 +294,7 @@
 									kode_barang:item.kode_barang,
 									nama_barang: item.nama_barang,
 									spesifikasi: item.spesifikasi,
+									harga_jual: hargaJual
 								})
 								this.po.sub_total += parseInt(total) 
 								this.po.disc += parseInt(item.harga_jual * item.qty * (disc/100))

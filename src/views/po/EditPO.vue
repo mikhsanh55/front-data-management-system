@@ -107,9 +107,9 @@
                             :is-valid="validator.jatuh_tempo"
                             @input="po.jatuh_tempo.length < 1 ? validator.jatuh_tempo = false : validator.jatuh_tempo = true"
                             autocomplete="jatuh_tempo"
-                            label="TOP"
+                            label="Tanggal kontrabon"
                             horizontal
-                            placeholder="Masukan jatuh_tempo"
+                            placeholder="Masukan tanggal kontrabon"
                             v-model="po.jatuh_tempo"
                           />
                           </div>
@@ -216,7 +216,7 @@
           no_po: null,
           date: null,
           date_line: null,
-          jatuh_tempo: '2020-02-02',
+          jatuh_tempo: '1970-01-01',
           tax_rate: null,
           sales_fee: null,
           other: null,
@@ -269,14 +269,14 @@
         this.po.id_sales = val
       },
       getRequest(url, fallback) {
-        this.$http.get(url, {
-          headers: {
-              'Authorization': 'bearer ' + localStorage.getItem('token')
-            },
-            redirect:'follow'
-          })
+        getDatas(this, url, {
+              method: 'post',
+              headers: {
+                'Authorization': 'bearer ' + localStorage.token
+              }
+            })
           .then(response => {
-            fallback(response.data)
+            fallback(response)
           })
           .catch(e => {
             alert('Ada sedikit error!')
@@ -337,7 +337,7 @@
         }
         // if(!this.po.jatuh_tempo) {
         //   this.validator.jatuh_tempo = false
-        //         this.validator.jatuh_tempo_msg = 'Harap isi tanggal jatuh tempo'
+        //         this.validator.jatuh_tempo_msg = 'Harap isi tanggal kontrabon'
         //         this.errors.push('jatuh_tempo kosong')
         // }
         if(!this.errors.length) {

@@ -101,10 +101,12 @@
 						}
 					})
 					.then(res => {
+						this.label = 'Ubah Password'
 						this.$swal('Password sudah dirubah!', 'Mohon tunggu...', 'success')
 						setTimeout(() => this.$swal.close(), 1500)
 					})
 					.catch(e => {
+						this.label = 'Ubah Password'
 						this.$swal('Password gagal dirubah!', 'Mohon tunggu...', 'error')
 						setTimeout(() => this.$swal.close(), 1500)
 						return false

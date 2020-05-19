@@ -79,9 +79,9 @@
 						                :is-valid="validator.jatuh_tempo"
 						                @input="po.jatuh_tempo.length < 1 ? validator.jatuh_tempo = false : validator.jatuh_tempo = true"
 						                autocomplete="jatuh_tempo"
-						                label="TOP"
+						                label="Tanggal Kontrabon"
 						                horizontal
-						                placeholder="Masukan jatuh_tempo"
+						                placeholder="Masukan tanggal kontrabon"
 						                v-model="po.jatuh_tempo"
 						              />
 						          	  </div>
@@ -184,7 +184,7 @@
 </template>
 <script type="text/javascript">
 	import Notif from '@/containers/notif.js'
-	import {postData} from '@/containers/global-function.js'
+	import {postData, getDatas} from '@/containers/global-function.js'
 	export default {
 		name: 'AddPO',
 		data() {
@@ -247,7 +247,7 @@
 					no: null,
 					date: null,
 					date_line: null,
-					jatuh_tempo: '2020-02-02',
+					jatuh_tempo: '1970-01-01',
 					tax_rate: null,
 					sales_fee: null,
 					other: null,
@@ -334,7 +334,7 @@
 				}
 				// if(!this.po.jatuh_tempo) {
 				// 	this.validator.jatuh_tempo = false
-		  //           this.validator.jatuh_tempo_msg = 'Harap isi tanggal jatuh tempo'
+		  //           this.validator.jatuh_tempo_msg = 'Harap isi tanggal kontrabon'
 		  //           this.errors.push('jatuh_tempo kosong')
 				// }
 
@@ -374,7 +374,7 @@
 					this.notif.add(this.po)
 
 					this.label = 'Loading...'
-					this.$http.post(localStorage.base_api + 'po', this.po, {
+					this.$http.post(localStorage.base_api + 'tambah/po', this.po, {
 						headers: {
 							'Authorization': 'bearer ' + localStorage.token
 						},
@@ -435,14 +435,15 @@
 
 			},
 			getRequest(url, fallback) {
-		        this.$http.post(url, {
-		          headers: {
-		              'Authorization': 'bearer ' + localStorage.getItem('token')
-		            },
-		            redirect:'follow'
-		          })
+
+		        getDatas(this, url, {
+		        	method: 'post',
+					headers: {
+						'Authorization': 'bearer ' + localStorage.token
+					}
+		        })
 		          .then(response => {
-		            fallback(response.data)
+		            fallback(response)
 		          })
 		          .catch(e => {
 		            this.$swal('Tidak bisa ambil data', 'hubungi pengembangnya...', 'error')

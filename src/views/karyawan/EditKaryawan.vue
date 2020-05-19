@@ -390,7 +390,7 @@
 		                  })
 		                }
 		                else {
-		                	this.$swal('Maaf tidak bisa hapus data :(', 'hubungi pengembangnya yah :)', 'danger')
+		                	this.$swal('Maaf tidak bisa hapus data :(', 'hubungi pengembangnya yah :)', 'error')
 		                    setTimeout(() => {
 		                      this.$swal.close()
 		                    }, 2000)

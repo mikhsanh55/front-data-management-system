@@ -109,7 +109,7 @@
 				let headers = new Headers()
 				headers.append('Authorization', 'bearer ' + localStorage.getItem('token'))
 				let options = {
-					method:'GET',
+					method:'POST',
 					headers,
 					redirect:'follow'
 				}
@@ -162,7 +162,7 @@
 				})
 			},
 			assignKaryawan(val) {
-				this.user.nama = val
+				this.user.id = val
 				this.data_karyawan.forEach((item, i) => {
 					if(val == item.id) {
 						this.user.email = item.email

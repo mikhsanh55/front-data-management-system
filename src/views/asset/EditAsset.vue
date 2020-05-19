@@ -158,7 +158,7 @@
 					headers,
 					redirect:'follow'
 				}
-				getDatas(this, this.base_api + 'assets/' + this.$route.params.id, options)
+				getDatas(this, this.base_api + 'asset/' + this.$route.params.id, options)
 				.then(res => {
 					this.jabatanselected = res.jabatan
 					this.karyawanselected = res.id
@@ -223,7 +223,7 @@
 					formData.append('tanggal_beli', this.asset.tanggal_beli)
 					formData.append('tanggal_expired', this.asset.tanggal_expired)
 					// formData.append('jabatan', this.asset.jabatan)
-					this.$http.post(this.base_api + 'assets/edit/' + this.$route.params.id, formData, {
+					this.$http.post(this.base_api + 'asset/edit/' + this.$route.params.id, formData, {
 						headers : {
 							'Authorization': 'bearer ' + localStorage.token
 						}

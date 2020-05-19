@@ -227,7 +227,7 @@
 					}
 
 					this.label = 'Loading...'
-					this.$http.post(localStorage.base_api + 'vendor/edit/'+ this.$route.params.id, formData, {
+					this.$http.post(localStorage.base_api + 'vendors/edit/'+ this.$route.params.id, formData, {
 						headers: {
 							'Authorization':'bearer ' + localStorage.getItem('token')
 						},

@@ -122,8 +122,14 @@
 
 				if(!this.errors.length) {
 					this.kwitansi.uang = this.toFloatRupiah(this.kwitansi.uang)
+					
 					this.label = 'Loading...'
-					this.$http.post(localStorage.base_api + 'kwitansi', this.kwitansi, {
+					this.$http.post(localStorage.base_api + 'tambah/kwitansi', {
+						no: this.kwitansi.no,
+						terima_dari: this.kwitansi.terima_dari,
+						guna_pembayaran: this.kwitansi.guna_pembayaran,
+						uang: this.toFloatRupiah(this.kwitansi.uang)
+					}, {
 						headers: {
 							'Authorization':'bearer ' + localStorage.getItem('token')
 						},

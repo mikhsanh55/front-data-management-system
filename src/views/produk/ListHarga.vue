@@ -19,10 +19,6 @@
 							:options="tableOptions"
 							id="barang_table"
 							>
-							<!-- <div slot="foto" slot-scope="props">
-									<img :src="uri + props.row.foto"  height="50" width="70" />
-								
-							</div> -->
 							<div slot="aksi" slot-scope="props" class="d-flex justify-content-center">
 								<router-link :to="'/barang/detail/' + props.row.id" class="btn btn-dark btn-sm mr-2">
 									Detail
@@ -33,8 +29,8 @@
 								<button v-if="data.level != 2 && data.level != 7 && data.level != 6" title="hapus data karyawan" class="btn btn-danger btn-sm" @click="deleteBarang(props.row.id)">Hapus</button>
 
 							</div>
-							<div slot="harga" slot-scope="props">
-								{{ props.row.harga_jual | formatRupiah}}
+							<div slot="harga" slot-scope="props" v-if="data.level != 6 && data.level !=4">
+								{{props.row.harga_jual}}
 							</div>
 							</v-client-table>
 						
@@ -57,7 +53,7 @@
 								
 								<!-- convert harga jual to rupiah -->
 								<div slot="harga_jual" slot-scope="props" class="text-left">
-									{{ props.row.harga_jual | formatRupiah }}
+									{{props.row.harga_jual}}
 								</div>
 
 								<div slot="aksi" slot-scope="props" class="d-flex justify-content-center">
@@ -160,8 +156,8 @@
 		components: {
 			CTableWrapper
 		},
-		filter: {
-			formatRupiah(angka)  {
+		filters: {
+			formatRp(angka)  {
 				let angkaToString = angka.toString().replace(/[^, \d]/g, "").toString(),
 			        split = angkaToString.split(","),
 			        sisa = split[0].length % 3,
@@ -284,6 +280,10 @@
 				.then(response => {
 					this.tableItem = response
 					for(let i = 0;i < this.tableItem.length;i++) {
+						if(this.tableItem[i].stock == null) 
+							this.tableItem[i].stock = 0
+
+						this.tableItem[i].harga_jual = this.toRupiah(this.tableItem[i].harga_jual)
 						this.tableItem[i].no = i+1;
 					}
 				})    

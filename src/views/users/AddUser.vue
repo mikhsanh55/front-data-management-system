@@ -93,17 +93,18 @@
 		methods: {
 			getJabatan() {
 				this.jabatan.push({value:'000', label: 'Pilih Jabatan'})
-				this.$http.post(localStorage.base_api + 'jabatan', {
+				getDatas(this, localStorage.base_api + 'jabatan', {
+					method: 'post',
 	      			headers: {
 	      				'Authorization': 'bearer ' + localStorage.token
 	      			}
 	      		})
 	      		.then(res => {
 	      			// console.log(res.data)
-	      			for(let i = 0;i < res.data.length;i++) {
+	      			for(let i = 0;i < res.length;i++) {
 	      				let obj = {}
-	      				obj.value = res.data[i].id
-	      				obj.label = res.data[i].nama
+	      				obj.value = res[i].id
+	      				obj.label = res[i].nama
 	      				this.jabatan.push(obj)
 	      			}
 	      		})
@@ -124,7 +125,6 @@
 				}
 				fetch(localStorage.base_api + 'karyawan', options)
 				.then(res => res.json())
-				
 				.then(res => {
 					this.data_karyawan = res
 					for(let i = 0;i < res.length;i++) {
@@ -205,7 +205,7 @@
 				if(!this.errors.length) {
 					console.log(this.user)
 					this.label = 'Loading...'
-					this.$http.post(localStorage.base_api + 'user', this.user, {
+					this.$http.post(localStorage.base_api + 'tambah/user', this.user, {
 						headers: {
 							'Authorization': 'bearer ' + localStorage.getItem('token')
 						},

@@ -284,23 +284,22 @@
 			if(localStorage.level != 1 && localStorage.level != 2 && localStorage.level != 6 && localStorage.level != 5) {
 				this.$router.push('/')
 			}
-			this.$http.get(localStorage.base_api + 'barang', {
+			getDatas(this, localStorage.base_api + 'barang', {
+				method: 'post',
 				headers: {
 					'Authorization': 'bearer ' + localStorage.token
 				}
 			})
 			.then(res => {
-				this.barangDetail = res.data
-				for(let i = 0;i < res.data.length;i++) {
+				this.barangDetail = res
+				for(let i = 0;i < res.length;i++) {
       				let obj = {}
-      				obj.value = res.data[i].id
-      				obj.label = res.data[i].nama_vendor + ' - ' + res.data[i].nama_barang
+      				obj.value = res[i].id
+      				obj.label = res[i].nama_vendor + ' - ' + res[i].nama_barang
       				this.barang.push(obj)
       			}
 			})
 			.then(() => {
-				// this.getData()
-				// this.$swal('NGETEH ASW', '', 'info')
 				fetch(localStorage.base_api + 'request/barang/' + this.$route.params.id, {
 					method:'post',
 					headers: {
@@ -315,30 +314,6 @@
 					console.error('DUDE ' + e)
 					return false
 				})
-				// let headers = new Headers()
-				// headers.append('Authorization', 'bearer ' + localStorage.token)
-				// let options = {
-				// 	method:'POST',
-				// 	headers,
-				// 	redirect:'follow'
-				// }
-
-				// getDatas(localStorage.base_api + 'request/barang/' + this.$route.params.id, options)
-				// .then(res => {
-					
-				// 	console.log(res)
-				// 	this.request_po = res
-					
-				// })
-				// .catch(e => {
-				// 	this.$swal('Mohon maaf tidak bisa meng-update data', 'Mohon hubungi pengembang...', 'error')
-	   //              setTimeout(() => {
-	   //              	this.$swal.close()
-	   //              	return false
-	   //              })
-				// 	console.error(e)
-				// 	return false
-				// })
 				
 			})
 			.catch(e => {

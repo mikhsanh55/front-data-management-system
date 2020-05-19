@@ -178,7 +178,7 @@
 			      })
 				.then((deleted) => {
 					if(deleted) {
-						this.$http.delete(localStorage.base_api + 'vendor/' + id, {
+						this.$http.delete(localStorage.base_api + 'vendors/' + id, {
 							headers: {
 								'Authorization': 'bearer ' + localStorage.getItem('token')
 							},

@@ -26,7 +26,7 @@
 							</tr>
 							<tr>
 								<th class="w-50">Harga Jual</th>
-								<td>{{order_barang.harga_jual}}</td>
+								<td>{{order_barang.harga_jual | formatRupiah}}</td>
 							</tr>
 							<tr>
 								<th class="w-50">Satuan</th>
@@ -50,6 +50,24 @@
 		data() {
 			return {
 				order_barang: {},
+			}
+		},
+		filters: {
+			formatRupiah(angka)  {
+				let angkaToString = angka.toString().replace(/[^, \d]/g, "").toString(),
+			        split = angkaToString.split(","),
+			        sisa = split[0].length % 3,
+			        rupiah = split[0].substr(0, sisa),
+			        ribuan = split[0].substr(sisa).match(/\d{3}/gi),
+			        separator = ''
+
+			    if(ribuan && ribuan.length != null) {
+			      separator = sisa ? "." : ""
+			      rupiah += separator + ribuan.join(".")
+			    }
+			    rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah
+
+			    return rupiah
 			}
 		},
 		created() {

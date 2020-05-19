@@ -67,7 +67,10 @@
 			return {
 				exportLabel: 'Mulai Export',
 				data:'',
-				date:{from:'2020-02-02', to:'2020-02-02'},
+				date: {
+					from:null,
+					to:null
+				},
 				modal:false,
 				dataOrder:[],
 				tableFields: ['no', 'kode_barang', 'nama_barang', 'spesifikasi', 'qty', 'keterangan', 'aksi'],
@@ -115,7 +118,7 @@
 					headers: {
 						'Authorization' : 'bearer ' + localStorage.token
 					}
-				}, 'order barang.xls')
+				}, 'orderbarang.xls')
 				.then(() => {
 					this.modal = false
 					this.exportLabel = 'Mulai Export'

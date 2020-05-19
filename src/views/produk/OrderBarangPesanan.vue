@@ -351,14 +351,30 @@
 
 		    	if(!this.errors.length){
 		    		// convert to float from rupiah
-		    		this.order_barang_pesanan.harga_dasar = this.toFloatRupiah(this.order_barang_pesanan.harga_dasar)
 					this.label = 'Loading...'
 					this.order_barang_pesanan.id_po = this.$route.params.id
 
 					// Contoh dulu
 					this.order_barang_pesanan.id_pesanan = this.$route.params.id
-		    	
-			    	this.$http.post(localStorage.base_api + 'order/barang/pesanan', this.order_barang_pesanan, {
+		    		
+		    		let data = {
+						id_pesanan:this.order_barang_pesanan.id_pesanan,
+						id_barang:this.order_barang_pesanan.id_barang,
+						nama_barang:this.order_barang_pesanan.nama_barang,
+						spesifikasi_barang:this.order_barang_pesanan.spesifikasi_barang,
+						qty:this.order_barang_pesanan.qty,
+						tanggal:this.order_barang_pesanan.tanggal,
+						harga_jual:this.order_barang_pesanan.harga_jual,
+						harga_dasar:this.toFloatRupiah(this.order_barang_pesanan.harga_dasar),
+						status:this.order_barang_pesanan.status,
+						kode_barang: this.order_barang_pesanan.kode_barang,
+						tax:this.order_barang_pesanan.tax,
+						disc:this.order_barang_pesanan.disc,
+						sub_total:this.order_barang_pesanan.sub_total,
+						satuan:this.order_barang_pesanan.satuan
+		    		}
+
+			    	this.$http.post(localStorage.base_api + 'tambah/order/barang/pesanan', data, {
 			    		headers: {
 			    			'Authorization': 'bearer ' + localStorage.token
 			    		}

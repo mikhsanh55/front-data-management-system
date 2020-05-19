@@ -266,7 +266,7 @@
 
 	         	if(!this.errors.length) {
 	         		this.label = 'Loading...'
-	         		this.$http.post(localStorage.base_api + 'stock', this.stockinout, {
+	         		this.$http.post(localStorage.base_api + 'tambah/stock', this.stockinout, {
 	         			headers: {
 	         				'Authorization':'bearer ' + localStorage.token
 	         			},

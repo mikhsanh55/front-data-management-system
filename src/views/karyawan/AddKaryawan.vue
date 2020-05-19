@@ -230,10 +230,10 @@
 	      	getJabatan() {
 	      		this.jabatan.push({value:'000', label:'Pilih Jabatan'})
 	      		getDatas(this, localStorage.base_api + 'jabatan', {
-	      			method: 'get',
+	      			method: 'post',
 	      			headers: {
 	      				'Authorization': 'bearer ' + localStorage.token
-	      		}}, 'get')
+	      		}}, 'post')
 	      		.then(res => {
 	      			// console.log(res.data)
 	      			
@@ -333,14 +333,7 @@
 					if(this.karyawan.foto != null) {
 		              formData.append('foto', this.karyawan.foto)
 		            }
-					// postData(this, 'https://young-temple-67589.herokuapp.com/api/karyawan', this.karyawan, {
-					// 	method: 'post',
-					// 	headers: {
-					// 		'Authorization': 'bearer ' + localStorage.token
-					// 	},
-					// 	redirect:'follow'
-					// })
-					this.$http.post(localStorage.base_api + 'karyawan', formData, {
+					this.$http.post(localStorage.base_api + 'tambah/karyawan', formData, {
 						headers: {
 							'Authorization': 'bearer ' + localStorage.token
 						}

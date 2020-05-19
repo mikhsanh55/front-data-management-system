@@ -89,7 +89,7 @@
 					console.log(this.barang_pesanan)
 					this.barang_pesanan.tanggal_pesanan = this.barang_pesanan.tanggal
 					this.label = 'Loading...'
-					this.$http.post(localStorage.base_api + 'barang/pesanan', this.barang_pesanan, {
+					this.$http.post(localStorage.base_api + 'tambah/pesanan/barang', this.barang_pesanan, {
 						headers: {
 							'Authorization': 'bearer ' + localStorage.getItem('token')
 						},

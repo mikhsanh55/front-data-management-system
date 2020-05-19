@@ -69,12 +69,12 @@
 		},
 		methods: {
 			getData() {
-				getDatas(this, this.base_api + 'assets', {
+				getDatas(this, this.base_api + 'asset', {
 					method: 'post',
 					headers: {
-						'Authorization':'bearer ' + localStorage.getItem('token')
+						'Authorization':'bearer ' + localStorage.getItem('token'),
+						'Access-Control-Allow-Origin' : localStorage.base_uri
 					},
-					redirect:'follow'
 				})
 				.then(res => {
 						this.assets = res
@@ -101,7 +101,7 @@
 			      })
 				.then((deleted) => {
 					if(deleted) {
-						this.$http.delete(this.base_api + 'assets/' + id, {
+						this.$http.delete(this.base_api + 'asset/' + id, {
 							headers: {
 								'Authorization':'bearer ' + localStorage.token
 							},

@@ -101,10 +101,11 @@
 				
 				exportPDF(this, localStorage.base_api + 'pdf/kwitansi/' + id, {
 					responseType: 'blob',
+					method: 'post',
 					headers: {
 						'Authorization' : 'bearer ' + localStorage.token
 					}
-				}, 'kwitansi.pdf')
+				}, 'kwitansi.pdf', 'post', {})
 				.then(() => {
 					this.$swal.close()
 				})
@@ -156,7 +157,7 @@
 							redirect:'follow'
 						})
 						.then(res => {
-
+							this.kwitansi = []
 							this.$swal('Data kwitansi berhasil dihapus', 'Mohon tunggu sebentar...', 'success')
 							setTimeout(() => {
 								this.$swal.close()

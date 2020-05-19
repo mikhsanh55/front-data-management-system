@@ -175,7 +175,7 @@
 						formData.append('foto', this.vendor.foto)
 					}
 					this.label_btn = 'Loading...'
-					this.$http.post(localStorage.base_api + 'vendor', formData, {
+					this.$http.post(localStorage.base_api + 'tambah/vendors', formData, {
 						headers: {
 							'Authorization': 'bearer ' + localStorage.getItem('token')
 						},

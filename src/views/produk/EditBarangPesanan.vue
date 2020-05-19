@@ -92,7 +92,7 @@
 					
 					this.barang_pesanan.tanggal = this.barang_pesanan.tanggal_pesanan
 					this.label = 'Loading...'
-					this.$http.post(localStorage.base_api + 'barang/pesanan/edit/' + this.$route.params.id, this.barang_pesanan, {
+					this.$http.post(localStorage.base_api + 'pesanan/barang/edit/' + this.$route.params.id, this.barang_pesanan, {
 						headers: {
 							'Authorization': 'bearer ' + localStorage.getItem('token')
 						},
@@ -147,7 +147,7 @@
 			if(localStorage.level != 1 && localStorage.level != 2 && localStorage.level != 5 ) {
 				this.$router.push('/')
 			}
-			getDatas(this, localStorage.base_api + 'barang/pesanan/' + this.$route.params.id, {
+			getDatas(this, localStorage.base_api + 'pesanan/barang/' + this.$route.params.id, {
 				method:'POST',
 				headers: {
 					'Authorization': 'bearer ' + localStorage.token

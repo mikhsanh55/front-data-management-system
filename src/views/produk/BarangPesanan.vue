@@ -159,7 +159,7 @@
 					showCancelButton:false,
 				})
 				
-				exportPDF(this, localStorage.base_api + 'pdf/barang/pesanan/' + this.pdf.id, {
+				exportPDF(this, localStorage.base_api + 'pdf/pesanan/barang/' + this.pdf.id, {
 					responseType: 'blob',
 					headers: {
 						'Authorization' : 'bearer ' + localStorage.token
@@ -180,7 +180,7 @@
 				})
 			},
 			getData() {
-				getDatas(this, localStorage.base_api + 'barang/pesanan', {
+				getDatas(this, localStorage.base_api + 'pesanan/barang', {
 					method:'post',
 					headers: {
 						'Authorization': 'bearer ' + localStorage.token
@@ -231,7 +231,7 @@
 			      })
 			      .then((del) => {
 			      	if(del)	{
-			      		this.$http.delete(localStorage.base_api + 'barang/pesanan/' + id, {
+			      		this.$http.delete(localStorage.base_api + 'pesanan/barang/' + id, {
 							headers: {
 								'Authorization':'bearer ' + localStorage.getItem('token')
 							},
@@ -270,7 +270,7 @@
 					return false
 				}
 				this.exportLabel = 'Loading...'
-				exportExcel(this, localStorage.base_api + 'excel/barang/pesanan', {from:this.date.from, to:this.date.to}, {
+				exportExcel(this, localStorage.base_api + 'excel/pesanan/barang', {from:this.date.from, to:this.date.to}, {
 					responseType: 'blob',
 					headers: {
 						'Authorization' : 'bearer ' + localStorage.token

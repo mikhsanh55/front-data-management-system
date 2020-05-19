@@ -168,13 +168,30 @@
 						
 			},
 			storeExcel() {
+				if(this.date.from == null && this.date.to == null)  {
+					this.$swal('Tanggal tidak boleh kosong', '', 'warning')
+					setTimeout(() => {
+						this.$swal.close()
+						return false
+					}, 2000)
+					
+					this.exportLabel = 'Mulai Export'
+				}
+
+				if(this.date.from == null && this.date.to != null) {
+					this.date.from = this.date.to
+				}
+
+				if(this.date.from != null && this.date.to == null) {
+					this.date.to = this.date.from
+				}
 				this.exportLabel = 'Loading...'
 				exportExcel(this, localStorage.base_api + 'excel/request/barang', {from:this.date.from, to:this.date.to}, {
 					responseType: 'blob',
 					headers: {
 						'Authorization' : 'bearer ' + localStorage.token
 					}
-				}, 'Request Barang.xls')
+				}, 'RequestBarang.xls')
 				.then(() => {
 					this.modal = false
 					this.exportLabel = 'Mulai Export'

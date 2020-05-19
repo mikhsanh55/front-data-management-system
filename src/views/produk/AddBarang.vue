@@ -359,16 +359,14 @@
 	         	}
 	         	if(!this.errors.length) {
 	         		// convert harga jual dan harga dasar ke float
-	         		this.barang.harga_jual = this.toFloatRupiah(this.barang.harga_jual)
-	         		this.barang.harga_dasar = this.toFloatRupiah(this.barang.harga_dasar)
 	         		
 	         		let formData = new FormData()
 	         		formData.append('id_vendor', this.barang.id_vendor)
 	         		formData.append('kode_barang', this.barang.kode_barang)
 	         		formData.append('nama_barang', this.barang.nama_barang)
 	         		formData.append('spesifikasi', this.barang.spesifikasi)
-	         		formData.append('harga_jual', this.barang.harga_jual)
-	         		formData.append('harga_dasar', this.barang.harga_dasar)
+	         		formData.append('harga_jual', this.toFloatRupiah(this.barang.harga_jual))
+	         		formData.append('harga_dasar', this.toFloatRupiah(this.barang.harga_dasar))
 	         		formData.append('satuan', this.barang.satuan)
 	         		formData.append('exp', this.barang.exp)
 	         		formData.append('keterangan', this.barang.keterangan)
@@ -376,7 +374,7 @@
 	         			formData.append('foto', this.barang.foto)
 	         		}
 	         		this.label = 'Loading...'
-	         		this.$http.post(localStorage.base_api + 'barang', formData, {
+	         		this.$http.post(localStorage.base_api + 'tambah/barang', formData, {
 	         			headers: {
 	         				'Authorization':'bearer ' + localStorage.token
 	         			},
@@ -437,7 +435,6 @@
 	         }
 		},
 		created() {
-			console.log(this.toRupiah('2000'))
 			if(localStorage.level == 3 ) {
 				this.$router.push('/')
 			}

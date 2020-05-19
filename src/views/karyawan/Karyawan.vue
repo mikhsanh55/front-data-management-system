@@ -208,9 +208,6 @@
 				this.getData()	
 			}, 500)
 			
-		},
-		mounted() {
-			
 		}
 	}
 </script>

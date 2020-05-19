@@ -62,14 +62,14 @@
 	      <CInput
 	      	  label="Nama Perusahaan"
 	      	  horizontal
-	      	  v-model="pdf_data.nama_perusahaan"
+	      	  v-model="pdf_data.nama"
 	      	  placeholder="Contoh company"
 	       /> 
 	      <CInput
 	          label="Tanggal"
 	      	  type="date"
 	      	  horizontal
-	      	  v-model="pdf_data.date"
+	      	  v-model="pdf_data.tanggal"
 	       /> 
 	      <template #header>
 	        <h6 class="modal-title">Export Data ke PDF</h6>
@@ -115,7 +115,7 @@
 		data() {
 			return {
 				exportLabel: 'Mulai Export',
-				pdf_data: {type:'po', date:'', nama_perusahaan:''},
+				pdf_data: {type:'po', tanggal:'', nama:''},
 				pdf: [
 					{
 						label:'Purchase Order',
@@ -247,15 +247,29 @@
 					this.$swal.close()
 				})
 				.catch(e => {
-					console.log(JSON.stringify(e))
-					if(e.response) {
-						this.$swal(e.response.data.message, '', 'error')
-						setTimeout(() => {
-							this.$swal.close()
-							this.modal = false
-						}, 2000)	
-					}
 					
+					if(e.response) {
+						console.warn(e.response)
+						console.log(e.response)
+						if(e.response.status == 400) {
+							this.$swal('Gagal mengambil data', '', 'error')
+							setTimeout(() => {
+								this.$swal.close()
+								this.modal = false
+							}, 2000)	
+						}
+						else {
+							this.$swal(e.response.data.message, '', 'error')
+							setTimeout(() => {
+								this.$swal.close()
+								this.modal = false
+							}, 2000)		
+						}
+						
+					}
+					else if(e.request) {
+						console.log(e.request)
+					}
 					return false
 				})
 			},
