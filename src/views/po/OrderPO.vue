@@ -397,11 +397,13 @@
 
 		    	if(!this.errors.length){
 		    		// convert harga jual formatted to number
-		    		this.rpo.harga_jual = this.toFloatRupiah(this.rpo.harga_jual)
+		    		// this.rpo.harga_jual = this.toFloatRupiah(this.rpo.harga_jual)
 					this.label = 'Loading...'
 					this.rpo.id_po = this.$route.params.id
-					this.rpo.total = Math.round(((this.rpo.harga_jual * this.rpo.qty) + this.rpo.tax / 100) - (this.rpo.disc / 100 * (this.rpo.harga_jual * this.rpo.qty)))
+					// this.rpo.total = Math.round(((this.rpo.harga_jual * this.rpo.qty) + this.rpo.tax / 100) - (this.rpo.disc / 100 * (this.rpo.harga_jual * this.rpo.qty)))
+					
 
+					
 					let data = {
 						id_po:this.rpo.id_po,
 						id_barang:this.rpo.id_barang,
@@ -414,7 +416,6 @@
 						status:this.rpo.status,
 						kode_barang: this.rpo.kode_barang,
 						tax_rate:this.rpo.tax_rate,
-						total:this.rpo.total,
 						sub_total:this.rpo.sub_total,
 						sales_fee:this.rpo.sales_fee,
 						other:this.rpo.other,
@@ -533,6 +534,7 @@
 		    	getDatas(this, localStorage.base_api + 'order/barang/po/detail/' + this.$route.params.id, {method:'post',headers: {'Authorization': 'bearer ' + localStorage.token}}, 'post')
 				.then(res => {
 					res.forEach((item, i) => {
+
 							let obj = {
 								id:item.id,
 								no:++i,
@@ -543,7 +545,7 @@
 								nama_barang:item.nama_barang,
 								spesifikasi_barang:item.spesifikasi,
 								harga_jual: item.harga_jual === null ? 0 : item.harga_jual,
-								total: (item.harga_jual * item.qty)
+								total: item.harga_jual * item.qty + ( item.harga_jual * item.qty * (item.tax/100) ) - item.harga_jual * item.qty * (item.disc/100)
 							}	
 							this.order_barang.push(obj)
 							this.rpo.sub_total += parseInt(item.harga_jual * item.qty)

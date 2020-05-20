@@ -42,13 +42,13 @@
 						              <CInput
 						                type="text"
 						                :description="validator.no_msg"
-						                :is-valid="validator.no"
-						                @input="po.no.length < 1 ? validator.no = false : validator.no = true"
+						                :is-valid="validator.no_po"
+						                @input="po.no_po.length < 1 ? validator.no_po = false : validator.no_po = true"
 						                autocomplete="no"
 						                label="Nomer PO"
 						                horizontal
 						                placeholder="Masukan Nomer PO"
-						                v-model="po.no"
+						                v-model="po.no_po"
 						              />
 						              <CInput
 						                type="date"
@@ -244,7 +244,7 @@
 					id_konsumen:null,
 					id_kurir:null,
 					status:1,
-					no: null,
+					no_po: null,
 					date: null,
 					date_line: null,
 					jatuh_tempo: '1970-01-01',
@@ -315,9 +315,9 @@
 			addPO() { 	
 				this.errors = []
 
-				if(!this.po.no) {
-					this.validator.no = false
-		            this.validator.no_msg = 'Harap isi nomer PO'
+				if(!this.po.no_po) {
+					this.validator.no_po = false
+		            this.validator.no_po_msg = 'Harap isi nomer PO'
 		            this.errors.push('no kosong')
 				}
 
