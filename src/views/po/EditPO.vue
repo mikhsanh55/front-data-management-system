@@ -152,7 +152,6 @@
                             horizontal
                             placeholder="Other"
                             v-model="po.other"
-                            readonly
                           />
                           <CTextarea
                             label="Catatan"

@@ -180,6 +180,7 @@
 				barangKeyword:null,
 				openBarangModal:false, // For Modal Barang
 				labelBarang: 'Pilih Barang',
+				detailBarangPesanan: {},
 				label: 'Tambah',
 				errors:[],
 				searchBarangFields: ['kode_barang', 'nama_barang', 'stock', 'satuan', 'aksi'],
@@ -433,28 +434,33 @@
 		    	
 		    },
 		    getDataTable() {
+		    	this.order_barang_table = []
 			    	// Get semua barang pesanan
 				getDatas(this, localStorage.base_api + 'order/barang/pesanan/detail/' + this.$route.params.id, {method:'post',headers: {'Authorization': 'bearer ' + localStorage.token}}, 'post')
 				.then(res => {
 
 					res.forEach((item, i) => {
-						getDatas(this, localStorage.base_api + 'barang/' + item.id_barang, {method:'post', headers:{'Authorization': 'bearer ' + localStorage.token}}, 'post')
-						.then(res => {
-							let obj = {
-								id:item.id,
-								no:++i,
-								kode_barang:res.kode_barang,
-								nama_barang:res.nama_barang,
-								spesifikasi_barang:res.spesifikasi,
-								harga_dasar: res.harga_dasar,
-								tax:item.tax,
-								disc:item.disc,
-								qty:item.qty,
-								satuan:res.satuan,
-								total: (res.harga_dasar * item.qty) 
-							}	
-							this.order_barang_table.push(obj)
-						})
+						let ongkir = this.detailBarangPesanan.ongkir == null ? 0 : this.detailBarangPesanan.ongkir
+						let _diskon = item.qty * item.harga_dasar * (item.disc / 100),
+							_hsd = (item.harga_dasar * item.qty) - _diskon,
+							_pajak = _hsd * item.tax/100
+
+						let obj = {
+							id:item.id,
+							no:++i,
+							kode_barang:item.kode_barang,
+							nama_barang:item.nama_barang,
+							spesifikasi_barang:item.spesifikasi,
+							harga_dasar: item.harga_dasar,
+							tax:item.tax,
+							disc:item.disc,
+							qty:item.qty,
+							satuan:item.satuan,
+							// total: (item.harga_dasar * item.qty) - item.disc + item.tax + ongkir
+							total: (item.harga_dasar * item.qty) - _diskon + _pajak
+						}	
+						
+						this.order_barang_table.push(obj)
 					})
 				})
 				.catch(e =>  {
@@ -463,12 +469,32 @@
 					setTimeout(() => this.$swal.close(), 1500)
 					return false
 				})	
+		    },
+		    getDetailBarangPesanan() {
+		    	getDatas(this, `${localStorage.base_api}pesanan/barang/${this.$route.params.id}`, {
+		    		method: 'post',
+		    		headers: {
+		    			'Authorization': `bearer ${localStorage.token}`
+		    		}
+		    	}, 'post' )
+		    	.then(res => {
+		    		this.detailBarangPesanan = res
+		    		return res
+		    	})
+		    	.then(res => {
+		    		this.getDataTable()
+		    	})
+		    	.catch(e => console.error(e))
 		    }
 		},
 		created() {
 			if(localStorage.level != 1 && localStorage.level != 2 && localStorage.level != 5 ) {
 				this.$router.push('/')
 			}
+
+			// Get Detail
+			this.getDetailBarangPesanan()
+
 			// Get Semua Barang untuk obral
 			getDatas(this, localStorage.base_api + 'barang', {method:'post', headers: {'Authorization': 'bearer ' + localStorage.token}}, 'post')
 			.then(res => {
@@ -488,8 +514,6 @@
 				console.error(e)
 				return false
 			})
-
-			this.getDataTable()
 		}
 	}
 </script>

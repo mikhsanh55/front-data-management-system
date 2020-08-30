@@ -166,9 +166,13 @@
 					}
 				}, 'barang pesanan.pdf', 'post', this.pdf)
 				.then(() => {
+					this.exportDisabled = false
+					this.exportLabel = 'Export'
 					this.$swal.close()
 				})
 				.catch(e => {
+					this.exportDisabled = false
+					this.exportLabel = 'Export'
 					if(e.response)
 						console.log(e.response)
 						this.$swal(e.response.data.message, '', 'error')

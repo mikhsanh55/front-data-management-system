@@ -6,7 +6,7 @@
           	<CCardHeader>
           		<div class="d-flex justify-content-around align-items-center">
           			<h3>Forgot Password</h3>
-          			<img class="align-middle" src="./alkes-96x96.png" width="40" height="40">  
+          			<img class="align-middle" src="./icommits-96x96.png" width="40" height="40">  
           		</div>
           	</CCardHeader>
             <CCardBody>

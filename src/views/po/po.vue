@@ -86,6 +86,9 @@
 	      size="sm"
 	      color="dark"
 	    >	
+	      <div class="form-group">
+	      	<label for="">Pilih Tanggal PO Masuk</label>
+	      </div>	
 	      <CInput
 		      type="date"
 		      label="Dari"
@@ -296,7 +299,8 @@
 				exportExcel(this, localStorage.base_api + 'excel/po', {from:this.date.from, to:this.date.to}, {
 					responseType: 'blob',
 					headers: {
-						'Authorization' : 'bearer ' + localStorage.token
+						'Authorization' : 'bearer ' + localStorage.token,
+						'Access-Control-Allow-Origin': 'https://sim.sabalkes.com'
 					}
 				}, 'po.xls')
 				.then(() => {

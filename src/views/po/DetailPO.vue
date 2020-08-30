@@ -96,6 +96,15 @@
 								<div class="mx-auto d-flex justify-content-center">
 									<img :src="'https://api.sabalkes.com/' + props.row.foto" style="border-radius:50%;" width="50" height="50" />
 								</div>
+								<div slot="harga_jual" slot-scope="props">
+									{{props.row.harga_jual | formatRp}}
+								</div>
+								<div slot="qty" slot-scope="props">
+									{{props.row.qty}}
+								</div>
+								<div slot="total" slot-scope="props">
+									{{props.row.total | formatRp}}
+								</div>
 							</div>
 						</v-client-table>
 						<div class="d-flex justify-content-end">
@@ -103,7 +112,7 @@
 						<table class="table table-bordered table-striped m-2 mr-3 justify-content-end w-50">
 							<tr>
 								<th class="w-50 text-right">Sub Total</th>
-								<td>{{po.sub_total}}</td>
+								<td>{{po.sub_total | formatRp}}</td>
 							</tr>
 							<tr>
 								<th class="w-50 text-right" >Discount</th>
@@ -111,19 +120,19 @@
 							</tr>
 							<tr>
 								<th class="w-50 text-right">Tax Rate (%)</th>
-								<td>{{po.tax_rate}}</td>
+								<td>{{po.tax_rate | formatRp}}</td>
 							</tr>
 							<tr>
 								<th class="w-50 text-right">Sales Fee</th>
-								<td>{{po.sales_fee}}</td>
+								<td>{{po.sales_fee | formatRp}}</td>
 							</tr>
 							<tr>
 								<th class="w-50 text-right">Other Cost</th>
-								<td>{{po.other}}</td>
+								<td>{{po.other | formatRp}}</td>
 							</tr>
 							<tr>
 								<th class="w-50 text-right" >Grand Total</th>
-								<td>{{po.sub_total - po.disc + po.tax_rate + po.sales_fee + po.other}}</td>
+								<td>{{ (po.sub_total - po.disc + po.tax_rate + po.sales_fee + po.other) | formatRp}}</td>
 							</tr>
 						</table>
 						</div>
@@ -135,14 +144,16 @@
 </template>
 <script type="text/javascript">
 	import {getDatas, getOrderBarang} from '@/containers/global-function.js'
+	import mixins from '@/mixins/currency.js'
 	export default {
 		name: 'DetailPO',
+		mixins:[mixins],
 		data() {
 			return {
 				status: [],
 				label: 'Update Status PO',
 				data:this.$store.getters.userData,
-				tableFields:['no', 'foto', 'kode_barang', 'nama_barang', 'spesifikasi', 'harga_jual', 'disc', 'tax', 'total'],
+				tableFields:['no', 'foto', 'kode_barang', 'nama_barang', 'spesifikasi', 'harga_jual', 'qty', 'disc', 'tax', 'total'],
 				tableOptions: {
 					perPage:10,
 					pagination:{chunk:10, dropdown:false, edge:true, nav:'fixed'},
@@ -153,12 +164,13 @@
 			    		nama_barang:'Nama Barang',
 			    		spesifikasi:'Spesifikasi Barang',
 			    		harga_jual: 'Harga Jual',
+			    		qty: 'Kuantitas',
 			    		disc: 'Diskon',
 			    		tax: 'Tax',
 			    		total: 'Total'
 			    	},
-			    	sortable:['nama_barang'],
-			    	filterable:['nama_barang', 'kode_barang', 'spesifikasi', 'harga_jual', 'no', 'disc', 'tax', 'total'],
+			    	sortable:['nama_barang', 'qty'],
+			    	filterable:['nama_barang', 'kode_barang', 'spesifikasi', 'harga_jual', 'no', 'disc', 'tax', 'total', 'qty'],
 			    	columnsClasses: {
 			    		no:'text-center align-middle',
 			    		foto: 'text-center align-middle',
@@ -166,6 +178,7 @@
 			    		nama_barang:'align-middle',
 			    		spesifikasi:'align-middle',
 			    		harga_jual: 'align-middle',
+			    		qty: 'text-center align-middle',
 			    		disc:'align-middle',
 			    		tax:'align-middle',
 			    		total:'align-middle'
@@ -244,6 +257,7 @@
 					this.po.sales_tax_rate = 0
 					this.po.disc = 0
 					this.po.tax = 0
+					this.po.tax_rate = 0
 					this.po.grand_total = 0
 					this.detailpo.status = res.status
 					getDatas(this, localStorage.base_api + 'karyawan/' + res.id_kurir, {
@@ -273,34 +287,32 @@
 					.then(res => {
 						let arr = []
 						this.info_po = res
-						this.po.sub_total = 0
-						this.po.disc = 0
-						this.po.tax = 0
-						this.po.sales_tax_rate = 0
-						this.po.grand_total = 0
+						// this.po.sub_total = 0
+						// this.po.disc = 0
+						// this.po.tax = 0
+						// this.po.sales_tax_rate = 0
+						// this.po.grand_total = 0
 						this.info_po.forEach((item, i) => {
-							// getDatas(this,localStorage.base_api + 'barang/' + item.id_barang, { method:'POST', headers:{'Authorization': 'bearer ' + localStorage.token}}, 'POST')
-							// .then(res => {
-								let hargaJual = item.harga_jual === null ? 0 : item.harga_jual
-								let total = item.qty * hargaJual, 
-								disc = item.disc,
-								tax = item.tax
-								arr.push({
-									no:++i,
-									total:total,
-									disc: disc,
-									tax: tax,
-									foto:item.foto,
-									kode_barang:item.kode_barang,
-									nama_barang: item.nama_barang,
-									spesifikasi: item.spesifikasi,
-									harga_jual: hargaJual
-								})
-								this.po.sub_total += parseInt(total) 
-								this.po.disc += parseInt(item.harga_jual * item.qty * (disc/100))
-								this.po.tax_rate += parseInt(item.harga_jual * item.qty * (tax/100))
-							// })
-
+							let hargaJual = item.harga_jual === null ? 0 : item.harga_jual
+							let total = item.qty * hargaJual, 
+							disc = item.disc,
+							tax = item.tax,
+							hsd = (item.harga * item.qty) - (item.harga * (item.disc/100) * item.qty)
+							arr.push({
+								no:++i,
+								total:this.toRupiah(total),
+								disc: disc,
+								qty:item.qty,
+								tax: tax,
+								foto:item.foto,
+								kode_barang:item.kode_barang,
+								nama_barang: item.nama_barang,
+								spesifikasi: item.spesifikasi,
+								harga_jual: this.toRupiah(hargaJual)
+							})
+							this.po.sub_total += parseInt(total) 
+							this.po.disc += parseInt(item.harga_jual * item.qty * (disc/100))
+							this.po.tax_rate += parseInt(hsd * (item.tax/100))
 						})
 
 						resolve(arr)
@@ -324,20 +336,21 @@
 		    },
 		},
 		filters: {
-			formatMoney: function(amount, decimalCount = 2, decimal = ".", thousands = ",") {
-			  try {
-			    decimalCount = Math.abs(decimalCount);
-			    decimalCount = isNaN(decimalCount) ? 2 : decimalCount;
+			formatRp(angka)  {
+				let angkaToString = angka.toString().replace(/[^, \d]/g, "").toString(),
+			        split = angkaToString.split(","),
+			        sisa = split[0].length % 3,
+			        rupiah = split[0].substr(0, sisa),
+			        ribuan = split[0].substr(sisa).match(/\d{3}/gi),
+			        separator = ''
 
-			    const negativeSign = amount < 0 ? "-" : "";
+			    if(ribuan && ribuan.length != null) {
+			      separator = sisa ? "." : ""
+			      rupiah += separator + ribuan.join(".")
+			    }
+			    rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah
 
-			    let i = parseInt(amount = Math.abs(Number(amount) || 0).toFixed(decimalCount)).toString();
-			    let j = (i.length > 3) ? i.length % 3 : 0;
-
-			    return negativeSign + (j ? i.substr(0, j) + thousands : '') + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thousands) + (decimalCount ? decimal + Math.abs(amount - i).toFixed(decimalCount).slice(2) : "");
-			  } catch (e) {
-			    console.log(e)
-			  }
+			    return rupiah
 			}
 		},
 		created() {
@@ -348,6 +361,7 @@
 			this.getData()
 			this.getDataTable()
 			.then(res => {
+				console.warn(res)
 				this.po_barang = res
 			})
 

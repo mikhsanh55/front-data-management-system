@@ -13,11 +13,22 @@ Vue.config.performance = true
 Vue.use(VueSwal)
 Vue.use(CoreuiVue)
 Vue.use(ClientTable)
-
+Vue.prototype.$submit = {
+  label: 'Tambah',
+  disabled: false,
+  update: function(label) {
+    this.label = label
+    this.disabled = !this.disabled
+  },
+  init: function(label) {
+    this.label = label
+    this.disabled = false
+  }
+}
 
 const token = localStorage.getItem('token')
-localStorage.setItem('base_api', 'https://api.sabalkes.com/')
-localStorage.setItem('base_uri', 'https://api.sabalkes.com/')
+localStorage.setItem('base_api', 'https://api.dms.icommits.com/')
+localStorage.setItem('base_uri', 'https://api.dms.icommits.com/')
 let app = new Vue({
   el: '#app',
   router,
@@ -48,8 +59,8 @@ let app = new Vue({
   	let token = localStorage.getItem('token'),
   		exp = localStorage.getItem('exp')
       
-    localStorage.setItem('base_api', 'https://api.sabalkes.com/')
-    localStorage.setItem('base_uri', 'https://api.sabalkes.com/')
+    localStorage.setItem('base_api', 'https://api.dms.icommits.com/')
+    localStorage.setItem('base_uri', 'https://api.dms.icommits.com/')
   	if(localStorage.getItem('token') == '' || localStorage.getItem('token') == undefined || localStorage.getItem('token-xx') < new Date()) {
       localStorage.removeItem('token')
       localStorage.removeItem('token-xx')

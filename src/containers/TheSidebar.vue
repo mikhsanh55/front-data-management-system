@@ -5,8 +5,8 @@
     :show.sync="show"
   >
     <CSidebarBrand 
-      :imgFull="{ width: 118, height: 36, alt: 'Logo', src: 'img/brand/ALKES.png'}"
-      :imgMinimized="{ width: 118, height: 36, alt: 'Logo', src: 'img/brand/ALKES.png'}"
+      :imgFull="{ width: 36, height: 36, alt: 'Logo', src: 'icommits-96x96.png'}"
+      :imgMinimized="{ width: 36, height: 36, alt: 'Logo', src: 'icommits-96x96.png'}"
       :wrappedInLink="{ href: '/', target: '_self'}"
       class="pt-3 pb-3"
     />

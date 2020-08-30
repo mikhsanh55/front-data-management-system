@@ -225,7 +225,8 @@
 				exportExcel(this, localStorage.base_api + 'excel/stock', {from:this.date.from, to:this.date.to}, {
 					responseType: 'blob',
 					headers: {
-						'Authorization' : 'bearer ' + localStorage.token
+						'Authorization' : 'bearer ' + localStorage.token,
+						'Access-Control-Allow-Origin': 'https://sim.sabalkes.com'
 					}
 				}, 'Stock In Out.xls')
 				.then(() => {

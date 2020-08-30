@@ -12,11 +12,12 @@
     />
     <CHeaderBrand
       class="mx-auto d-lg-none pt-2 pd-2" 
-      src="img/brand/ALKES.png"
-      width="77"
+      src="img/brand/icommits.png"
+      width="36"
       height="36"
-      alt="ALKES Logo"
+      alt="Icommits Logo"
     />
+    
     <CHeaderNav class="d-md-down-none mr-auto">
       <CHeaderNavItem class="px-3">
         <CHeaderNavLink to="/dashboard">

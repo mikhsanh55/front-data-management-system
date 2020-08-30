@@ -534,23 +534,23 @@
 		    	getDatas(this, localStorage.base_api + 'order/barang/po/detail/' + this.$route.params.id, {method:'post',headers: {'Authorization': 'bearer ' + localStorage.token}}, 'post')
 				.then(res => {
 					res.forEach((item, i) => {
-
-							let obj = {
-								id:item.id,
-								no:++i,
-								qty: item.qty,
-								tax: item.tax,
-								disc: item.disc,
-								kode_barang:item.kode_barang,
-								nama_barang:item.nama_barang,
-								spesifikasi_barang:item.spesifikasi,
-								harga_jual: item.harga_jual === null ? 0 : item.harga_jual,
-								total: item.harga_jual * item.qty + ( item.harga_jual * item.qty * (item.tax/100) ) - item.harga_jual * item.qty * (item.disc/100)
-							}	
+							let hsd = (item.harga * item.qty) - (item.harga * (item.disc/100) * item.qty),
+								obj = {
+									id:item.id,
+									no:++i,
+									qty: item.qty,
+									tax: item.tax,
+									disc: item.disc,
+									kode_barang:item.kode_barang,
+									nama_barang:item.nama_barang,
+									spesifikasi_barang:item.spesifikasi,
+									harga_jual: item.harga_jual === null ? 0 : item.harga_jual,
+									total: item.harga_jual * item.qty + ( item.harga_jual * item.qty * (item.tax/100) ) - item.harga_jual * item.qty * (item.disc/100)
+								}	
 							this.order_barang.push(obj)
 							this.rpo.sub_total += parseInt(item.harga_jual * item.qty)
 							this.rpo.disc += parseInt(item.harga_jual * item.qty * (item.disc/100))
-							this.rpo.tax_rate += parseInt(item.harga_jual * item.qty * (item.tax/100))
+							this.rpo.tax_rate += parseInt(hsd * (item.tax/100))
 					})
 				})
 				.catch(e => {

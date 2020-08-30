@@ -7,8 +7,8 @@
           <CCard>
             <CCardHeader class="p-4">
               <div class="d-flex justify-content-around align-items-center">
-                <h4 class="align-middle">CV. SARANA ABDI BAKTI</h4>
-                <img class="align-middle ml-3" src="./alkes-96x96.png" width="40" height="40">  
+                <h4 class="align-middle">Inventory System</h4>
+                <img class="align-middle ml-3" src="./icommits-96x96.png" width="40" height="40">  
 
               </div>
               <br>
@@ -171,7 +171,7 @@ export default {
           else {
             homepath = '/'
           }
-          this.$swal('Selamat Datang', 'Di Aplikasi Alkes', 'success')
+          this.$swal('Selamat Datang', 'Di Aplikasi Inventory System', 'success')
           setTimeout(() => {
             this.notloading = true
             this.displayloading = false

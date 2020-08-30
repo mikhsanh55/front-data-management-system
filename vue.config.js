@@ -9,12 +9,17 @@ module.exports = {
     }
   },
   devServer: {
-  	proxy: 'https://api-alkes.herokuapp.com',
+  	proxy: 'https://api.sabalkes.com',
     historyApiFallback:true
   },
   pwa: {
     workboxOptions: {
       skipWaiting: true
     }
+  },
+  chainWebpack: config => {
+    config.performance
+      .maxEntrypointSize(400000)
+      .maxAssetSize(400000)
   }
 }

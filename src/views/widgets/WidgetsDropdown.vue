@@ -1,5 +1,16 @@
 <template>
   <div>
+    <CRow v-if="level == 7">
+      <CCol lg="12" sm="12">
+        <form action="" @submit.prevent="postPsb" class="form-inline mb-4 mt-2">
+          <div class="form-group mb-2 mr-2">
+            <label class="mr-2" for="date">Tanggal</label>
+            <input type="date" class="form-control" id="date" v-model="date" />
+          </div>
+          <button class="btn btn-primary mb-2" type="submit" :disabled="submit.process">{{submit.label}}</button>
+        </form>
+      </CCol>
+    </CRow>
     <div v-if="level == 1 || level == 2">
       <CRow>
         <CCol sm="6" lg="3">
@@ -410,106 +421,145 @@ export default {
   data() {
     return {
       data:'',
+      date: null,
+      submit: {
+        process: false,
+        label: 'Filter'
+      },
       level:localStorage.level
     }
   },
   components: { CChartLineSimple, CChartBarSimple },
-  created() {
+  methods: {
     
-    if(this.level == 1 || this.level == 2) {
-      fetchAll([
-        localStorage.base_api + 'dashboard/grafik',
-        localStorage.base_api + 'dashboard/kj',
-        localStorage.base_api + 'dashboard/vk'
-      ], [
-        {method:'post', headers:{'Authorization': 'bearer ' + localStorage.token}},
-        {method:'post', headers:{'Authorization': 'bearer ' + localStorage.token}},
-        {method:'post', headers:{'Authorization': 'bearer ' + localStorage.token}}
-      ])
-      .then(res => {
-        res.shift()
-        this.data = {...res[0], ...res[1]}
+    postPsb() {
+      console.log(this.date)
+      this.submit.process = true
+      this.submit.label = 'Loading...'
+      if(this.date === null) {
+        this.submit.process = false
+        this.submit.label = 'Filter'
         
-      })
-    }
-    else if(this.level == 7) {
-      fetchAll([
-        localStorage.base_api + 'dashboard/psb',
-        localStorage.base_api + 'dashboard/pk',
-        localStorage.base_api + 'dashboard/k'
-      ], [
-        {method:'post', headers:{'Authorization': 'bearer ' + localStorage.token}},
-        {method:'post', headers:{'Authorization': 'bearer ' + localStorage.token}},
-        {method:'post', headers:{'Authorization': 'bearer ' + localStorage.token}}
-      ])
-      .then(res => {
-        
-        this.data = {...res[0], ...res[1], ...res[2]}
-        
-      }) 
-    }
-    else if(this.level == 6) {
-      fetchAll([
-        localStorage.base_api + 'dashboard/rbs'
-      ], [
-        {method:'post', headers:{'Authorization': 'bearer ' + localStorage.token}}
-      ])
-      .then(res => {
-        
-        this.data = {...res[0]}
-      })
-      .catch(e => {
-        console.error('Ada error guys')
-        console.error(e)
-      })  
-    }
-    else if(this.level == 3) { // admin umum
-      fetchAll([
-        localStorage.base_api + 'dashboard/sp'
-      ], [
-        {method:'post', headers:{'Authorization': 'bearer ' + localStorage.token}}
-      ])
-      .then(res => {
-        
-        this.data = {...res[0]}
-        console.log(this.data.pengiriman_po)
-      })
-      .catch(e => {
-        console.error('Ada error guys')
-        console.error(e)
-      })  
-    }  
-    else if(this.level == 4) { // admin stok
-      fetchAll([
-        localStorage.base_api + 'dashboard/tio'
-      ], [
-        {method:'post', headers:{'Authorization': 'bearer ' + localStorage.token}}
-      ])
-      .then(res => {
-        
-        this.data = {...res[0]}
-      })
-      .catch(e => {
-        console.error('Ada error guys')
-        console.error(e)
-      })  
-    }
+        return false
+      }
+      var formData = new FormData()
+      formData.append('date', this.date)
 
-    else if(this.level == 5) { // admin pengadaan
       fetchAll([
-        localStorage.base_api + 'dashboard/bp'
-      ], [
-        {method:'post', headers:{'Authorization': 'bearer ' + localStorage.token}}
-      ])
-      .then(res => {
-        
-        this.data = {...res[0]}
-      })
-      .catch(e => {
-        console.error('Ada error guys')
-        console.error(e)
-      })  
+          localStorage.base_api + 'dashboard/psb', // jumlah po per status dan per bulan
+          localStorage.base_api + 'dashboard/pk', // jumlah po sesuai nama sales
+          localStorage.base_api + 'dashboard/k' // jumlah konsumen
+        ], [
+          {method:'post', headers:{'Access-Control-Allow-Origin':'*','Authorization': 'bearer ' + localStorage.token}, body:formData},
+          {method:'post', headers:{'Access-Control-Allow-Origin':'*','Authorization': 'bearer ' + localStorage.token}, body:JSON.stringify({})},
+          {method:'post', headers:{'Access-Control-Allow-Origin':'*','Authorization': 'bearer ' + localStorage.token}, body:JSON.stringify({})}
+        ])
+        .then(res => {
+          this.submit.process = false
+          this.submit.label = 'Filter'
+          this.data = {...res[0], ...res[1], ...res[2]}
+          
+        }) 
+    },
+    getDatas() {
+      if(this.level == 1 || this.level == 2) {
+        fetchAll([
+          localStorage.base_api + 'dashboard/grafik', // dashboard manager
+          localStorage.base_api + 'dashboard/kj', // jumlah karyawan per jabatan
+          localStorage.base_api + 'dashboard/vk' // jumlah vendor dan konsumen
+        ], [
+          {method:'post', headers:{'Access-Control-Allow-Origin':'*','Authorization': 'bearer ' + localStorage.token}, body:JSON.stringify({})},
+          {method:'post', headers:{'Access-Control-Allow-Origin':'*','Authorization': 'bearer ' + localStorage.token}, body:JSON.stringify({})},
+          {method:'post', headers:{'Access-Control-Allow-Origin':'*','Authorization': 'bearer ' + localStorage.token}, body:JSON.stringify({})}
+        ])
+        .then(res => {
+          res.shift()
+          this.data = {...res[0], ...res[1]}
+          
+        })
+      }
+      else if(this.level == 7) {
+        fetchAll([
+          localStorage.base_api + 'dashboard/psb', // jumlah po per status dan per bulan
+          localStorage.base_api + 'dashboard/pk', // jumlah po sesuai nama sales
+          localStorage.base_api + 'dashboard/k' // jumlah konsumen
+        ], [
+          {method:'post', headers:{'Access-Control-Allow-Origin':'*','Authorization': 'bearer ' + localStorage.token}, body:JSON.stringify({})},
+          {method:'post', headers:{'Access-Control-Allow-Origin':'*','Authorization': 'bearer ' + localStorage.token}, body:JSON.stringify({})},
+          {method:'post', headers:{'Access-Control-Allow-Origin':'*','Authorization': 'bearer ' + localStorage.token}, body:JSON.stringify({})}
+        ])
+        .then(res => {
+          
+          this.data = {...res[0], ...res[1], ...res[2]}
+          
+        }) 
+      }
+      else if(this.level == 6) {
+        fetchAll([
+          localStorage.base_api + 'dashboard/rbs' // Jumlah Request Barang Per Status Per Bulan
+        ], [
+          {method:'post', headers:{'Access-Control-Allow-Origin':'*','Authorization': 'bearer ' + localStorage.token}, body:JSON.stringify({})}
+        ])
+        .then(res => {
+          
+          this.data = {...res[0]}
+        })
+        .catch(e => {
+          console.error('Ada error guys')
+          console.error(e)
+        })  
+      }
+      else if(this.level == 3) { // admin umum
+        fetchAll([
+          localStorage.base_api + 'dashboard/sp'//jumlah Status pengiriman 
+        ], [
+          {method:'post', headers:{'Access-Control-Allow-Origin':'*','Authorization': 'bearer ' + localStorage.token}, body:JSON.stringify({})}
+        ])
+        .then(res => {
+          
+          this.data = {...res[0]}
+          console.log(this.data.pengiriman_po)
+        })
+        .catch(e => {
+          console.error('Ada error guys')
+          console.error(e)
+        })  
+      }  
+      else if(this.level == 4) { // admin stok
+        fetchAll([
+          localStorage.base_api + 'dashboard/tio' //Dashboard Stock
+        ], [
+          {method:'post', headers:{'Access-Control-Allow-Origin':'*','Authorization': 'bearer ' + localStorage.token}, body:JSON.stringify({})}
+        ])
+        .then(res => {
+          
+          this.data = {...res[0]}
+        })
+        .catch(e => {
+          console.error('Ada error guys')
+          console.error(e)
+        })  
+      }
+
+      else if(this.level == 5) { // admin pengadaan
+        fetchAll([
+          localStorage.base_api + 'dashboard/bp'//Jumlah Barang Pesanan
+        ], [
+          {method:'post', headers:{'Access-Control-Allow-Origin':'*','Authorization': 'bearer ' + localStorage.token}, body:JSON.stringify({})}
+        ])
+        .then(res => {
+          
+          this.data = {...res[0]}
+        })
+        .catch(e => {
+          console.error('Ada error guys')
+          console.error(e)
+        })  
+      }
     }
+  },
+  created() {
+    this.getDatas()
   }
 }
 </script>

@@ -24,7 +24,7 @@
 								<!-- <router-link :to="'/kwitansi/detail/' + props.row.id" class="btn btn-primary btn-sm mr-2" title="detail kwitansi">
 									<i class="fa fa-eye"></i>
 								</router-link> -->
-								<button v-if="data.level != 2" title="export pdf" class="btn btn-outline-danger btn-sm mr-2" @click="storePDF(props.row.id)">PDF</button>
+								<button v-if="data.level != 2" title="export pdf" class="btn btn-outline-danger btn-sm mr-2" @click="addIdPDF(props.row.id)">PDF</button>
 								<router-link v-if="data.level != 2" :to="'/kwitansi/edit/' + props.row.id" class="btn btn-primary btn-sm mr-2" title="edit kwitansi">
 									Edit
 								</router-link>
@@ -35,6 +35,35 @@
 				</CRow>
 			</CCardBody>
 		</CCard>
+		<CModal
+	      :show.sync="modal"
+	      :no-close-on-backdrop="true"
+	      title="Export Data ke PDF"
+	      size="md"
+	      color="dark"
+	    >
+	    	<input type="hidden" v-model="pdf_data_custom.id">	
+	      <CInput
+		      type="text"
+		      label="Nama Perusahaan"
+		      horizontal
+		      placeholder="Nama Perusahaan"
+		      v-model="pdf_data_custom.nama_perusahaan"
+	       />
+	       <CInput
+		      type="date"
+		      label="Tanggal"
+		      horizontal
+		      v-model="pdf_data_custom.tanggal"
+	       />	
+	      <template #header>
+	        <h6 class="modal-title">Export Data ke Excel</h6>
+	        <CButtonClose @click="modal = false" class="text-white"/>
+	      </template>
+	      <template #footer>
+	        <CButton @click="storePDF" color="success">{{exportLabel}}</CButton>
+	      </template>
+	    </CModal>
 	</div>
 </template>
 <script type="text/javascript">
@@ -45,9 +74,15 @@
 		mixins:[mixins],
 		data() {
 			return {
+				exportLabel: 'Export',
+				pdf_data_custom: {
+					id:1,
+					nama_perusahaan:'',
+					tanggal:new Date('Y-m-d')
+				},
 				id:0,
 				data:'',
-				smallModal:false,
+				modal: false,
 				tableFields: [
 					'nod', 'no', 'terima_dari', 'uang',  'aksi'
 				],
@@ -92,24 +127,35 @@
 			}
 		},
 		methods: {
-			storePDF(id) {
+			addIdPDF(id) {
+				this.pdf_data_custom.id = id
+				this.modal = true
+			},
+			storePDF() {
+				this.exportLabel = 'Loading...'
 				this.$swal({
 					title: 'Mohon tunggu...',
 					showCloseButton:false,
 					showCancelButton:false,
 				})
-				
-				exportPDF(this, localStorage.base_api + 'pdf/kwitansi/' + id, {
+				var formData = new FormData()
+				formData.append('nama_perusahaan', this.pdf_data_custom.nama_perusahaan)
+				formData.append('tanggal', this.pdf_data_custom.tanggal)
+
+				exportPDF(this, localStorage.base_api + 'pdf/kwitansi/' + this.pdf_data_custom.id, {
 					responseType: 'blob',
 					method: 'post',
 					headers: {
 						'Authorization' : 'bearer ' + localStorage.token
-					}
-				}, 'kwitansi.pdf', 'post', {})
+					},
+					body: formData
+				}, 'kwitansi.pdf', 'post', formData)
 				.then(() => {
 					this.$swal.close()
+					this.exportLabel = 'Export'
 				})
 				.catch(e => {
+					this.exportLabel = 'Export'
 					console.log(e)
 					this.$swal('Tidak bisa mengambil data', '', 'error')
 					setTimeout(() => {
